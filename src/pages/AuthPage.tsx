@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Navigate } from 'react-router-dom';
-import { Mail, Lock, User, Phone, Github, MapPin, FileText, Building2 } from 'lucide-react';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { Mail, Lock, User, Phone, Github, MapPin, FileText, Building2, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -11,6 +11,7 @@ import { toast } from 'sonner';
 import { useAuth } from '@/hooks/use-auth';
 
 const AuthPage = () => {
+  const navigate = useNavigate();
   const { user, loading, signUp, signIn, signInWithOAuth } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -480,6 +481,17 @@ const AuthPage = () => {
               Privacy Policy
             </a>
           </p>
+
+          <div className="mt-4 flex justify-center">
+            <Button
+              variant="secondary"
+              className="h-10 px-4"
+              onClick={() => navigate('/')}
+            >
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Back to Website
+            </Button>
+          </div>
         </motion.div>
       </div>
     </div>
