@@ -39,10 +39,7 @@ import Index from "./pages/Index";
 import Payment from "./pages/Payment";
 import Listings from "./pages/Listings";
 import Dispute from "./pages/Dispute";
-<<<<<<< HEAD
-=======
 import AuthCallback from "./pages/AuthCallback";
->>>>>>> f9d69ad (Fix Google OAuth redirect callback route and add AuthCallback route)
 
 const queryClient = new QueryClient();
 
@@ -95,10 +92,7 @@ const AppContent = () => {
 
         {/* Application Routes (without /app prefix — used by internal navigation) */}
         <Route path="/auth" element={<AuthPage />} />
-<<<<<<< HEAD
-=======
         <Route path="/auth/callback" element={<AuthCallback />} />
->>>>>>> f9d69ad (Fix Google OAuth redirect callback route and add AuthCallback route)
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/transaction-setup" element={<TransactionSetup />} />
