@@ -128,7 +128,11 @@ export const useAuth = create<AuthStore>((set, get) => {
   },
 
   signInWithOAuth: async (provider: 'google' | 'github' | 'twitter') => {
+<<<<<<< HEAD
     const redirectUrl = `${window.location.origin}/dashboard`;
+=======
+    const redirectUrl = `${window.location.origin}/auth/callback`;
+>>>>>>> f9d69ad (Fix Google OAuth redirect callback route and add AuthCallback route)
     
     const { error } = await supabase.auth.signInWithOAuth({
       provider,
