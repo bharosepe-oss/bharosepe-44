@@ -41,7 +41,7 @@ function glowStyle(active: boolean, color: string) {
 const AnimatedTransactionFlow = () => {
   const [currentStep, setCurrentStep] = useState<Step>(1);
   const containerRef = useRef<HTMLDivElement>(null);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const intervalRef = useRef<number | null>(null);
   const isMobile = useIsMobile();
 
   useEffect(() => {
@@ -116,6 +116,137 @@ const AnimatedTransactionFlow = () => {
                 </div>
               </div>
             </div>
+          </div>
+
+          <div className="relative mt-10 h-[240px]">
+            <AnimatePresence mode="sync">
+              {currentStep === 1 && (
+                <>
+                  {[...Array(3)].map((_, i) => (
+                    <motion.div
+                      key={`mobile-contract-top-${i}`}
+                      className="absolute left-1/2 z-20"
+                      initial={{ top: "12%", opacity: 0, scale: 0.6 }}
+                      animate={{
+                        top: ["12%", "46%", "46%"],
+                        opacity: [0, 1, 1, 0],
+                        scale: [0.6, 1.05, 1, 0.6],
+                      }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 3, delay: i * 0.2, ease: "easeInOut" }}
+                      style={{ transform: "translateX(-50%)" }}
+                    >
+                      <FileText className="w-10 h-10 text-accent" style={{ filter: "drop-shadow(0 0 10px hsl(var(--accent) / 0.5))" }} />
+                    </motion.div>
+                  ))}
+                  {[...Array(3)].map((_, i) => (
+                    <motion.div
+                      key={`mobile-contract-bottom-${i}`}
+                      className="absolute left-1/2 z-20"
+                      initial={{ top: "92%", opacity: 0, scale: 0.6 }}
+                      animate={{
+                        top: ["92%", "54%", "54%"],
+                        opacity: [0, 1, 1, 0],
+                        scale: [0.6, 1.05, 1, 0.6],
+                      }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 3, delay: i * 0.2 + 0.1, ease: "easeInOut" }}
+                      style={{ transform: "translateX(-50%)" }}
+                    >
+                      <FileText className="w-10 h-10 text-secondary" style={{ filter: "drop-shadow(0 0 10px hsl(var(--secondary) / 0.5))" }} />
+                    </motion.div>
+                  ))}
+                </>
+              )}
+
+              {currentStep === 2 && (
+                <>
+                  {[...Array(5)].map((_, i) => (
+                    <motion.div
+                      key={`mobile-rupee-top-${i}`}
+                      className="absolute left-1/2 z-20"
+                      initial={{ top: "14%", opacity: 0, scale: 0.5 }}
+                      animate={{
+                        top: ["14%", "46%", "46%"],
+                        opacity: [0, 1, 1, 0],
+                        scale: [0.5, 1.2, 1.1, 0.5],
+                      }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 3, delay: i * 0.18, ease: "easeInOut" }}
+                      style={{ transform: "translateX(-50%)" }}
+                    >
+                      <span className="text-4xl font-bold text-accent">₹</span>
+                    </motion.div>
+                  ))}
+                </>
+              )}
+
+              {currentStep === 3 && (
+                <>
+                  {[...Array(4)].map((_, i) => (
+                    <motion.div
+                      key={`mobile-package-${i}`}
+                      className="absolute left-1/2 z-20"
+                      initial={{ top: "92%", opacity: 0, scale: 0.6 }}
+                      animate={{
+                        top: ["92%", "46%", "14%"],
+                        opacity: [0, 1, 1, 0],
+                        scale: [0.6, 1.05, 1.05, 0.6],
+                      }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 3, delay: i * 0.23, ease: "easeOut" }}
+                      style={{ transform: "translateX(-50%)" }}
+                    >
+                      <Package className="w-10 h-10 text-secondary" style={{ filter: "drop-shadow(0 0 10px hsl(var(--secondary) / 0.5))" }} />
+                    </motion.div>
+                  ))}
+                </>
+              )}
+
+              {currentStep === 4 && (
+                <>
+                  {[...Array(5)].map((_, i) => (
+                    <motion.div
+                      key={`mobile-check-${i}`}
+                      className="absolute left-1/2 z-20"
+                      initial={{ top: "46%", opacity: 0, scale: 0.5 }}
+                      animate={{
+                        top: ["46%", "14%", "14%"],
+                        opacity: [0, 1, 1, 0],
+                        scale: [0.5, 1.4, 1.1, 0.5],
+                      }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 3, delay: i * 0.2, ease: "easeInOut" }}
+                      style={{ transform: "translateX(-50%)" }}
+                    >
+                      <CheckCircle className="w-8 h-8 text-accent" />
+                    </motion.div>
+                  ))}
+                </>
+              )}
+
+              {currentStep === 5 && (
+                <>
+                  {[...Array(5)].map((_, i) => (
+                    <motion.div
+                      key={`mobile-rupee-bottom-${i}`}
+                      className="absolute left-1/2 z-20"
+                      initial={{ top: "46%", opacity: 0, scale: 0.5 }}
+                      animate={{
+                        top: ["46%", "76%", "76%"],
+                        opacity: [0, 1, 1, 0],
+                        scale: [0.5, 1.2, 1.1, 0.5],
+                      }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 3, delay: i * 0.2, ease: "easeInOut" }}
+                      style={{ transform: "translateX(-50%)" }}
+                    >
+                      <span className="text-4xl font-bold text-secondary">₹</span>
+                    </motion.div>
+                  ))}
+                </>
+              )}
+            </AnimatePresence>
           </div>
 
           <div className="mt-10 rounded-3xl border border-border bg-card p-5 shadow-xl">
