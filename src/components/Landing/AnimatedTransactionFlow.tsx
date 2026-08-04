@@ -119,7 +119,7 @@ const AnimatedTransactionFlow = () => {
             transition={{ duration: 0.5, ease: "easeInOut" }}
           >
             <motion.div
-              className="relative w-44 h-44 md:w-52 md:h-52 rounded-full flex items-center justify-center bg-primary shadow-2xl"
+              className="relative w-44 h-44 md:w-52 md:h-52 rounded-full overflow-hidden bg-white shadow-2xl border-2 border-primary/15"
               animate={{
                 boxShadow: isVaultActive
                   ? "0 0 60px 15px hsl(var(--primary) / 0.6), 0 0 120px 30px hsl(var(--primary) / 0.3)"
@@ -127,7 +127,7 @@ const AnimatedTransactionFlow = () => {
               }}
               transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             >
-              <img src={logo} alt="Bharose Pe" className="w-16 h-16 md:w-20 md:h-20 object-contain" />
+              <img src={logo} alt="Bharose Pe" className="h-full w-full object-cover rounded-full" />
               <motion.div
                 className="absolute inset-0 rounded-full border-2 border-primary-foreground/30"
                 animate={{ rotate: 360 }}
@@ -194,15 +194,16 @@ const AnimatedTransactionFlow = () => {
                 <motion.div
                   key={`contract-buyer-${i}`}
                   className="absolute z-30"
-                  initial={{ left: "12%", top: "10%", opacity: 0, scale: 0.5 }}
+                  initial={{ left: "12%", top: "10%", opacity: 0, scale: 0.6 }}
                   animate={{
-                    left: ["12%", "44%"],
-                    top: ["10%", "5%"],
-                    opacity: [0, 1, 1, 0],
-                    scale: [0.5, 1.2, 1, 0.5],
+                    left: ["12%", "28%", "42%", "48%"],
+                    top: ["10%", "8%", "5%", "4%"],
+                    opacity: [0, 0.85, 1, 0],
+                    scale: [0.6, 1.05, 1.18, 0.8],
+                    rotate: [-8, 0, 4, 0],
                   }}
                   exit={{ opacity: 0 }}
-                  transition={{ duration: 2.4, delay: i * 0.4, ease: [0.43, 0.13, 0.23, 0.96] }}
+                  transition={{ duration: 2.4, delay: i * 0.35, ease: [0.43, 0.13, 0.23, 0.96] }}
                 >
                   <FileText className="w-10 h-10 text-accent" style={{ filter: "drop-shadow(0 0 10px hsl(var(--accent) / 0.5))" }} />
                 </motion.div>
@@ -211,15 +212,16 @@ const AnimatedTransactionFlow = () => {
                 <motion.div
                   key={`contract-seller-${i}`}
                   className="absolute z-30"
-                  initial={{ left: "82%", top: "10%", opacity: 0, scale: 0.5 }}
+                  initial={{ left: "82%", top: "10%", opacity: 0, scale: 0.6 }}
                   animate={{
-                    left: ["82%", "52%"],
-                    top: ["10%", "5%"],
-                    opacity: [0, 1, 1, 0],
-                    scale: [0.5, 1.2, 1, 0.5],
+                    left: ["82%", "67%", "56%", "50%"],
+                    top: ["10%", "7%", "5%", "4%"],
+                    opacity: [0, 0.85, 1, 0],
+                    scale: [0.6, 1.05, 1.18, 0.8],
+                    rotate: [8, 0, -4, 0],
                   }}
                   exit={{ opacity: 0 }}
-                  transition={{ duration: 2.4, delay: i * 0.4 + 0.2, ease: [0.43, 0.13, 0.23, 0.96] }}
+                  transition={{ duration: 2.4, delay: i * 0.35 + 0.18, ease: [0.43, 0.13, 0.23, 0.96] }}
                 >
                   <FileText className="w-10 h-10 text-secondary" style={{ filter: "drop-shadow(0 0 10px hsl(var(--secondary) / 0.5))" }} />
                 </motion.div>

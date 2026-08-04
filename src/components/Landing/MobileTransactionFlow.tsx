@@ -92,15 +92,13 @@ const MobileTransactionFlow = () => {
 
           <div className="relative z-10 mt-10">
             <div
-              className="flex h-32 w-32 items-center justify-center rounded-full bg-white shadow-lg"
+              className="flex h-32 w-32 items-center justify-center overflow-hidden rounded-full bg-white shadow-lg"
               style={{
                 ...glowStyle(isActive(stage, "vault")),
                 opacity: isActive(stage, "vault") ? 1 : 0.8,
               }}
             >
-              <div className="flex h-20 w-20 items-center justify-center rounded-full bg-white">
-                <img src={logo} alt="Bharose Pe" className="h-16 w-16 object-contain" />
-              </div>
+              <img src={logo} alt="Bharose Pe" className="h-full w-full object-cover" />
             </div>
           </div>
 
@@ -227,14 +225,14 @@ const MobileTransactionFlow = () => {
         .tp-release { animation-name: tp-release; }
 
         @keyframes tp-contract-buyer {
-          0%   { left: 60%; top: 0%; opacity: 0; transform: scale(.8); }
-          50%  { left: 78%; top: 26%; opacity: 1; transform: scale(1.2); }
-          100% { left: 60%; top: 40%; opacity: 0; transform: scale(.8); }
+          0%   { left: 55%; top: 5%; opacity: 0; transform: scale(.8) rotate(-8deg); }
+          45%  { left: 70%; top: 20%; opacity: 1; transform: scale(1.18) rotate(0deg); }
+          100% { left: 52%; top: 40%; opacity: 0; transform: scale(.9) rotate(8deg); }
         }
         @keyframes tp-contract-seller {
-          0%   { left: 40%; top: 90%; opacity: 0; transform: scale(.8); }
-          50%  { left: 10%; top: 62%; opacity: 1; transform: scale(1.2); }
-          100% { left: 40%; top: 40%; opacity: 0; transform: scale(.8); }
+          0%   { left: 45%; top: 90%; opacity: 0; transform: scale(.8) rotate(8deg); }
+          45%  { left: 22%; top: 64%; opacity: 1; transform: scale(1.18) rotate(0deg); }
+          100% { left: 45%; top: 40%; opacity: 0; transform: scale(.9) rotate(-8deg); }
         }
         @keyframes tp-deposit {
           0%   { left: 60%; top: 0%; opacity: 0; transform: scale(.8); }
