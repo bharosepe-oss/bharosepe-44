@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Mail, User, Phone, Building2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -11,17 +11,32 @@ import { toast } from 'sonner';
 interface JoinEarlyAccessDialogProps {
   isOpen: boolean;
   onClose: () => void;
+  defaultInterestedAs?: 'buyer' | 'seller' | 'both';
 }
 
-const JoinEarlyAccessDialog: React.FC<JoinEarlyAccessDialogProps> = ({ isOpen, onClose }) => {
+const JoinEarlyAccessDialog: React.FC<JoinEarlyAccessDialogProps> = ({ isOpen, onClose, defaultInterestedAs = 'both' }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
     full_name: '',
     phone: '',
-    interested_as: 'both',
+    interested_as: defaultInterestedAs,
+    industry_category: 'goods',
     business_type: ''
   });
+
+  useEffect(() => {
+    if (isOpen) {
+      setFormData({
+        email: '',
+        full_name: '',
+        phone: '',
+        interested_as: defaultInterestedAs,
+        industry_category: 'goods',
+        business_type: ''
+      });
+    }
+  }, [isOpen, defaultInterestedAs]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -58,11 +73,11 @@ const JoinEarlyAccessDialog: React.FC<JoinEarlyAccessDialogProps> = ({ isOpen, o
             email: formData.email || null,
             full_name: formData.full_name || null,
             phone: formData.phone || null,
-            business_type: (formData.interested_as === 'seller' || formData.interested_as === 'both') ? formData.business_type : null,
-            interested_as: formData.interested_as
+            business_type: formData.business_type || null,
+            interested_as: formData.interested_as,
+            industry_category: formData.industry_category
           }
-        ])
-        .select();
+        ]);
 
       if (error) {
         if (error.message.includes('duplicate')) {
@@ -76,7 +91,8 @@ const JoinEarlyAccessDialog: React.FC<JoinEarlyAccessDialogProps> = ({ isOpen, o
           email: '',
           full_name: '',
           phone: '',
-          interested_as: 'both',
+          interested_as: defaultInterestedAs,
+          industry_category: 'goods',
           business_type: ''
         });
         setTimeout(() => onClose(), 1500);
@@ -189,45 +205,82 @@ const JoinEarlyAccessDialog: React.FC<JoinEarlyAccessDialogProps> = ({ isOpen, o
 
                 {/* Interested As */}
                 <div className="space-y-2">
-                  <Label htmlFor="interested_as" className="text-sm font-medium">
+                  <Label className="text-sm font-medium">
                     I'm interested as
                   </Label>
-                  <Select value={formData.interested_as} onValueChange={(value) => handleSelectChange('interested_as', value)}>
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="buyer">Buyer</SelectItem>
-                      <SelectItem value="seller">Seller</SelectItem>
-                      <SelectItem value="both">Both</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  <div className="grid grid-cols-3 gap-2">
+                    {[
+                      { value: 'buyer', label: 'Buyer' },
+                      { value: 'seller', label: 'Seller' },
+                      { value: 'both', label: 'Both' }
+                    ].map((option) => (
+                      <button
+                        key={option.value}
+                        type="button"
+                        onClick={() => handleSelectChange('interested_as', option.value)}
+                        className={`px-4 py-3 rounded-xl border text-sm font-medium transition ${
+                          formData.interested_as === option.value
+                            ? 'bg-primary text-white border-primary'
+                            : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-50'
+                        }`}
+                        aria-pressed={formData.interested_as === option.value}
+                      >
+                        {option.label}
+                      </button>
+                    ))}
+                  </div>
                 </div>
 
-                {/* Business Type (conditionally shown) */}
-                {(formData.interested_as === 'seller' || formData.interested_as === 'both') && (
-                  <div className="space-y-2">
-                    <Label htmlFor="business_type" className="text-sm font-medium">
-                      Business Type
-                    </Label>
-                    <div className="relative">
-                      <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none z-10" />
-                      <Select value={formData.business_type} onValueChange={(value) => handleSelectChange('business_type', value)}>
-                        <SelectTrigger className="pl-10">
-                          <SelectValue placeholder="Select business type" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="individual">Individual</SelectItem>
-                          <SelectItem value="retail">Retail Business</SelectItem>
-                          <SelectItem value="wholesale">Wholesale</SelectItem>
-                          <SelectItem value="manufacturing">Manufacturing</SelectItem>
-                          <SelectItem value="services">Services</SelectItem>
-                          <SelectItem value="other">Other</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
+                {/* Industry Category */}
+                <div className="space-y-2">
+                  <Label className="text-sm font-medium">
+                    Industry
+                  </Label>
+                  <div className="grid grid-cols-3 gap-2">
+                    {[
+                      { value: 'goods', label: 'Goods' },
+                      { value: 'services', label: 'Services' },
+                      { value: 'both', label: 'Both' }
+                    ].map((option) => (
+                      <button
+                        key={option.value}
+                        type="button"
+                        onClick={() => handleSelectChange('industry_category', option.value)}
+                        className={`px-4 py-3 rounded-xl border text-sm font-medium transition ${
+                          formData.industry_category === option.value
+                            ? 'bg-primary text-white border-primary'
+                            : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-50'
+                        }`}
+                        aria-pressed={formData.industry_category === option.value}
+                      >
+                        {option.label}
+                      </button>
+                    ))}
                   </div>
-                )}
+                </div>
+
+                {/* Business Type */}
+                <div className="space-y-2">
+                  <Label htmlFor="business_type" className="text-sm font-medium">
+                    Business Type
+                  </Label>
+                  <div className="relative">
+                    <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none z-10" />
+                    <Select value={formData.business_type} onValueChange={(value) => handleSelectChange('business_type', value)}>
+                      <SelectTrigger className="pl-10">
+                        <SelectValue placeholder="Select business type" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="individual">Individual</SelectItem>
+                        <SelectItem value="retail">Retail Business</SelectItem>
+                        <SelectItem value="wholesale">Wholesale</SelectItem>
+                        <SelectItem value="manufacturing">Manufacturing</SelectItem>
+                        <SelectItem value="services">Services</SelectItem>
+                        <SelectItem value="other">Other</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
 
                 {/* Submit Button */}
                 <Button

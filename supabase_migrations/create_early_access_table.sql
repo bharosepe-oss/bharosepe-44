@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS early_access (
   full_name VARCHAR(255),
   phone VARCHAR(20),
   business_type VARCHAR(100),
+  industry_category VARCHAR(50),
   interested_as VARCHAR(50), -- 'buyer', 'seller', or 'both'
   notes TEXT,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

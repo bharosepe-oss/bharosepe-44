@@ -46,7 +46,11 @@ const Buyers = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <JoinEarlyAccessDialog isOpen={isEarlyAccessOpen} onClose={() => setIsEarlyAccessOpen(false)} />
+      <JoinEarlyAccessDialog
+        isOpen={isEarlyAccessOpen}
+        onClose={() => setIsEarlyAccessOpen(false)}
+        defaultInterestedAs="buyer"
+      />
       <section className="bg-muted/20 py-20 md:py-32">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center animate-fade-in">

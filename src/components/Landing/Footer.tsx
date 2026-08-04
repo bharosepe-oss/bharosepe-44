@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Mail, Phone, MapPin, Twitter, Linkedin, Instagram, Facebook } from "lucide-react";
+import { Mail, Phone, MapPin } from "lucide-react";
 import logo from "@/assets/LOGO.png";
 
 const Footer = () => {
@@ -66,21 +66,6 @@ const Footer = () => {
               © {new Date().getFullYear()} Bharose Pe. All rights reserved.
             </p>
             
-            {/* Social Links */}
-            <div className="flex items-center space-x-4">
-              <a href="#" className="text-muted-foreground hover:text-primary transition-smooth" aria-label="Twitter">
-                <Twitter className="h-5 w-5" />
-              </a>
-              <a href="#" className="text-muted-foreground hover:text-primary transition-smooth" aria-label="LinkedIn">
-                <Linkedin className="h-5 w-5" />
-              </a>
-              <a href="#" className="text-muted-foreground hover:text-primary transition-smooth" aria-label="Instagram">
-                <Instagram className="h-5 w-5" />
-              </a>
-              <a href="#" className="text-muted-foreground hover:text-primary transition-smooth" aria-label="Facebook">
-                <Facebook className="h-5 w-5" />
-              </a>
-            </div>
           </div>
         </div>
       </div>
