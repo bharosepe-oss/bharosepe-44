@@ -148,15 +148,15 @@ const MobileTransactionFlow = () => {
                 <motion.div
                   key={`contract-buyer-${i}`}
                   className="absolute z-30"
-                  initial={{ left: "12%", top: "10%", opacity: 0, scale: 0.5 }}
+                  initial={{ left: "12%", top: "12%", opacity: 0, scale: 0.5 }}
                   animate={{
-                    left: ["12%", "44%"],
-                    top: ["10%", "5%"],
+                    left: ["12%", "28%", "44%"],
+                    top: ["12%", "32%", "44%"],
                     opacity: [0, 1, 1, 0],
                     scale: [0.5, 1.2, 1, 0.5],
                   }}
                   exit={{ opacity: 0 }}
-                  transition={{ duration: 2.4, delay: i * 0.4, ease: [0.43, 0.13, 0.23, 0.96] }}
+                  transition={{ duration: 2.4, delay: i * 0.35, ease: [0.43, 0.13, 0.23, 0.96] }}
                 >
                   <FileText size={24} style={{ color: BRAND }} />
                 </motion.div>
@@ -165,15 +165,15 @@ const MobileTransactionFlow = () => {
                 <motion.div
                   key={`contract-seller-${i}`}
                   className="absolute z-30"
-                  initial={{ left: "82%", top: "10%", opacity: 0, scale: 0.5 }}
+                  initial={{ left: "82%", top: "78%", opacity: 0, scale: 0.5 }}
                   animate={{
-                    left: ["82%", "52%"],
-                    top: ["10%", "5%"],
+                    left: ["82%", "66%", "52%"],
+                    top: ["78%", "58%", "44%"],
                     opacity: [0, 1, 1, 0],
                     scale: [0.5, 1.2, 1, 0.5],
                   }}
                   exit={{ opacity: 0 }}
-                  transition={{ duration: 2.4, delay: i * 0.4 + 0.2, ease: [0.43, 0.13, 0.23, 0.96] }}
+                  transition={{ duration: 2.4, delay: i * 0.35 + 0.2, ease: [0.43, 0.13, 0.23, 0.96] }}
                 >
                   <FileText size={24} style={{ color: BRAND }} />
                 </motion.div>
