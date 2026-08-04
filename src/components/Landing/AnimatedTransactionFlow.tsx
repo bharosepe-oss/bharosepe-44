@@ -1,25 +1,53 @@
-import { motion, AnimatePresence } from "framer-motion";
+﻿import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState, useRef } from "react";
 import { Shield, User, CheckCircle, Banknote, Package, FileCheck, FileText } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 type Step = 1 | 2 | 3 | 4 | 5;
+
+const STAGE_TEXT: Record<Step, string> = {
+  1: "Buyer and Seller create a secure escrow contract on Bharose Pe",
+  2: "Buyer securely deposits funds into Bharose Pe's escrow vault",
+  3: "Seller delivers the product or service directly to the buyer",
+  4: "Buyer confirms receipt and satisfaction with the delivery",
+  5: "Bharose Pe releases payment to seller instantly",
+};
+
+function getActiveNode(step: Step): "buyer" | "seller" | "bharosePe" | "both" {
+  switch (step) {
+    case 1:
+      return "both";
+    case 2:
+      return "buyer";
+    case 3:
+      return "seller";
+    case 4:
+      return "buyer";
+    case 5:
+      return "bharosePe";
+    default:
+      return "both";
+  }
+}
+
+function glowStyle(active: boolean, color: string) {
+  return {
+    boxShadow: active
+      ? `0 0 30px 8px ${color}`
+      : "0 0 0px 0px transparent",
+  };
+}
 
 const AnimatedTransactionFlow = () => {
   const [currentStep, setCurrentStep] = useState<Step>(1);
   const containerRef = useRef<HTMLDivElement>(null);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
-  const hasStarted = useRef(false);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
-    // Start animation cycle on component mount
-    if (!hasStarted.current) {
-      hasStarted.current = true;
-      
-      // Start with Step 1 immediately, then cycle every 4 seconds
-      intervalRef.current = setInterval(() => {
-        setCurrentStep((prev) => ((prev % 5) + 1) as Step);
-      }, 4000);
-    }
+    intervalRef.current = setInterval(() => {
+      setCurrentStep((prev) => ((prev % 5) + 1) as Step);
+    }, 4200);
 
     return () => {
       if (intervalRef.current) {
@@ -28,37 +56,96 @@ const AnimatedTransactionFlow = () => {
     };
   }, []);
 
-  const getActiveNode = (): "buyer" | "bharosePe" | "seller" | "both" | null => {
-    switch (currentStep) {
-      case 1: return "both";       // Contract creation — both parties
-      case 2: return "buyer";      // Buyer deposits funds
-      case 3: return "seller";     // Seller delivers goods
-      case 4: return "buyer";      // Buyer confirms
-      case 5: return "bharosePe";  // Payment released
-      default: return null;
-    }
-  };
-
-  const activeNode = getActiveNode();
-
-  const stepDescriptions: Record<Step, string> = {
-    1: "Buyer and Seller create a secure escrow contract on Bharose Pe",
-    2: "Buyer securely deposits funds into Bharose Pe's escrow vault",
-    3: "Seller delivers the product or service directly to the buyer",
-    4: "Buyer confirms receipt and satisfaction with the delivery",
-    5: "Bharose Pe releases payment to seller instantly",
-  };
-
+  const activeNode = getActiveNode(currentStep);
   const isBuyerActive = activeNode === "buyer" || activeNode === "both";
   const isSellerActive = activeNode === "seller" || activeNode === "both";
+  const isVaultActive = activeNode === "bharosePe";
+
+  if (isMobile) {
+    return (
+      <div ref={containerRef} className="relative w-full min-h-[680px] py-14 flex items-center justify-center bg-background">
+        <div className="w-full max-w-md px-4">
+          <div className="flex flex-col items-center gap-6">
+            <div className="flex flex-col items-center gap-4">
+              <div
+                className="flex h-28 w-28 items-center justify-center rounded-full bg-card border-2 border-accent shadow-lg"
+                style={glowStyle(isBuyerActive, "rgba(59, 130, 246, 0.35)")}
+              >
+                <User className="w-12 h-12 text-accent" strokeWidth={2.5} />
+              </div>
+              <span className="text-lg font-semibold text-accent">Buyer</span>
+              <div className="text-center text-sm text-muted-foreground space-y-2">
+                <div className="flex items-center justify-center gap-2">
+                  <Banknote className="w-4 h-4 text-accent" />
+                  <span>Pays securely</span>
+                </div>
+                <div className="flex items-center justify-center gap-2">
+                  <Shield className="w-4 h-4 text-accent" />
+                  <span>Protected funds</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex flex-col items-center gap-4">
+              <div
+                className="flex h-36 w-36 items-center justify-center rounded-full bg-primary shadow-2xl"
+                style={glowStyle(isVaultActive, "rgba(59, 130, 246, 0.35)")}
+              >
+                <Shield className="w-14 h-14 text-primary-foreground" strokeWidth={2.5} />
+              </div>
+              <span className="text-xl font-bold text-primary">Bharose Pe</span>
+              <span className="text-sm text-muted-foreground">Escrow Vault</span>
+            </div>
+
+            <div className="flex flex-col items-center gap-4">
+              <div
+                className="flex h-28 w-28 items-center justify-center rounded-full bg-card border-2 border-secondary shadow-lg"
+                style={glowStyle(isSellerActive, "rgba(234, 179, 8, 0.35)")}
+              >
+                <User className="w-12 h-12 text-secondary" strokeWidth={2.5} />
+              </div>
+              <span className="text-lg font-semibold text-secondary">Seller</span>
+              <div className="text-center text-sm text-muted-foreground space-y-2">
+                <div className="flex items-center justify-center gap-2">
+                  <CheckCircle className="w-4 h-4 text-secondary" />
+                  <span>Guaranteed pay</span>
+                </div>
+                <div className="flex items-center justify-center gap-2">
+                  <Package className="w-4 h-4 text-secondary" />
+                  <span>Trust verified</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-10 rounded-3xl border border-border bg-card p-5 shadow-xl">
+            <div className="text-center text-sm uppercase tracking-[0.18em] text-muted-foreground mb-3">
+              Step {currentStep} of 5
+            </div>
+            <p className="text-center text-base font-semibold text-foreground">
+              {STAGE_TEXT[currentStep]}
+            </p>
+            <div className="mt-5 flex justify-center gap-2">
+              {[1, 2, 3, 4, 5].map((step) => (
+                <span
+                  key={step}
+                  className={`rounded-full transition-all duration-300 ${
+                    step === currentStep ? "bg-primary h-2.5 w-8" : "bg-muted-foreground/40 h-2.5 w-2.5"
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div ref={containerRef} className="relative w-full min-h-[700px] py-20 flex items-center justify-center bg-background">
       <div className="relative w-full max-w-6xl mx-auto px-4 md:px-8">
-        {/* Three Nodes: Buyer - Bharose Pe - Seller */}
         <div className="grid grid-cols-3 gap-4 items-start justify-items-center relative mb-32 max-w-5xl mx-auto">
-          {/* Buyer Node */}
-          <motion.div 
+          <motion.div
             className="flex flex-col items-center z-10"
             animate={{ scale: isBuyerActive ? 1.08 : 1 }}
             transition={{ duration: 0.4, ease: "easeInOut" }}
@@ -66,8 +153,8 @@ const AnimatedTransactionFlow = () => {
             <motion.div
               className="relative w-28 h-28 md:w-36 md:h-36 rounded-full bg-card border-2 border-accent flex items-center justify-center shadow-lg"
               animate={{
-                boxShadow: isBuyerActive 
-                  ? "0 0 50px 12px hsl(var(--accent) / 0.5), 0 0 100px 20px hsl(var(--accent) / 0.2)" 
+                boxShadow: isBuyerActive
+                  ? "0 0 50px 12px hsl(var(--accent) / 0.5), 0 0 100px 20px hsl(var(--accent) / 0.2)"
                   : "0 4px 24px -2px hsl(var(--accent) / 0.15)",
                 borderColor: isBuyerActive ? "hsl(var(--accent))" : "hsl(var(--accent) / 0.5)",
               }}
@@ -96,16 +183,15 @@ const AnimatedTransactionFlow = () => {
             </div>
           </motion.div>
 
-          {/* Central Bharose Pe Vault */}
-          <motion.div 
+          <motion.div
             className="flex flex-col items-center justify-center z-20"
-            animate={{ scale: activeNode === "bharosePe" ? 1.12 : 1 }}
+            animate={{ scale: isVaultActive ? 1.12 : 1 }}
             transition={{ duration: 0.5, ease: "easeInOut" }}
           >
             <motion.div
               className="relative w-44 h-44 md:w-52 md:h-52 rounded-full flex items-center justify-center bg-primary shadow-2xl"
               animate={{
-                boxShadow: activeNode === "bharosePe"
+                boxShadow: isVaultActive
                   ? "0 0 60px 15px hsl(var(--primary) / 0.6), 0 0 120px 30px hsl(var(--primary) / 0.3)"
                   : "0 0 30px 8px hsl(var(--primary) / 0.3), 0 0 60px 15px hsl(var(--primary) / 0.15)",
               }}
@@ -117,7 +203,7 @@ const AnimatedTransactionFlow = () => {
                 animate={{ rotate: 360 }}
                 transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
               />
-              {activeNode === "bharosePe" && (
+              {isVaultActive && (
                 <motion.div
                   className="absolute inset-0 rounded-full border-2 border-primary-foreground"
                   initial={{ scale: 1, opacity: 0.8 }}
@@ -132,8 +218,7 @@ const AnimatedTransactionFlow = () => {
             </div>
           </motion.div>
 
-          {/* Seller Node */}
-          <motion.div 
+          <motion.div
             className="flex flex-col items-center z-10"
             animate={{ scale: isSellerActive ? 1.08 : 1 }}
             transition={{ duration: 0.4, ease: "easeInOut" }}
@@ -141,8 +226,8 @@ const AnimatedTransactionFlow = () => {
             <motion.div
               className="relative w-28 h-28 md:w-36 md:h-36 rounded-full bg-card border-2 border-secondary flex items-center justify-center shadow-lg"
               animate={{
-                boxShadow: isSellerActive 
-                  ? "0 0 50px 12px hsl(var(--secondary) / 0.5), 0 0 100px 20px hsl(var(--secondary) / 0.2)" 
+                boxShadow: isSellerActive
+                  ? "0 0 50px 12px hsl(var(--secondary) / 0.5), 0 0 100px 20px hsl(var(--secondary) / 0.2)"
                   : "0 4px 24px -2px hsl(var(--secondary) / 0.15)",
                 borderColor: isSellerActive ? "hsl(var(--secondary))" : "hsl(var(--secondary) / 0.5)",
               }}
@@ -172,9 +257,7 @@ const AnimatedTransactionFlow = () => {
           </motion.div>
         </div>
 
-        {/* Animated Particles */}
         <AnimatePresence mode="sync">
-          {/* Step 1: Contract Creation — documents fly from both sides to center */}
           {currentStep === 1 && (
             <>
               {[...Array(3)].map((_, i) => (
@@ -214,7 +297,6 @@ const AnimatedTransactionFlow = () => {
             </>
           )}
 
-          {/* Step 2: Buyer deposits funds */}
           {currentStep === 2 && (
             <>
               {[...Array(6)].map((_, i) => (
@@ -237,8 +319,7 @@ const AnimatedTransactionFlow = () => {
               ))}
             </>
           )}
-          
-          {/* Step 3: Seller delivers goods directly to buyer (arc over vault) */}
+
           {currentStep === 3 && (
             <>
               {[...Array(3)].map((_, i) => (
@@ -261,8 +342,7 @@ const AnimatedTransactionFlow = () => {
               ))}
             </>
           )}
-          
-          {/* Step 4: Buyer confirms */}
+
           {currentStep === 4 && (
             <>
               {[...Array(5)].map((_, i) => (
@@ -285,8 +365,7 @@ const AnimatedTransactionFlow = () => {
               ))}
             </>
           )}
-          
-          {/* Step 5: Payment released to seller */}
+
           {currentStep === 5 && (
             <>
               {[...Array(6)].map((_, i) => (
@@ -311,7 +390,6 @@ const AnimatedTransactionFlow = () => {
           )}
         </AnimatePresence>
 
-        {/* Step Description */}
         <motion.div
           className="absolute -bottom-20 inset-x-0 flex justify-center px-4"
           key={currentStep}
@@ -320,8 +398,21 @@ const AnimatedTransactionFlow = () => {
           exit={{ opacity: 0, y: -30 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
         >
-          <div className="bg-card border border-border px-8 py-5 rounded-2xl shadow-xl">
-            <span className="font-semibold text-lg text-foreground">{stepDescriptions[currentStep]}</span>
+          <div className="bg-card border border-border px-8 py-5 rounded-2xl shadow-xl max-w-2xl w-full text-center">
+            <div className="text-sm uppercase tracking-[0.18em] text-muted-foreground mb-3">
+              Step {currentStep} of 5
+            </div>
+            <span className="font-semibold text-lg text-foreground">{STAGE_TEXT[currentStep]}</span>
+            <div className="mt-5 flex justify-center gap-2">
+              {[1, 2, 3, 4, 5].map((step) => (
+                <span
+                  key={step}
+                  className={`rounded-full transition-all duration-300 ${
+                    step === currentStep ? "bg-primary h-2.5 w-8" : "bg-muted-foreground/40 h-2.5 w-2.5"
+                  }`}
+                />
+              ))}
+            </div>
           </div>
         </motion.div>
       </div>
