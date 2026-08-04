@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState, type CSSProperties } from "react";
-import { ShieldCheck, User, IndianRupee, CheckCircle2, Package, FileSignature } from "lucide-react";
+import { User, ShieldCheck, IndianRupee, CheckCircle2, Package, FileSignature } from "lucide-react";
+import logo from "@/assets/LOGO.png";
 
 type Step = 1 | 2 | 3 | 4 | 5;
 
@@ -87,16 +88,8 @@ const MobileTransactionFlow = () => {
                 opacity: isActive(stage, "vault") ? 1 : 0.8,
               }}
             >
-              <div className="flex flex-col items-center justify-center">
-                <ShieldCheck
-                  size={58}
-                  color={BRAND}
-                  strokeWidth={2}
-                  style={{ fill: BRAND, fillOpacity: isActive(stage, "vault") ? 0.4 : 0.2 }}
-                />
-                <span className="mt-2 text-xs font-medium" style={{ color: BRAND }}>
-                  BHAROSE PE
-                </span>
+              <div className="flex h-20 w-20 items-center justify-center rounded-full bg-white">
+                <img src={logo} alt="Bharose Pe" className="h-16 w-16 object-contain" />
               </div>
             </div>
           </div>
@@ -151,13 +144,39 @@ const MobileTransactionFlow = () => {
 
           {stage === 1 &&
             [0, 1, 2].map((i) => (
-              <span
-                key={`c1-${i}`}
-                className="tp-symbol tp-contract-buyer"
-                style={{ color: BRAND, animationDelay: `${i * 0.5}s` }}
+              <motion.div
+                key={`c1-buyer-${i}`}
+                className="absolute z-30"
+                initial={{ left: "10%", top: "12%", opacity: 0, scale: 0.5 }}
+                animate={{
+                  left: ["10%", "30%", "45%", "45%"],
+                  top: ["12%", "22%", "34%", "38%"],
+                  opacity: [0, 1, 1, 0],
+                  scale: [0.5, 1.1, 1, 0.5],
+                }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 2.2, delay: i * 0.2, ease: "easeInOut" }}
               >
-                <FileSignature size={24} />
-              </span>
+                <FileSignature size={24} style={{ color: BRAND }} />
+              </motion.div>
+            ))}
+          {stage === 1 &&
+            [0, 1, 2].map((i) => (
+              <motion.div
+                key={`c1-seller-${i}`}
+                className="absolute z-30"
+                initial={{ left: "88%", top: "12%", opacity: 0, scale: 0.5 }}
+                animate={{
+                  left: ["88%", "70%", "55%", "52%"],
+                  top: ["12%", "22%", "34%", "38%"],
+                  opacity: [0, 1, 1, 0],
+                  scale: [0.5, 1.1, 1, 0.5],
+                }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 2.2, delay: i * 0.2 + 0.1, ease: "easeInOut" }}
+              >
+                <FileSignature size={24} style={{ color: BRAND }} />
+              </motion.div>
             ))}
 
           {stage === 2 &&
@@ -223,9 +242,16 @@ const MobileTransactionFlow = () => {
         .tp-release { animation-name: tp-release; }
 
         @keyframes tp-contract-buyer {
-          0%   { left: 60%; top: 0%;  opacity: 0; transform: scale(.8); }
-          50%  { left: 78%; top: 26%; opacity: 1; transform: scale(1.2); }
-          100% { left: 60%; top: 40%; opacity: 0; transform: scale(.8); }
+          0%   { left: 8%; top: 10%; opacity: 0; transform: scale(.8); }
+          40%  { left: 38%; top: 18%; opacity: 1; transform: scale(1.1); }
+          80%  { left: 45%; top: 28%; opacity: 1; transform: scale(1); }
+          100% { left: 45%; top: 34%; opacity: 0; transform: scale(.8); }
+        }
+        @keyframes tp-contract-seller {
+          0%   { left: 84%; top: 10%; opacity: 0; transform: scale(.8); }
+          40%  { left: 62%; top: 18%; opacity: 1; transform: scale(1.1); }
+          80%  { left: 55%; top: 28%; opacity: 1; transform: scale(1); }
+          100% { left: 55%; top: 34%; opacity: 0; transform: scale(.8); }
         }
         @keyframes tp-deposit {
           0%   { left: 60%; top: 0%;  opacity: 0; transform: scale(.8); }
