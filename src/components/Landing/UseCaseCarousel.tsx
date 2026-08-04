@@ -4,6 +4,10 @@ import { ChevronLeft, ChevronRight, Laptop, ShoppingBag, Wrench, Package, Home, 
 import ScrollReveal from "./ScrollReveal";
 import { Button } from "./ui/button";
 
+interface UseCaseCarouselProps {
+  onJoinEarlyAccess?: () => void;
+}
+
 const useCases = [
   {
     icon: ShoppingBag,
@@ -32,7 +36,7 @@ const useCases = [
   },
 ];
 
-export const UseCaseCarousel = () => {
+export const UseCaseCarousel = ({ onJoinEarlyAccess }: UseCaseCarouselProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
@@ -116,7 +120,7 @@ export const UseCaseCarousel = () => {
         </div>
 
         <div className="text-center mt-12">
-          <Button size="lg" className="text-lg px-8">
+          <Button size="lg" className="text-lg px-8" onClick={onJoinEarlyAccess}>
             Join Early Access <ArrowRight className="ml-2 w-5 h-5 inline" />
           </Button>
         </div>

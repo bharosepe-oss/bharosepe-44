@@ -1,8 +1,11 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import JoinEarlyAccessDialog from "@/components/Landing/JoinEarlyAccessDialog";
 import { ShieldAlert, XCircle, AlertTriangle, CheckCircle2, ArrowRight } from "lucide-react";
 
 const Buyers = () => {
+  const [isEarlyAccessOpen, setIsEarlyAccessOpen] = useState(false);
   const painPoints = [
     {
       icon: ShieldAlert,
@@ -43,6 +46,7 @@ const Buyers = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
+      <JoinEarlyAccessDialog isOpen={isEarlyAccessOpen} onClose={() => setIsEarlyAccessOpen(false)} />
       <section className="bg-muted/20 py-20 md:py-32">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center animate-fade-in">
@@ -58,6 +62,7 @@ const Buyers = () => {
             <Button
               size="lg"
               className="bg-primary text-primary-foreground rounded-full shadow-soft hover:shadow-glow transition-smooth px-8"
+              onClick={() => setIsEarlyAccessOpen(true)}
             >
               Join Early Access
               <ArrowRight className="ml-2 h-5 w-5" />
@@ -192,6 +197,7 @@ const Buyers = () => {
           <Button
             size="lg"
             className="bg-primary text-primary-foreground rounded-full shadow-soft hover:shadow-glow transition-smooth px-8"
+            onClick={() => setIsEarlyAccessOpen(true)}
           >
             Join Early Access
             <ArrowRight className="ml-2 h-5 w-5" />

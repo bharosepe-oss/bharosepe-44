@@ -6,11 +6,11 @@ import CinematicHero from "@/components/Landing/CinematicHero";
 import JoinEarlyAccessDialog from "@/components/Landing/JoinEarlyAccessDialog";
 import AnimatedTransactionFlow from "@/components/Landing/AnimatedTransactionFlow";
 import HowItWorksSection from "@/components/Landing/HowItWorksSection";
+import { UseCaseCarousel } from "@/components/Landing/UseCaseCarousel";
 
 import ScrollReveal from "@/components/Landing/ScrollReveal";
 
 import { WhyBharosePe } from "@/components/Landing/WhyBharosePe";
-import { UseCaseCarousel } from "@/components/Landing/UseCaseCarousel";
 import { TestimonialsSection } from "@/components/Landing/TestimonialsSection";
 import { CTABanner } from "@/components/Landing/CTABanner";
 import FloatingParticles from "@/components/Landing/FloatingParticles";
@@ -57,7 +57,7 @@ export default function Home() {
       <WhyBharosePe />
 
       {/* ---------------- USE CASE CAROUSEL ---------------- */}
-      <UseCaseCarousel />
+      <UseCaseCarousel onJoinEarlyAccess={() => setIsEarlyAccessOpen(true)} />
 
       {/* ---------------- BENEFITS ---------------- */}
       <section className="relative py-24 bg-background overflow-hidden">

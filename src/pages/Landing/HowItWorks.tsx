@@ -1,10 +1,11 @@
 import { motion, useScroll, useTransform, useMotionTemplate } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import AnimatedButton from "@/components/Landing/ui/animated-button";
 import AnimatedBackground from "@/components/Landing/AnimatedBackground";
 import ScrollReveal from "@/components/Landing/ScrollReveal";
+import JoinEarlyAccessDialog from "@/components/Landing/JoinEarlyAccessDialog";
 import { FileText, CreditCard, Package, CheckCircle, ArrowRight } from "lucide-react";
 
 const steps = [
@@ -35,6 +36,7 @@ const steps = [
 ];
 
 const HowItWorks = () => {
+  const [isEarlyAccessOpen, setIsEarlyAccessOpen] = useState(false);
   const timelineRef = useRef<HTMLDivElement | null>(null);
   const { scrollYProgress } = useScroll({ target: timelineRef, offset: ["start 20%", "end 80%"] });
   const lineScaleY = useTransform(scrollYProgress, [0, 1], [0, 1]);
@@ -65,6 +67,8 @@ const HowItWorks = () => {
           </p>
         </motion.div>
       </section>
+
+      <JoinEarlyAccessDialog isOpen={isEarlyAccessOpen} onClose={() => setIsEarlyAccessOpen(false)} />
 
       {/* Steps Section — Vertical zigzag timeline with motion (no color changes) */}
       <section ref={timelineRef} className="relative py-24 md:py-32">
@@ -213,10 +217,14 @@ const HowItWorks = () => {
               We're building India's escrow infrastructure. Join our early access list.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <AnimatedButton variant="primary" size="lg">
+              <AnimatedButton variant="primary" size="lg" onClick={() => setIsEarlyAccessOpen(true)}>
                 Join Early Access <ArrowRight className="ml-2 h-5 w-5" />
               </AnimatedButton>
-              <AnimatedButton variant="outline" size="lg">
+              <AnimatedButton
+                variant="outline"
+                size="lg"
+                onClick={() => timelineRef.current?.scrollIntoView({ behavior: 'smooth' })}
+              >
                 See How It Works
               </AnimatedButton>
             </div>
