@@ -45,25 +45,19 @@ const AnimatedTransactionFlow = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const intervalRef = useRef<number | null>(null);
   const isMobile = useIsMobile();
-  const isInView = useInView(containerRef, { once: true, amount: 0.35 });
 
   useEffect(() => {
-    if (!isInView) return;
-
-    const startTimer = window.setTimeout(() => {
-      intervalRef.current = window.setInterval(() => {
-        setCurrentStep((prev) => ((prev % 5) + 1) as Step);
-      }, 4200);
-    }, 300);
+    intervalRef.current = window.setInterval(() => {
+      setCurrentStep((prev) => ((prev % 5) + 1) as Step);
+    }, 4200);
 
     return () => {
-      window.clearTimeout(startTimer);
       if (intervalRef.current) {
         window.clearInterval(intervalRef.current);
         intervalRef.current = null;
       }
     };
-  }, [isInView]);
+  }, []);
 
   const activeNode = getActiveNode(currentStep);
   const isBuyerActive = activeNode === "buyer" || activeNode === "both";
