@@ -1,220 +1,257 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
-import { Shield, User, CheckCircle, Banknote, Package, FileText } from "lucide-react";
+import { useEffect, useState, type CSSProperties } from "react";
+import { ShieldCheck, User, IndianRupee, CheckCircle2, Package, FileSignature } from "lucide-react";
 
 type Step = 1 | 2 | 3 | 4 | 5;
+
+const BRAND = "#6700B6";
+const TOTAL_STAGES = 5;
 
 const STAGE_TEXT: Record<Step, string> = {
   1: "Buyer and Seller create a secure escrow contract on Bharose Pe",
   2: "Buyer securely deposits funds into Bharose Pe's escrow vault",
   3: "Seller delivers the product or service directly to the buyer",
   4: "Buyer confirms receipt and satisfaction with the delivery",
-  5: "Bharose Pe releases payment to seller instantly",
+  5: "Bharose Pe releases payment to seller",
 };
 
-const getActiveNode = (step: Step) => {
-  switch (step) {
+function isActive(stage: Step, who: "buyer" | "seller" | "vault") {
+  switch (stage) {
     case 1:
-      return "both";
+      return who === "buyer" || who === "seller" || who === "vault";
     case 2:
-      return "buyer";
+      return who === "buyer";
     case 3:
-      return "seller";
+      return who === "seller";
     case 4:
-      return "buyer";
+      return who === "buyer";
     case 5:
-      return "bharosePe";
+      return who === "vault";
     default:
-      return "both";
+      return false;
   }
-};
+}
 
-const glowStyle = (active: boolean, color: string) => ({
-  boxShadow: active ? `0 0 24px 8px ${color}` : "0 0 0px 0px transparent",
-});
+function glowStyle(active: boolean): CSSProperties {
+  return {
+    boxShadow: active ? "0 0 15px 8px rgba(103, 0, 182, 0.4)" : "0 0 0px 0px rgba(103, 0, 182, 0)",
+    transition: "box-shadow 800ms ease, opacity 800ms ease",
+    borderColor: BRAND,
+    borderStyle: "solid",
+    borderWidth: 2,
+  };
+}
 
 const MobileTransactionFlow = () => {
-  const [currentStep, setCurrentStep] = useState<Step>(1);
-  const intervalRef = useRef<number | null>(null);
+  const [stage, setStage] = useState<Step>(1);
 
   useEffect(() => {
-    intervalRef.current = window.setInterval(() => {
-      setCurrentStep((prev) => ((prev % 5) + 1) as Step);
-    }, 4200);
-
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
-    };
-  }, []);
-
-  const activeNode = getActiveNode(currentStep);
-  const isBuyerActive = activeNode === "buyer" || activeNode === "both";
-  const isSellerActive = activeNode === "seller" || activeNode === "both";
-  const isVaultActive = activeNode === "bharosePe";
+    const timer = window.setTimeout(() => setStage((current) => ((current % TOTAL_STAGES) + 1) as Step), 4000);
+    return () => window.clearTimeout(timer);
+  }, [stage]);
 
   return (
     <div className="relative w-full bg-background py-10 px-4">
       <div className="mx-auto max-w-md space-y-6">
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
-          <div className="rounded-3xl border border-border bg-card p-4 text-center shadow-lg">
-            <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-slate-950/5">
-              <User className="h-8 w-8 text-accent" strokeWidth={2.5} />
+        <div className="relative mx-auto mb-8 flex h-[720px] max-w-md flex-col items-center px-4 pt-4">
+          <div className="flex flex-col items-center">
+            <div
+              className="flex h-24 w-24 items-center justify-center rounded-full bg-white/80 shadow-lg"
+              style={{
+                ...glowStyle(isActive(stage, "buyer")),
+                opacity: isActive(stage, "buyer") ? 1 : 0.6,
+              }}
+            >
+              <User size={48} color={BRAND} strokeWidth={2} />
             </div>
-            <div className="text-sm font-semibold text-accent">Buyer</div>
-            <div className="mt-3 text-xs text-muted-foreground space-y-2">
-              <p>Pay securely</p>
-              <p>Protected funds</p>
+            <span className="mt-4 text-lg font-medium" style={{ color: BRAND }}>
+              Buyer
+            </span>
+            <div className="mt-2 flex flex-col items-center text-sm text-[#727272]">
+              <div className="flex items-center">
+                <IndianRupee size={18} className="mr-2" style={{ color: BRAND }} />
+                <span>Pay securely</span>
+              </div>
+              <div className="mt-2 flex items-center">
+                <ShieldCheck size={18} className="mr-2" style={{ color: BRAND }} />
+                <span>Risk-free purchase</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="relative z-10 mt-10">
+            <div
+              className="flex h-32 w-32 items-center justify-center rounded-full bg-white shadow-lg"
+              style={{
+                ...glowStyle(isActive(stage, "vault")),
+                opacity: isActive(stage, "vault") ? 1 : 0.8,
+              }}
+            >
+              <div className="flex flex-col items-center justify-center">
+                <ShieldCheck
+                  size={58}
+                  color={BRAND}
+                  strokeWidth={2}
+                  style={{ fill: BRAND, fillOpacity: isActive(stage, "vault") ? 0.4 : 0.2 }}
+                />
+                <span className="mt-2 text-xs font-medium" style={{ color: BRAND }}>
+                  BHAROSE PE
+                </span>
+              </div>
             </div>
           </div>
 
-          <div className="rounded-3xl border border-border bg-primary/5 p-4 text-center shadow-lg">
-            <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-xl">
-              <Shield className="h-8 w-8" strokeWidth={2.5} />
-            </div>
-            <div className="text-sm font-semibold text-primary">Bharose Pe</div>
-            <div className="mt-3 text-xs text-muted-foreground">Neutral escrow vault</div>
+          <div
+            key={stage}
+            className="pointer-events-none mt-6 min-h-[48px] px-4 text-center text-base font-medium"
+            style={{ color: BRAND, animation: "tp-fade-in 500ms ease-out" }}
+          >
+            {STAGE_TEXT[stage]}
           </div>
 
-          <div className="rounded-3xl border border-border bg-card p-4 text-center shadow-lg">
-            <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-slate-950/5">
-              <User className="h-8 w-8 text-secondary" strokeWidth={2.5} />
-            </div>
-            <div className="text-sm font-semibold text-secondary">Seller</div>
-            <div className="mt-3 text-xs text-muted-foreground space-y-2">
-              <p>Assured payment</p>
-              <p>No more ghosting</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="relative h-[240px] overflow-hidden rounded-[2rem] border border-border bg-card/80 p-4 shadow-xl">
-          <AnimatePresence mode="sync">
-            {currentStep === 1 && (
-              <>
-                {[...Array(3)].map((_, i) => (
-                  <motion.div
-                    key={`step1-buy-${i}`}
-                    className="absolute left-2 top-10 z-20"
-                    initial={{ x: -24, y: 0, opacity: 0, scale: 0.6 }}
-                    animate={{ x: [0, 100, 100], y: [0, 12, 12], opacity: [0, 1, 1, 0], scale: [0.6, 1.05, 1, 0.6] }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 3, delay: i * 0.15, ease: "easeInOut" }}
-                  >
-                    <FileText className="h-10 w-10 text-accent" />
-                  </motion.div>
-                ))}
-                {[...Array(3)].map((_, i) => (
-                  <motion.div
-                    key={`step1-sell-${i}`}
-                    className="absolute right-2 top-10 z-20"
-                    initial={{ x: 24, y: 0, opacity: 0, scale: 0.6 }}
-                    animate={{ x: [0, -100, -100], y: [0, 12, 12], opacity: [0, 1, 1, 0], scale: [0.6, 1.05, 1, 0.6] }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 3, delay: i * 0.15 + 0.1, ease: "easeInOut" }}
-                  >
-                    <FileText className="h-10 w-10 text-secondary" />
-                  </motion.div>
-                ))}
-              </>
-            )}
-
-            {currentStep === 2 && (
-              <>
-                {[...Array(6)].map((_, i) => (
-                  <motion.div
-                    key={`step2-${i}`}
-                    className="absolute left-1/2 top-4 z-20"
-                    initial={{ y: -24, opacity: 0, scale: 0.5 }}
-                    animate={{ y: [0, 90, 90], opacity: [0, 1, 1, 0], scale: [0.5, 1.2, 1.05, 0.5] }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 3, delay: i * 0.18, ease: "easeInOut" }}
-                    style={{ transform: "translateX(-50%)" }}
-                  >
-                    <span className="text-4xl font-bold text-accent">₹</span>
-                  </motion.div>
-                ))}
-              </>
-            )}
-
-            {currentStep === 3 && (
-              <>
-                {[...Array(4)].map((_, i) => (
-                  <motion.div
-                    key={`step3-${i}`}
-                    className="absolute right-4 bottom-4 z-20"
-                    initial={{ y: 24, opacity: 0, scale: 0.6 }}
-                    animate={{ y: [0, -60, -60], opacity: [0, 1, 1, 0], scale: [0.6, 1.05, 1.05, 0.6] }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 3, delay: i * 0.2, ease: "easeOut" }}
-                  >
-                    <Package className="h-10 w-10 text-secondary" />
-                  </motion.div>
-                ))}
-              </>
-            )}
-
-            {currentStep === 4 && (
-              <>
-                {[...Array(5)].map((_, i) => (
-                  <motion.div
-                    key={`step4-${i}`}
-                    className="absolute left-4 top-12 z-20"
-                    initial={{ x: 0, opacity: 0, scale: 0.5 }}
-                    animate={{ x: [0, 120, 120], opacity: [0, 1, 1, 0], scale: [0.5, 1.4, 1.1, 0.5] }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 3, delay: i * 0.18, ease: "easeInOut" }}
-                  >
-                    <CheckCircle className="h-9 w-9 text-accent" />
-                  </motion.div>
-                ))}
-              </>
-            )}
-
-            {currentStep === 5 && (
-              <>
-                {[...Array(6)].map((_, i) => (
-                  <motion.div
-                    key={`step5-${i}`}
-                    className="absolute left-1/2 top-12 z-20"
-                    initial={{ y: -24, opacity: 0, scale: 0.5 }}
-                    animate={{ y: [0, 100, 100], opacity: [0, 1, 1, 0], scale: [0.5, 1.2, 1.1, 0.5] }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 3, delay: i * 0.18, ease: "easeInOut" }}
-                    style={{ transform: "translateX(-50%)" }}
-                  >
-                    <span className="text-4xl font-bold text-secondary">₹</span>
-                  </motion.div>
-                ))}
-              </>
-            )}
-          </AnimatePresence>
-
-          <div className="absolute inset-0 grid place-items-center">
-            <div className="h-24 w-24 rounded-full bg-primary/10" />
-          </div>
-        </div>
-
-        <div className="rounded-3xl border border-border bg-card p-5 shadow-xl">
-          <div className="text-center text-sm uppercase tracking-[0.18em] text-muted-foreground mb-3">
-            Step {currentStep} of 5
-          </div>
-          <p className="text-center text-base font-semibold text-foreground">
-            {STAGE_TEXT[currentStep]}
-          </p>
-          <div className="mt-5 flex justify-center gap-2">
-            {[1, 2, 3, 4, 5].map((step) => (
+          <div className="mt-2 flex items-center gap-2">
+            {[1, 2, 3, 4, 5].map((s) => (
               <span
-                key={step}
-                className={`rounded-full transition-all duration-300 ${
-                  step === currentStep ? "bg-primary h-2.5 w-8" : "bg-muted-foreground/40 h-2.5 w-2.5"
-                }`}
+                key={s}
+                className="rounded-full transition-all duration-500"
+                style={{
+                  backgroundColor: BRAND,
+                  opacity: s === stage ? 1 : 0.25,
+                  width: s === stage ? 22 : 8,
+                  height: 8,
+                }}
               />
             ))}
           </div>
+
+          <div className="mt-8 flex flex-col items-center">
+            <div
+              className="flex h-24 w-24 items-center justify-center rounded-full bg-white/80 shadow-lg"
+              style={{
+                ...glowStyle(isActive(stage, "seller")),
+                opacity: isActive(stage, "seller") ? 1 : 0.6,
+              }}
+            >
+              <User size={48} color={BRAND} strokeWidth={2} />
+            </div>
+            <span className="mt-4 text-lg font-medium" style={{ color: BRAND }}>
+              Seller
+            </span>
+            <div className="mt-2 flex flex-col items-center text-sm text-[#727272]">
+              <div className="flex items-center">
+                <CheckCircle2 size={18} className="mr-2" style={{ color: BRAND }} />
+                <span>Assured payment</span>
+              </div>
+              <div className="mt-2 flex items-center">
+                <Package size={18} className="mr-2" style={{ color: BRAND }} />
+                <span>No more ghosting</span>
+              </div>
+            </div>
+          </div>
+
+          {stage === 1 &&
+            [0, 1, 2].map((i) => (
+              <span
+                key={`c1-${i}`}
+                className="tp-symbol tp-contract-buyer"
+                style={{ color: BRAND, animationDelay: `${i * 0.5}s` }}
+              >
+                <FileSignature size={24} />
+              </span>
+            ))}
+
+          {stage === 2 &&
+            [0, 1, 2].map((i) => (
+              <span
+                key={`r2-${i}`}
+                className="tp-symbol tp-deposit"
+                style={{ color: BRAND, animationDelay: `${i * 0.5}s` }}
+              >
+                <IndianRupee size={24} strokeWidth={2.5} />
+              </span>
+            ))}
+
+          {stage === 3 &&
+            [0, 1, 2].map((i) => (
+              <span
+                key={`p3-${i}`}
+                className="tp-symbol tp-delivery"
+                style={{ color: BRAND, animationDelay: `${i * 0.5}s` }}
+              >
+                <Package size={24} />
+              </span>
+            ))}
+
+          {stage === 4 &&
+            [0, 1].map((i) => (
+              <span
+                key={`c4-${i}`}
+                className="tp-symbol tp-confirmation"
+                style={{ color: BRAND, animationDelay: `${i * 0.5}s` }}
+              >
+                <CheckCircle2 size={28} />
+              </span>
+            ))}
+
+          {stage === 5 &&
+            [0, 1, 2].map((i) => (
+              <span
+                key={`r5-${i}`}
+                className="tp-symbol tp-release"
+                style={{ color: BRAND, animationDelay: `${i * 0.5}s` }}
+              >
+                <IndianRupee size={24} strokeWidth={2.5} />
+              </span>
+            ))}
         </div>
       </div>
+
+      <style>{`
+        .tp-symbol {
+          pointer-events: none;
+          position: absolute;
+          z-index: 20;
+          opacity: 0;
+          animation-duration: 2s;
+          animation-timing-function: ease-in-out;
+          animation-fill-mode: both;
+        }
+        .tp-contract-buyer { animation-name: tp-contract-buyer; }
+        .tp-deposit { animation-name: tp-deposit; }
+        .tp-delivery { animation-name: tp-delivery; }
+        .tp-confirmation { animation-name: tp-confirmation; }
+        .tp-release { animation-name: tp-release; }
+
+        @keyframes tp-contract-buyer {
+          0%   { left: 60%; top: 0%;  opacity: 0; transform: scale(.8); }
+          50%  { left: 78%; top: 26%; opacity: 1; transform: scale(1.2); }
+          100% { left: 60%; top: 40%; opacity: 0; transform: scale(.8); }
+        }
+        @keyframes tp-deposit {
+          0%   { left: 60%; top: 0%;  opacity: 0; transform: scale(.8); }
+          50%  { left: 78%; top: 26%; opacity: 1; transform: scale(1.2); }
+          100% { left: 60%; top: 40%; opacity: 0; transform: scale(.8); }
+        }
+        @keyframes tp-delivery {
+          0%   { left: 40%; top: 90%; opacity: 0; transform: scale(.8); }
+          50%  { left: 10%; top: 35%; opacity: 1; transform: scale(1.2); }
+          100% { left: 40%; top: 10%; opacity: 0; transform: scale(.8); }
+        }
+        @keyframes tp-confirmation {
+          0%   { left: 60%; top: 0%;  opacity: 0; transform: scale(.8); }
+          50%  { left: 78%; top: 26%; opacity: 1; transform: scale(1.2); }
+          100% { left: 60%; top: 40%; opacity: 0; transform: scale(.8); }
+        }
+        @keyframes tp-release {
+          0%   { left: 60%; top: 40%; opacity: 0; transform: scale(.8); }
+          50%  { left: 78%; top: 62%; opacity: 1; transform: scale(1.2); }
+          100% { left: 60%; top: 78%; opacity: 0; transform: scale(.8); }
+        }
+        @keyframes tp-fade-in {
+          from { opacity: 0; transform: translateY(6px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
     </div>
   );
 };
