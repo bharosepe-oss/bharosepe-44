@@ -47,13 +47,17 @@ const MobileTransactionFlow = () => {
   const [stage, setStage] = useState<Step>(1);
   const containerRef = useRef<HTMLDivElement>(null);
   const intervalRef = useRef<number | null>(null);
-  const isInView = useInView(containerRef, { once: true, margin: "-20%" });
+  const isInView = useInView(containerRef, { once: true, amount: 0.35 });
 
   useEffect(() => {
     if (!isInView) return;
 
-    intervalRef.current = window.setInterval(() => setStage((current) => ((current % TOTAL_STAGES) + 1) as Step), 4000);
+    const startTimer = window.setTimeout(() => {
+      intervalRef.current = window.setInterval(() => setStage((current) => ((current % TOTAL_STAGES) + 1) as Step), 4000);
+    }, 300);
+
     return () => {
+      window.clearTimeout(startTimer);
       if (intervalRef.current) {
         window.clearInterval(intervalRef.current);
         intervalRef.current = null;
