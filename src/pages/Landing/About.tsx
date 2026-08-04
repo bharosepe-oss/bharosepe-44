@@ -92,7 +92,7 @@ const About = () => {
             {values.map((value, index) => (
               <Card
                 key={value.title}
-                className="p-8 shadow-soft hover:shadow-glow transition-smooth animate-slide-up"
+                className="p-8 shadow-soft hover:shadow-glow transition-smooth animate-slide-up h-full"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 <div className="w-16 h-16 mb-6 bg-primary rounded-2xl flex items-center justify-center shadow-soft">

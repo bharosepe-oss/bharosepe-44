@@ -72,7 +72,7 @@ export default function Home() {
             {benefits.map((item, i) => (
               <ScrollReveal key={item.title} delay={i * 0.1} direction="scale">
                 <motion.div
-                  className="glass-card p-8 rounded-2xl hover-glow text-center"
+                  className="glass-card p-8 rounded-2xl hover-glow text-center h-full flex flex-col justify-between"
                   whileHover={{ y: -6, scale: 1.02 }}
                   transition={{ duration: 0.3 }}
                 >

@@ -42,7 +42,7 @@ export const WhyBharosePe = () => {
           {features.map((feature, index) => (
             <ScrollReveal key={index} delay={index * 0.1}>
               <motion.div
-                className="glass-card p-8 rounded-2xl relative overflow-hidden group hover-glow"
+                className="glass-card p-8 rounded-2xl relative overflow-hidden group hover-glow h-full flex flex-col justify-between"
                 whileHover={{ y: -10, scale: 1.02 }}
                 transition={{ duration: 0.3 }}
               >

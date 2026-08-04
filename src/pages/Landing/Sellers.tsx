@@ -85,7 +85,7 @@ const Sellers = () => {
             {painPoints.map((pain, index) => (
               <Card
                 key={pain.title}
-                className="p-6 text-center shadow-soft animate-slide-up"
+                className="p-6 text-center shadow-soft animate-slide-up h-full flex flex-col"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 <div className="w-16 h-16 mx-auto mb-4 bg-destructive/10 rounded-full flex items-center justify-center">
@@ -112,7 +112,7 @@ const Sellers = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {/* Without Bharose Pe */}
-              <Card className="p-6 shadow-soft border-2 border-destructive/20">
+              <Card className="p-6 shadow-soft border-2 border-destructive/20 h-full flex flex-col">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 bg-destructive/10 rounded-full flex items-center justify-center">
                     <Ban className="h-5 w-5 text-destructive" />
@@ -133,7 +133,7 @@ const Sellers = () => {
               </Card>
 
               {/* With Bharose Pe */}
-              <Card className="p-6 shadow-soft border-2 border-primary/20">
+              <Card className="p-6 shadow-soft border-2 border-primary/20 h-full flex flex-col">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
                     <CheckCircle2 className="h-5 w-5 text-primary" />
