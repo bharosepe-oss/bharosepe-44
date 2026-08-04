@@ -70,11 +70,11 @@ const HowItWorks = () => {
 
       <JoinEarlyAccessDialog isOpen={isEarlyAccessOpen} onClose={() => setIsEarlyAccessOpen(false)} />
 
-      {/* Steps Section — Vertical zigzag timeline with motion (no color changes) */}
-      <section ref={timelineRef} className="relative py-24 md:py-32">
+      {/* Steps Section — Vertical zigzag timeline with motion (home-style colors) */}
+      <section ref={timelineRef} className="relative py-24 md:py-32 bg-background">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
           <motion.div
-            className="hidden md:block absolute left-1/2 -translate-x-1/2 top-0 h-full w-px bg-border origin-top"
+            className="hidden md:block absolute left-1/2 -translate-x-1/2 top-0 h-full w-px bg-primary/30 origin-top"
             style={{ scaleY: lineScaleY }}
           />
 
@@ -103,15 +103,15 @@ const HowItWorks = () => {
                       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                       viewport={{ once: true, amount: 0.4 }}
                       whileHover={{ scale: 1.02, translateY: -4 }}
-                      className="rounded-2xl border border-border/60 bg-background/60 backdrop-blur p-6 md:p-8"
+                      className="glass-card rounded-2xl hover-glow border border-primary/20 p-6 md:p-8"
                     >
                       <div className="flex items-start gap-4">
                         <motion.div
                           animate={{ y: [-4, 4, -4] }}
                           transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
-                          className="shrink-0 grid place-items-center size-14 md:size-16 rounded-xl border border-border bg-background/50 backdrop-blur"
+                          className="shrink-0 grid place-items-center size-14 md:size-16 rounded-xl border border-primary/20 bg-gradient-to-br from-primary/20 to-secondary/20 text-primary"
                         >
-                          <step.icon className="h-6 w-6 md:h-7 md:w-7 text-foreground" />
+                          <step.icon className="h-6 w-6 md:h-7 md:w-7" />
                         </motion.div>
                         <div>
                           <h3 className="text-xl md:text-2xl font-semibold">{step.title}</h3>
@@ -208,25 +208,23 @@ const HowItWorks = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 md:py-24 relative text-center overflow-hidden bg-gradient-to-r from-purple-700 via-purple-800 to-purple-900 text-white">
+      <section className="py-24 px-4 bg-primary/10 relative overflow-hidden">
         <AnimatedBackground />
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <ScrollReveal direction="up">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">Be the First to Experience Safe Transactions</h2>
-            <p className="text-purple-100 mb-8 max-w-2xl mx-auto">
-              We're building India's escrow infrastructure. Join our early access list.
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <AnimatedButton variant="primary" size="lg" onClick={() => setIsEarlyAccessOpen(true)}>
-                Join Early Access <ArrowRight className="ml-2 h-5 w-5" />
-              </AnimatedButton>
-              <AnimatedButton
-                variant="outline"
-                size="lg"
-                onClick={() => timelineRef.current?.scrollIntoView({ behavior: 'smooth' })}
-              >
-                See How It Works
-              </AnimatedButton>
+            <div className="text-center">
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">Be the First to Experience Safe Transactions</h2>
+              <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
+                We're building India's escrow infrastructure. Join our early access list.
+              </p>
+              <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+                <Button size="lg" className="w-full sm:w-auto text-lg px-10 py-6 h-auto bg-primary text-primary-foreground shadow-soft hover:bg-primary/90" onClick={() => setIsEarlyAccessOpen(true)}>
+                  Join Early Access
+                </Button>
+                <Button size="lg" variant="outline" className="w-full sm:w-auto text-lg px-10 py-6 h-auto border-primary text-primary hover:bg-primary/10" onClick={() => timelineRef.current?.scrollIntoView({ behavior: 'smooth' })}>
+                  See How It Works
+                </Button>
+              </div>
             </div>
           </ScrollReveal>
         </div>

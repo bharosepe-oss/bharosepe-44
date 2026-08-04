@@ -19,8 +19,8 @@ const JoinEarlyAccessDialog: React.FC<JoinEarlyAccessDialogProps> = ({ isOpen, o
     email: '',
     full_name: '',
     phone: '',
-    business_type: '',
-    interested_as: 'both'
+    interested_as: 'both',
+    business_type: ''
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,7 +44,7 @@ const JoinEarlyAccessDialog: React.FC<JoinEarlyAccessDialogProps> = ({ isOpen, o
 
     try {
       // Validate email
-      if (!formData.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      if (formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
         toast.error('Please enter a valid email address');
         setIsLoading(false);
         return;
@@ -55,10 +55,10 @@ const JoinEarlyAccessDialog: React.FC<JoinEarlyAccessDialogProps> = ({ isOpen, o
         .from('early_access')
         .insert([
           {
-            email: formData.email,
+            email: formData.email || null,
             full_name: formData.full_name || null,
             phone: formData.phone || null,
-            business_type: formData.business_type || null,
+            business_type: (formData.interested_as === 'seller' || formData.interested_as === 'both') ? formData.business_type : null,
             interested_as: formData.interested_as
           }
         ])
@@ -76,8 +76,8 @@ const JoinEarlyAccessDialog: React.FC<JoinEarlyAccessDialogProps> = ({ isOpen, o
           email: '',
           full_name: '',
           phone: '',
-          business_type: '',
-          interested_as: 'both'
+          interested_as: 'both',
+          business_type: ''
         });
         setTimeout(() => onClose(), 1500);
       }
@@ -135,7 +135,7 @@ const JoinEarlyAccessDialog: React.FC<JoinEarlyAccessDialogProps> = ({ isOpen, o
                 {/* Email */}
                 <div className="space-y-2">
                   <Label htmlFor="email" className="text-sm font-medium">
-                    Email Address *
+                    Email Address
                   </Label>
                   <div className="relative">
                     <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -143,11 +143,10 @@ const JoinEarlyAccessDialog: React.FC<JoinEarlyAccessDialogProps> = ({ isOpen, o
                       id="email"
                       name="email"
                       type="email"
-                      placeholder="your@email.com"
+                      placeholder=""
                       value={formData.email}
                       onChange={handleChange}
                       className="pl-10"
-                      required
                     />
                   </div>
                 </div>
@@ -162,7 +161,7 @@ const JoinEarlyAccessDialog: React.FC<JoinEarlyAccessDialogProps> = ({ isOpen, o
                     <Input
                       id="full_name"
                       name="full_name"
-                      placeholder="John Doe"
+                      placeholder=""
                       value={formData.full_name}
                       onChange={handleChange}
                       className="pl-10"
@@ -180,34 +179,11 @@ const JoinEarlyAccessDialog: React.FC<JoinEarlyAccessDialogProps> = ({ isOpen, o
                     <Input
                       id="phone"
                       name="phone"
-                      placeholder="+91 98765 43210"
+                      placeholder=""
                       value={formData.phone}
                       onChange={handleChange}
                       className="pl-10"
                     />
-                  </div>
-                </div>
-
-                {/* Business Type */}
-                <div className="space-y-2">
-                  <Label htmlFor="business_type" className="text-sm font-medium">
-                    Business Type
-                  </Label>
-                  <div className="relative">
-                    <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none z-10" />
-                    <Select value={formData.business_type} onValueChange={(value) => handleSelectChange('business_type', value)}>
-                      <SelectTrigger className="pl-10">
-                        <SelectValue placeholder="Select business type" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="individual">Individual</SelectItem>
-                        <SelectItem value="retail">Retail Business</SelectItem>
-                        <SelectItem value="wholesale">Wholesale</SelectItem>
-                        <SelectItem value="manufacturing">Manufacturing</SelectItem>
-                        <SelectItem value="services">Services</SelectItem>
-                        <SelectItem value="other">Other</SelectItem>
-                      </SelectContent>
-                    </Select>
                   </div>
                 </div>
 
@@ -227,6 +203,31 @@ const JoinEarlyAccessDialog: React.FC<JoinEarlyAccessDialogProps> = ({ isOpen, o
                     </SelectContent>
                   </Select>
                 </div>
+
+                {/* Business Type (conditionally shown) */}
+                {(formData.interested_as === 'seller' || formData.interested_as === 'both') && (
+                  <div className="space-y-2">
+                    <Label htmlFor="business_type" className="text-sm font-medium">
+                      Business Type
+                    </Label>
+                    <div className="relative">
+                      <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none z-10" />
+                      <Select value={formData.business_type} onValueChange={(value) => handleSelectChange('business_type', value)}>
+                        <SelectTrigger className="pl-10">
+                          <SelectValue placeholder="Select business type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="individual">Individual</SelectItem>
+                          <SelectItem value="retail">Retail Business</SelectItem>
+                          <SelectItem value="wholesale">Wholesale</SelectItem>
+                          <SelectItem value="manufacturing">Manufacturing</SelectItem>
+                          <SelectItem value="services">Services</SelectItem>
+                          <SelectItem value="other">Other</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                )}
 
                 {/* Submit Button */}
                 <Button
