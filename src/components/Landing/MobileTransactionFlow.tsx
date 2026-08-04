@@ -1,6 +1,5 @@
-import { motion } from "framer-motion";
 import { useEffect, useState, type CSSProperties } from "react";
-import { User, ShieldCheck, IndianRupee, CheckCircle2, Package, FileText } from "lucide-react";
+import { User, ShieldCheck, IndianRupee, CheckCircle2, Package, FileSignature } from "lucide-react";
 import logo from "@/assets/LOGO.png";
 
 type Step = 1 | 2 | 3 | 4 | 5;
@@ -144,40 +143,12 @@ const MobileTransactionFlow = () => {
 
           {stage === 1 && (
             <>
-              {[...Array(3)].map((_, i) => (
-                <motion.div
-                  key={`contract-buyer-${i}`}
-                  className="absolute z-30"
-                  initial={{ left: "12%", top: "12%", opacity: 0, scale: 0.5 }}
-                  animate={{
-                    left: ["12%", "28%", "44%"],
-                    top: ["12%", "32%", "44%"],
-                    opacity: [0, 1, 1, 0],
-                    scale: [0.5, 1.2, 1, 0.5],
-                  }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 2.4, delay: i * 0.35, ease: [0.43, 0.13, 0.23, 0.96] }}
-                >
-                  <FileText size={24} style={{ color: BRAND }} />
-                </motion.div>
-              ))}
-              {[...Array(3)].map((_, i) => (
-                <motion.div
-                  key={`contract-seller-${i}`}
-                  className="absolute z-30"
-                  initial={{ left: "82%", top: "78%", opacity: 0, scale: 0.5 }}
-                  animate={{
-                    left: ["82%", "66%", "52%"],
-                    top: ["78%", "58%", "44%"],
-                    opacity: [0, 1, 1, 0],
-                    scale: [0.5, 1.2, 1, 0.5],
-                  }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 2.4, delay: i * 0.35 + 0.2, ease: [0.43, 0.13, 0.23, 0.96] }}
-                >
-                  <FileText size={24} style={{ color: BRAND }} />
-                </motion.div>
-              ))}
+              <span className="tp-symbol tp-contract-buyer" style={{ color: BRAND }}>
+                <FileSignature size={24} />
+              </span>
+              <span className="tp-symbol tp-contract-seller" style={{ color: BRAND }}>
+                <FileSignature size={24} />
+              </span>
             </>
           )}
 
@@ -237,13 +208,25 @@ const MobileTransactionFlow = () => {
           animation-timing-function: ease-in-out;
           animation-fill-mode: both;
         }
+        .tp-contract-buyer { animation-name: tp-contract-buyer; }
+        .tp-contract-seller { animation-name: tp-contract-seller; }
         .tp-deposit { animation-name: tp-deposit; }
         .tp-delivery { animation-name: tp-delivery; }
         .tp-confirmation { animation-name: tp-confirmation; }
         .tp-release { animation-name: tp-release; }
 
+        @keyframes tp-contract-buyer {
+          0%   { left: 60%; top: 0%; opacity: 0; transform: scale(.8); }
+          50%  { left: 78%; top: 26%; opacity: 1; transform: scale(1.2); }
+          100% { left: 60%; top: 40%; opacity: 0; transform: scale(.8); }
+        }
+        @keyframes tp-contract-seller {
+          0%   { left: 40%; top: 90%; opacity: 0; transform: scale(.8); }
+          50%  { left: 10%; top: 62%; opacity: 1; transform: scale(1.2); }
+          100% { left: 40%; top: 40%; opacity: 0; transform: scale(.8); }
+        }
         @keyframes tp-deposit {
-          0%   { left: 60%; top: 0%;  opacity: 0; transform: scale(.8); }
+          0%   { left: 60%; top: 0%; opacity: 0; transform: scale(.8); }
           50%  { left: 78%; top: 26%; opacity: 1; transform: scale(1.2); }
           100% { left: 60%; top: 40%; opacity: 0; transform: scale(.8); }
         }
