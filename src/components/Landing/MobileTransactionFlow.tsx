@@ -1,6 +1,6 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useEffect, useState, type CSSProperties } from "react";
-import { User, ShieldCheck, IndianRupee, CheckCircle2, Package, FileSignature } from "lucide-react";
+import { User, ShieldCheck, IndianRupee, CheckCircle2, Package, FileText } from "lucide-react";
 import logo from "@/assets/LOGO.png";
 
 type Step = 1 | 2 | 3 | 4 | 5;
@@ -142,42 +142,44 @@ const MobileTransactionFlow = () => {
             </div>
           </div>
 
-          {stage === 1 &&
-            [0, 1, 2].map((i) => (
-              <motion.div
-                key={`c1-buyer-${i}`}
-                className="absolute z-30"
-                initial={{ left: "10%", top: "12%", opacity: 0, scale: 0.5 }}
-                animate={{
-                  left: ["10%", "30%", "45%", "45%"],
-                  top: ["12%", "22%", "34%", "38%"],
-                  opacity: [0, 1, 1, 0],
-                  scale: [0.5, 1.1, 1, 0.5],
-                }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 2.2, delay: i * 0.2, ease: "easeInOut" }}
-              >
-                <FileSignature size={24} style={{ color: BRAND }} />
-              </motion.div>
-            ))}
-          {stage === 1 &&
-            [0, 1, 2].map((i) => (
-              <motion.div
-                key={`c1-seller-${i}`}
-                className="absolute z-30"
-                initial={{ left: "88%", top: "12%", opacity: 0, scale: 0.5 }}
-                animate={{
-                  left: ["88%", "70%", "55%", "52%"],
-                  top: ["12%", "22%", "34%", "38%"],
-                  opacity: [0, 1, 1, 0],
-                  scale: [0.5, 1.1, 1, 0.5],
-                }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 2.2, delay: i * 0.2 + 0.1, ease: "easeInOut" }}
-              >
-                <FileSignature size={24} style={{ color: BRAND }} />
-              </motion.div>
-            ))}
+          {stage === 1 && (
+            <>
+              {[...Array(3)].map((_, i) => (
+                <motion.div
+                  key={`contract-buyer-${i}`}
+                  className="absolute z-30"
+                  initial={{ left: "12%", top: "10%", opacity: 0, scale: 0.5 }}
+                  animate={{
+                    left: ["12%", "44%"],
+                    top: ["10%", "5%"],
+                    opacity: [0, 1, 1, 0],
+                    scale: [0.5, 1.2, 1, 0.5],
+                  }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 2.4, delay: i * 0.4, ease: [0.43, 0.13, 0.23, 0.96] }}
+                >
+                  <FileText size={24} style={{ color: BRAND }} />
+                </motion.div>
+              ))}
+              {[...Array(3)].map((_, i) => (
+                <motion.div
+                  key={`contract-seller-${i}`}
+                  className="absolute z-30"
+                  initial={{ left: "82%", top: "10%", opacity: 0, scale: 0.5 }}
+                  animate={{
+                    left: ["82%", "52%"],
+                    top: ["10%", "5%"],
+                    opacity: [0, 1, 1, 0],
+                    scale: [0.5, 1.2, 1, 0.5],
+                  }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 2.4, delay: i * 0.4 + 0.2, ease: [0.43, 0.13, 0.23, 0.96] }}
+                >
+                  <FileText size={24} style={{ color: BRAND }} />
+                </motion.div>
+              ))}
+            </>
+          )}
 
           {stage === 2 &&
             [0, 1, 2].map((i) => (
@@ -235,24 +237,11 @@ const MobileTransactionFlow = () => {
           animation-timing-function: ease-in-out;
           animation-fill-mode: both;
         }
-        .tp-contract-buyer { animation-name: tp-contract-buyer; }
         .tp-deposit { animation-name: tp-deposit; }
         .tp-delivery { animation-name: tp-delivery; }
         .tp-confirmation { animation-name: tp-confirmation; }
         .tp-release { animation-name: tp-release; }
 
-        @keyframes tp-contract-buyer {
-          0%   { left: 8%; top: 10%; opacity: 0; transform: scale(.8); }
-          40%  { left: 38%; top: 18%; opacity: 1; transform: scale(1.1); }
-          80%  { left: 45%; top: 28%; opacity: 1; transform: scale(1); }
-          100% { left: 45%; top: 34%; opacity: 0; transform: scale(.8); }
-        }
-        @keyframes tp-contract-seller {
-          0%   { left: 84%; top: 10%; opacity: 0; transform: scale(.8); }
-          40%  { left: 62%; top: 18%; opacity: 1; transform: scale(1.1); }
-          80%  { left: 55%; top: 28%; opacity: 1; transform: scale(1); }
-          100% { left: 55%; top: 34%; opacity: 0; transform: scale(.8); }
-        }
         @keyframes tp-deposit {
           0%   { left: 60%; top: 0%;  opacity: 0; transform: scale(.8); }
           50%  { left: 78%; top: 26%; opacity: 1; transform: scale(1.2); }
