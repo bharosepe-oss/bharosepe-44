@@ -1,4 +1,5 @@
-import { useEffect, useState, type CSSProperties } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { useInView } from "framer-motion";
 import { User, ShieldCheck, IndianRupee, CheckCircle2, Package, FileSignature } from "lucide-react";
 import logo from "@/assets/LOGO.png";
 
@@ -44,14 +45,24 @@ function glowStyle(active: boolean): CSSProperties {
 
 const MobileTransactionFlow = () => {
   const [stage, setStage] = useState<Step>(1);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const intervalRef = useRef<number | null>(null);
+  const isInView = useInView(containerRef, { once: true, margin: "-20%" });
 
   useEffect(() => {
-    const timer = window.setTimeout(() => setStage((current) => ((current % TOTAL_STAGES) + 1) as Step), 4000);
-    return () => window.clearTimeout(timer);
-  }, [stage]);
+    if (!isInView) return;
+
+    intervalRef.current = window.setInterval(() => setStage((current) => ((current % TOTAL_STAGES) + 1) as Step), 4000);
+    return () => {
+      if (intervalRef.current) {
+        window.clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+    };
+  }, [isInView]);
 
   return (
-    <div className="relative w-full bg-background py-10 px-4">
+    <div ref={containerRef} className="relative w-full bg-background py-10 px-4">
       <div className="mx-auto max-w-md space-y-6">
         <div className="relative mx-auto mb-8 flex h-[720px] max-w-md flex-col items-center px-4 pt-4">
           <div className="flex flex-col items-center">

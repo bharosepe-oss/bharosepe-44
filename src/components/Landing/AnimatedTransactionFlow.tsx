@@ -1,8 +1,9 @@
-﻿import { motion, AnimatePresence } from "framer-motion";
+﻿import { motion, AnimatePresence, useInView } from "framer-motion";
 import { useEffect, useState, useRef } from "react";
 import { Shield, User, CheckCircle, Banknote, Package, FileCheck, FileText } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import MobileTransactionFlow from "@/components/Landing/MobileTransactionFlow";
+import logo from "@/assets/LOGO.png";
 
 type Step = 1 | 2 | 3 | 4 | 5;
 
@@ -44,18 +45,22 @@ const AnimatedTransactionFlow = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const intervalRef = useRef<number | null>(null);
   const isMobile = useIsMobile();
+  const isInView = useInView(containerRef, { once: true, margin: "-20%" });
 
   useEffect(() => {
-    intervalRef.current = setInterval(() => {
+    if (!isInView) return;
+
+    intervalRef.current = window.setInterval(() => {
       setCurrentStep((prev) => ((prev % 5) + 1) as Step);
     }, 4200);
 
     return () => {
       if (intervalRef.current) {
-        clearInterval(intervalRef.current);
+        window.clearInterval(intervalRef.current);
+        intervalRef.current = null;
       }
     };
-  }, []);
+  }, [isInView]);
 
   const activeNode = getActiveNode(currentStep);
   const isBuyerActive = activeNode === "buyer" || activeNode === "both";
@@ -122,7 +127,7 @@ const AnimatedTransactionFlow = () => {
               }}
               transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             >
-              <Shield className="w-16 h-16 md:w-20 md:h-20 text-primary-foreground" strokeWidth={2.5} />
+              <img src={logo} alt="Bharose Pe" className="w-16 h-16 md:w-20 md:h-20 object-contain" />
               <motion.div
                 className="absolute inset-0 rounded-full border-2 border-primary-foreground/30"
                 animate={{ rotate: 360 }}
