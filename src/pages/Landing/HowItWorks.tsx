@@ -208,12 +208,12 @@ const HowItWorks = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 md:py-24 relative text-center overflow-hidden bg-muted/20">
+      <section className="py-16 md:py-24 relative text-center overflow-hidden bg-gradient-to-r from-purple-700 via-purple-800 to-purple-900 text-white">
         <AnimatedBackground />
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <ScrollReveal direction="up">
             <h2 className="text-3xl md:text-4xl font-bold mb-6">Be the First to Experience Safe Transactions</h2>
-            <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
+            <p className="text-purple-100 mb-8 max-w-2xl mx-auto">
               We're building India's escrow infrastructure. Join our early access list.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
