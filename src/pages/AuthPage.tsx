@@ -233,11 +233,11 @@ const AuthPage = () => {
 
           <p className="text-xs text-muted-foreground mt-6 text-center px-2">
             By continuing, you agree to our{' '}
-            <a href="#" className="text-primary hover:underline">
+            <a href="https://bharosepe.co.in/terms-of-service" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">
               Terms of Service
             </a>{' '}
             and{' '}
-            <a href="#" className="text-primary hover:underline">
+            <a href="https://bharosepe.co.in/privacy-policy" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">
               Privacy Policy
             </a>
           </p>
