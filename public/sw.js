@@ -4,7 +4,7 @@ const CACHE_ASSETS = [
   '/',
   '/assets/index-CuAUctTt.css',
   '/assets/index-BEEI2MMv.js',
-  '/lovable-uploads/b8ebf85b-234b-486e-8e92-de8e40c69483.png'
+  '/assets/favicon-192.png'
 ];
 
 // Install event - cache assets
@@ -39,8 +39,7 @@ self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
 
   // Cache strategy for static assets
-  if (event.request.url.includes('/assets/') || 
-      event.request.url.includes('/lovable-uploads/') ||
+  if (event.request.url.includes('/assets/') ||
       event.request.url.endsWith('.js') ||
       event.request.url.endsWith('.css') ||
       event.request.url.endsWith('.png') ||
