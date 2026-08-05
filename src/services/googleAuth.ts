@@ -168,5 +168,5 @@ export class GoogleAuthService {
   }
 }
 
-// Export singleton instance
-export const googleAuth = GoogleAuthService.getInstance();
+// Lazy-instantiated singleton accessor
+export const getGoogleAuth = (): GoogleAuthService => GoogleAuthService.getInstance();

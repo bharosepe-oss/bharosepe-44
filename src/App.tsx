@@ -50,10 +50,28 @@ const AppContent = () => {
   const { initialize } = useAuth();
 
   useEffect(() => {
+    const landingRoutes = new Set([
+      '/',
+      '/how-it-works',
+      '/buyers',
+      '/sellers',
+      '/contact',
+      '/privacy-policy',
+      '/terms-of-service',
+    ]);
+
+    const currentPath = window.location.pathname.replace(/\/+$/, '') || '/';
+    const shouldInitialize = !landingRoutes.has(currentPath);
+
+    if (!shouldInitialize) {
+      return;
+    }
+
     initialize();
-    // Silently repair the broken contract_audit_trigger on startup
+
+    // Only call the repair function when the user is on a non-landing route.
     supabase.functions.invoke('fix-contract-trigger').catch(() => {
-      // ignore — edge function may not be deployed yet
+      // ignore — edge function may not be deployed yet or may not be needed for landing pages
     });
   }, [initialize]);
 
