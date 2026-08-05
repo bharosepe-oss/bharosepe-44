@@ -170,3 +170,13 @@ export class GoogleAuthService {
 
 // Lazy-instantiated singleton accessor
 export const getGoogleAuth = (): GoogleAuthService => GoogleAuthService.getInstance();
+
+// Preserve compatibility for any existing imports that still use `googleAuth`
+// while keeping initialization lazy until the instance is first accessed.
+export const googleAuth = new Proxy({}, {
+  get(_target, prop: string | symbol) {
+    const instance = GoogleAuthService.getInstance() as any;
+    const value = instance[prop as keyof typeof instance];
+    return typeof value === 'function' ? value.bind(instance) : value;
+  }
+}) as unknown as GoogleAuthService;
