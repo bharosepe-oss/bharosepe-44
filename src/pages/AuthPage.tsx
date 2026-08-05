@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { Mail, Lock, User, Phone, Github, MapPin, FileText, Building2, ArrowLeft } from 'lucide-react';
+import { Mail, Lock, Github, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -24,43 +24,16 @@ const AuthPage = () => {
     e.preventDefault();
     
     setIsLoading(true);
-    
     const formData = new FormData(e.target as HTMLFormElement);
     const email = formData.get('email') as string;
     const password = formData.get('password') as string;
-    const fullName = formData.get('fullName') as string;
-    const phone = formData.get('phone') as string;
-    const address = formData.get('address') as string;
-    const city = formData.get('city') as string;
-    const state = formData.get('state') as string;
-    const pincode = formData.get('pincode') as string;
-    const panNumber = formData.get('panNumber') as string;
-    const gstNumber = formData.get('gstNumber') as string;
-    const businessName = formData.get('businessName') as string;
-    const businessType = formData.get('businessType') as string;
 
-    // Format phone number (add +91 for India if only 10 digits)
-    let formattedPhone = phone;
-    if (formattedPhone.length === 10) {
-      formattedPhone = '+91' + formattedPhone;
-    } else if (!formattedPhone.startsWith('+')) {
-      formattedPhone = '+' + formattedPhone;
+    // Complete the signup with minimal data; user will be redirected
+    // to profile setup to fill remaining details.
+    const { error } = await signUp(email, password, {});
+    if (!error) {
+      navigate('/profile-setup');
     }
-
-    // Complete the signup
-    await signUp(email, password, {
-      full_name: fullName,
-      phone: formattedPhone,
-      email,
-      address,
-      city,
-      state,
-      pincode,
-      pan_number: panNumber,
-      gst_number: gstNumber,
-      business_name: businessName,
-      business_type: businessType,
-    });
     
     setIsLoading(false);
   };
