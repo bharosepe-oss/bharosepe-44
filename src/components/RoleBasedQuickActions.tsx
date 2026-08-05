@@ -43,7 +43,7 @@ const RoleBasedQuickActions: React.FC<RoleBasedQuickActionsProps> = ({
   const actions: QuickAction[] = isBuyer ? [
     {
       icon: ShoppingBag,
-      title: 'Start Purchase',
+      title: 'Start New Transaction',
       subtitle: 'Buy securely with escrow',
       onClick: onStartTransaction,
       variant: 'primary'
@@ -62,16 +62,11 @@ const RoleBasedQuickActions: React.FC<RoleBasedQuickActionsProps> = ({
       variant: disputeCount > 0 ? 'warning' : undefined,
       badgeCount: disputeCount > 0 ? disputeCount : undefined
     },
-    {
-      icon: Heart,
-      title: 'Saved Sellers',
-      subtitle: 'Your trusted sellers',
-      onClick: onViewSavedParties
-    }
+    // Removed 'Saved Sellers' card as requested
   ] : [
     {
       icon: Store,
-      title: 'Create Listing',
+      title: 'Start New Transaction',
       subtitle: 'Sell with protection',
       onClick: onStartTransaction,
       variant: 'primary'
@@ -90,12 +85,7 @@ const RoleBasedQuickActions: React.FC<RoleBasedQuickActionsProps> = ({
       variant: disputeCount > 0 ? 'warning' : undefined,
       badgeCount: disputeCount > 0 ? disputeCount : undefined
     },
-    {
-      icon: Users,
-      title: 'Frequent Buyers',
-      subtitle: 'Your loyal customers',
-      onClick: onViewSavedParties
-    }
+    // Removed 'Frequent Buyers' card as requested
   ];
 
   const getButtonVariant = (variant?: string) => {
@@ -122,15 +112,47 @@ const RoleBasedQuickActions: React.FC<RoleBasedQuickActionsProps> = ({
   return (
     <div className="mt-6">
       <h2 className="text-xl font-semibold mb-4 text-foreground">Quick Actions</h2>
+      {/* Primary action full-width on first row */}
+      {actions.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+          whileHover={{ y: -2, transition: { duration: 0.2 } }}
+          className="mb-4"
+        >
+          {(() => {
+            const action = actions[0];
+            const Icon = action.icon;
+            return (
+              <Button
+                variant={getButtonVariant(action.variant)}
+                className={`${getButtonClasses(action.variant)} w-full`}
+                onClick={action.onClick}
+              >
+                <Icon className={`h-8 w-8 ${action.variant === 'primary' ? 'text-primary-foreground' : 'text-primary'}`} />
+                <div className="text-center">
+                  <span className="font-semibold text-base block">{action.title}</span>
+                  <span className={`text-sm ${action.variant === 'primary' ? 'text-primary-foreground/80' : 'text-muted-foreground'}`}>
+                    {action.subtitle}
+                  </span>
+                </div>
+              </Button>
+            );
+          })()}
+        </motion.div>
+      )}
+
+      {/* Remaining actions in two-column row */}
       <div className="grid grid-cols-2 gap-4">
-        {actions.map((action, index) => {
+        {actions.slice(1).map((action, index) => {
           const Icon = action.icon;
           return (
             <motion.div
               key={action.title}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: index * 0.1 }}
+              transition={{ duration: 0.3, delay: index * 0.05 }}
               whileHover={{ y: -2, transition: { duration: 0.2 } }}
             >
               <Button
@@ -143,22 +165,12 @@ const RoleBasedQuickActions: React.FC<RoleBasedQuickActionsProps> = ({
                     {action.badgeCount}
                   </div>
                 )}
-                
-                <Icon className={`h-8 w-8 ${
-                  action.variant === 'primary' 
-                    ? 'text-primary-foreground' 
-                    : action.variant === 'warning'
-                    ? 'text-destructive'
-                    : 'text-primary'
-                }`} />
-                
+
+                <Icon className={`h-8 w-8 ${action.variant === 'primary' ? 'text-primary-foreground' : action.variant === 'warning' ? 'text-destructive' : 'text-primary'}`} />
+
                 <div className="text-center">
                   <span className="font-semibold text-base block">{action.title}</span>
-                  <span className={`text-sm ${
-                    action.variant === 'primary' 
-                      ? 'text-primary-foreground/80' 
-                      : 'text-muted-foreground'
-                  }`}>
+                  <span className={`text-sm ${action.variant === 'primary' ? 'text-primary-foreground/80' : 'text-muted-foreground'}`}>
                     {action.subtitle}
                   </span>
                 </div>

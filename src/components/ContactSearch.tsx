@@ -62,20 +62,21 @@ const ContactSearch: React.FC<ContactSearchProps> = ({
     <div className="space-y-4">
       <h3 className="font-medium">Search Registered Users</h3>
       
-      <div className="relative">
-        <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+      <div className="relative w-full max-w-2xl">
+        <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
         <input
           type="tel"
           value={phoneNumber}
           onChange={(e) => setPhoneNumber(e.target.value.replace(/\D/g, ''))}
           placeholder="Enter phone number to search"
           maxLength={10}
-          className="bharose-input pl-10 pr-8"
+          className="bharose-input pl-12 pr-10 h-12 bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-full placeholder:text-muted-foreground w-full shadow-sm"
         />
         {phoneNumber && (
           <button
             onClick={() => setPhoneNumber('')}
-            className="absolute right-2 top-2.5 text-muted-foreground hover:text-foreground"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+            aria-label="Clear phone input"
           >
             <X size={16} />
           </button>

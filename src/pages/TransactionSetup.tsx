@@ -7,10 +7,14 @@ import HeaderWithRoleToggle from '@/components/HeaderWithRoleToggle';
 import ContactSearch from '@/components/ContactSearch';
 import ContractGenerationUI from '@/components/ContractGenerationUI';
 import { FormFlow } from '@/components/forms/FormAppNewFlow';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { useAuth } from '@/hooks/use-auth';
 import { useUserModeContext } from '@/components/UserModeContext';
 import { useTransactions } from '@/hooks/use-transactions';
 import { useContracts } from '@/hooks/use-contracts';
+import { useProfile } from '@/hooks/use-profile';
 import { saveFormSubmission, getFormSubmissionByFormId } from '@/services/formSubmissionService';
 import { useLocation } from 'react-router-dom';
 import { getAllFormCategories } from '@/services/formConfigurations';
@@ -72,8 +76,11 @@ const TransactionSetup = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { userMode } = useUserModeContext();
+  const { profile, updateProfile, refreshProfile } = useProfile();
   const { createTransaction } = useTransactions(userMode);
   const { createContract } = useContracts();
+  const [showPhoneDialog, setShowPhoneDialog] = useState(false);
+  const [phoneInput, setPhoneInput] = useState('');
   const [currentStep, setCurrentStep] = useState(1);
   const [createdTransactionId, setCreatedTransactionId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -213,6 +220,12 @@ const TransactionSetup = () => {
         toast.error('Please select a contact');
         return;
       }
+      // Ensure logged-in user's profile has a phone number before proceeding
+      if (user && !profile?.phone) {
+        setPhoneInput(user.user_metadata?.phone || '');
+        setShowPhoneDialog(true);
+        return;
+      }
       setCurrentStep(2);
     } else if (currentStep === 2) {
       // Move to contract generation after form filled
@@ -257,6 +270,25 @@ const TransactionSetup = () => {
       } finally {
         setLoading(false);
       }
+    }
+  };
+
+  const handleSavePhone = async () => {
+    const clean = phoneInput.replace(/\D/g, '');
+    if (clean.length !== 10) {
+      toast.error('Please enter a valid 10-digit phone number');
+      return;
+    }
+
+    try {
+      await updateProfile({ phone: clean });
+      // refresh profile to reflect changes
+      await refreshProfile();
+      setShowPhoneDialog(false);
+      // proceed to next step after saving
+      setCurrentStep(2);
+    } catch (err) {
+      console.error('Failed to save phone:', err);
     }
   };
 
@@ -699,6 +731,31 @@ const TransactionSetup = () => {
           )}
         </div>
       </motion.div>
+      {/* Phone collection dialog - shown when user profile lacks phone */}
+      <Dialog open={showPhoneDialog} onOpenChange={setShowPhoneDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Phone number required</DialogTitle>
+            <DialogDescription>
+              We need your mobile number to start a transaction. Please enter a valid 10-digit phone number.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="mt-4">
+            <Input
+              value={phoneInput}
+              onChange={(e) => setPhoneInput(e.target.value)}
+              placeholder="9876543210"
+              className="h-10"
+            />
+          </div>
+          <DialogFooter>
+            <div className="flex gap-2 w-full">
+              <Button variant="secondary" onClick={() => setShowPhoneDialog(false)} className="flex-1">Cancel</Button>
+              <Button onClick={handleSavePhone} className="flex-1">Save & Continue</Button>
+            </div>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

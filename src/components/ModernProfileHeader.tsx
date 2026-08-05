@@ -26,7 +26,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/use-auth';
 import { useNotifications } from '@/hooks/use-notifications';
 import { useUserModeContext } from './UserModeContext';
-import { useTheme } from '@/hooks/use-theme';
+import { useTheme } from 'next-themes';
 
 interface ModernProfileHeaderProps {
   userName?: string;
@@ -43,10 +43,9 @@ const ModernProfileHeader: React.FC<ModernProfileHeaderProps> = ({
   const { user, signOut } = useAuth();
   const { notifications } = useNotifications();
   const { userMode, setUserMode } = useUserModeContext();
-  const { theme, setTheme } = useTheme();
+  const { theme, setTheme, resolvedTheme } = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  
-  const isDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  const isDark = resolvedTheme === 'dark' || theme === 'dark';
   
   const unreadCount = notifications.filter(n => !n.read).length;
   const displayName = userName || user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'User';

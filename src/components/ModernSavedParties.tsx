@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Heart, Users, Star, ArrowRight, UserPlus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
+import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/hooks/use-auth';
 
 interface SavedParty {
   id: string;
@@ -18,17 +20,20 @@ interface SavedParty {
 
 interface ModernSavedPartiesProps {
   userMode: 'Buyer' | 'Seller';
-  parties: SavedParty[];
+  parties?: SavedParty[];
   onViewAll: () => void;
   onContactParty: (partyId: string) => void;
 }
 
 const ModernSavedParties: React.FC<ModernSavedPartiesProps> = ({
   userMode,
-  parties,
+  parties = [],
   onViewAll,
   onContactParty
 }) => {
+  const { user } = useAuth();
+  const [liveParties, setLiveParties] = useState<SavedParty[]>(parties);
+  const [loading, setLoading] = useState(false);
   const isBuyer = userMode === 'Buyer';
   const title = isBuyer ? 'Saved Sellers' : 'Frequent Buyers';
   const emptyText = isBuyer ? 'No saved sellers yet' : 'No frequent buyers yet';
@@ -36,39 +41,140 @@ const ModernSavedParties: React.FC<ModernSavedPartiesProps> = ({
     ? 'Save trusted sellers for quick access to their products'
     : 'Your loyal customers will appear here automatically';
 
-  // Mock data for demonstration
-  const mockParties: SavedParty[] = parties.length > 0 ? parties : [
-    {
-      id: '1',
-      name: 'Rajesh Electronics',
-      phone: '+91 98765 43210',
-      rating: 4.8,
-      transactionCount: 12,
-      lastTransaction: '2 days ago'
-    },
-    {
-      id: '2', 
-      name: 'Priya Fashion Store',
-      phone: '+91 87654 32109',
-      rating: 4.9,
-      transactionCount: 8,
-      lastTransaction: '1 week ago'
-    },
-    {
-      id: '3',
-      name: 'Kumar Enterprises', 
-      phone: '+91 76543 21098',
-      rating: 4.7,
-      transactionCount: 5,
-      lastTransaction: '3 days ago'
+  // Prefer liveParties (fetched from server), fallback to passed `parties` or empty
+  const partiesToShow = liveParties.length > 0 ? liveParties : parties;
+
+  // Fetch recent parties based on transactions and saved list
+  const loadParties = async () => {
+    if (!user) return;
+    setLoading(true);
+
+    try {
+      if (userMode === 'Buyer') {
+        // For buyers - compute saved sellers/frequent sellers from transactions
+        const { data: txs, error: txError } = await supabase
+          .from('transactions')
+          .select('seller_id, created_at')
+          .eq('buyer_id', user.id)
+          .order('created_at', { ascending: false })
+          .limit(200);
+
+        if (txError) throw txError;
+
+        const counts: Record<string, { count: number; last: string }> = {};
+        (txs || []).forEach((t: any) => {
+          const id = t.seller_id;
+          if (!id) return;
+          if (!counts[id]) counts[id] = { count: 0, last: t.created_at };
+          counts[id].count += 1;
+          if (new Date(t.created_at) > new Date(counts[id].last)) counts[id].last = t.created_at;
+        });
+
+        const sellerIds = Object.keys(counts).slice(0, 20);
+        if (sellerIds.length === 0) {
+          setLiveParties([]);
+          setLoading(false);
+          return;
+        }
+
+        const { data: profiles, error: pErr } = await supabase
+          .from('profiles')
+          .select('user_id, full_name, phone, avatar_url')
+          .in('user_id', sellerIds);
+
+        if (pErr) throw pErr;
+
+        const mapped: SavedParty[] = (profiles || []).map((p: any) => ({
+          id: p.user_id,
+          name: p.full_name || p.user_id,
+          phone: p.phone,
+          avatar: p.avatar_url,
+          rating: undefined,
+          transactionCount: counts[p.user_id]?.count || 0,
+          lastTransaction: counts[p.user_id]?.last ? new Date(counts[p.user_id].last).toLocaleString() : undefined
+        }));
+
+        setLiveParties(mapped);
+      } else {
+        // For sellers - frequent buyers (buyers who transact with me)
+        const { data: txs, error: txError } = await supabase
+          .from('transactions')
+          .select('buyer_id, created_at')
+          .eq('seller_id', user.id)
+          .order('created_at', { ascending: false })
+          .limit(200);
+
+        if (txError) throw txError;
+
+        const counts: Record<string, { count: number; last: string }> = {};
+        (txs || []).forEach((t: any) => {
+          const id = t.buyer_id;
+          if (!id) return;
+          if (!counts[id]) counts[id] = { count: 0, last: t.created_at };
+          counts[id].count += 1;
+          if (new Date(t.created_at) > new Date(counts[id].last)) counts[id].last = t.created_at;
+        });
+
+        const buyerIds = Object.keys(counts).slice(0, 20);
+        if (buyerIds.length === 0) {
+          setLiveParties([]);
+          setLoading(false);
+          return;
+        }
+
+        const { data: profiles, error: pErr } = await supabase
+          .from('profiles')
+          .select('user_id, full_name, phone, avatar_url')
+          .in('user_id', buyerIds);
+
+        if (pErr) throw pErr;
+
+        const mapped: SavedParty[] = (profiles || []).map((p: any) => ({
+          id: p.user_id,
+          name: p.full_name || p.user_id,
+          phone: p.phone,
+          avatar: p.avatar_url,
+          rating: undefined,
+          transactionCount: counts[p.user_id]?.count || 0,
+          lastTransaction: counts[p.user_id]?.last ? new Date(counts[p.user_id].last).toLocaleString() : undefined
+        }));
+
+        setLiveParties(mapped);
+      }
+    } catch (err) {
+      console.error('Failed to load saved parties:', err);
+    } finally {
+      setLoading(false);
     }
-  ];
+  };
+
+  useEffect(() => {
+    loadParties();
+
+    // Subscribe to transactions changes for real-time updates
+    if (!user) return;
+
+    const channel = supabase.channel(`public:transactions:user-${user.id}`)
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'transactions' }, (payload) => {
+        // If the change affects the current user's transactions, reload
+        const record = payload.record || payload.new || payload;
+        if (!record) return;
+        const isRelevant = (userMode === 'Buyer' && record.buyer_id === user.id) || (userMode === 'Seller' && record.seller_id === user.id) || (record.buyer_id === user.id) || (record.seller_id === user.id);
+        if (isRelevant) loadParties();
+      })
+      .subscribe();
+
+    return () => {
+      try { channel.unsubscribe(); } catch (e) { /* ignore */ }
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user, userMode]);
 
   const getInitials = (name: string) => {
     return name.split(' ').map(n => n[0]).join('').toUpperCase();
   };
 
-  if (mockParties.length === 0) {
+  if (partiesToShow.length === 0) {
     return (
       <div className="mt-8">
         <div className="flex justify-between items-center mb-4">
@@ -113,7 +219,7 @@ const ModernSavedParties: React.FC<ModernSavedPartiesProps> = ({
       {/* Horizontal scroll on mobile, grid on desktop */}
       <div className="overflow-x-auto md:overflow-visible">
         <div className="flex gap-4 md:grid md:grid-cols-1 md:gap-3 min-w-max md:min-w-0">
-          {mockParties.slice(0, 3).map((party, index) => (
+          {partiesToShow.slice(0, 3).map((party, index) => (
             <motion.div
               key={party.id}
               initial={{ opacity: 0, x: 20 }}
@@ -174,7 +280,7 @@ const ModernSavedParties: React.FC<ModernSavedPartiesProps> = ({
         </div>
       </div>
       
-      {mockParties.length > 3 && (
+      {partiesToShow.length > 3 && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

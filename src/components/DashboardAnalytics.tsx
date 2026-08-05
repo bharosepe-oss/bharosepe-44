@@ -70,18 +70,32 @@ const DashboardAnalytics: React.FC<AnalyticsProps> = ({ userMode }) => {
     { name: 'Completed', value: userTransactions.filter(tx => tx.status === 'completed').length },
     { name: 'Disputed', value: userTransactions.filter(tx => tx.status === 'disputed').length },
   ];
+  const totalStatus = statusData.reduce((s, it) => s + (it.value || 0), 0);
   
-  // Generate monthly transaction data for bar chart (last 6 months)
-  const monthlyData = Array.from({ length: 6 }, (_, i) => {
-    const d = new Date();
-    d.setMonth(d.getMonth() - i);
-    const monthYear = `${d.toLocaleString('default', { month: 'short' })}`;
-    
-    return {
-      month: monthYear,
-      amount: Math.floor(Math.random() * 50000) + 10000, // Simulated data
-    };
-  }).reverse();
+  // Generate monthly transaction data for bar chart (last 6 months) using real transactions
+  const monthlyData = (() => {
+    const now = new Date();
+    // build months from 5 months ago -> current month
+    const months = Array.from({ length: 6 }, (_, idx) => {
+      const d = new Date(now.getFullYear(), now.getMonth() - (5 - idx), 1);
+      return d;
+    });
+
+    return months.map((m) => {
+      const monthLabel = m.toLocaleString('default', { month: 'short' });
+      const total = userTransactions
+        .filter(tx => tx.created_at)
+        .reduce((sum, tx) => {
+          const txDate = new Date(tx.created_at);
+          if (txDate.getMonth() === m.getMonth() && txDate.getFullYear() === m.getFullYear()) {
+            return sum + (tx.amount || 0);
+          }
+          return sum;
+        }, 0);
+
+      return { month: monthLabel, amount: total };
+    });
+  })();
 
   return (
     <div className="bharose-card mt-4">
@@ -105,7 +119,16 @@ const DashboardAnalytics: React.FC<AnalyticsProps> = ({ userMode }) => {
               <div className="w-6 h-6 rounded-full border-2 border-bharose-primary border-t-transparent animate-spin"></div>
             </div>
           }>
-            <LazyPieChart data={statusData} colors={COLORS} />
+            {totalStatus === 0 ? (
+              <div className="flex flex-col items-center justify-center h-full text-muted-foreground">
+                <div className="w-24 h-24 rounded-full border-2 border-dashed border-border flex items-center justify-center mb-3 bg-transparent">
+                  <div className="w-12 h-12 rounded-full bg-muted" />
+                </div>
+                <div className="text-sm">No transactions to display</div>
+              </div>
+            ) : (
+              <LazyPieChart data={statusData} colors={COLORS} />
+            )}
           </Suspense>
         </TabsContent>
         

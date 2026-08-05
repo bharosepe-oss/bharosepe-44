@@ -24,7 +24,6 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({ userMode: propUserM
   ] : [
     { path: '/dashboard', label: 'Home', icon: <Home size={20} /> },
     { path: '/transactions', label: 'Transactions', icon: <Package2 size={20} /> },
-    { path: '/listings', label: 'My Listings', icon: <ShoppingBag size={20} /> },
     { path: '/notifications', label: 'Alerts', icon: <Bell size={20} /> },
     { path: '/profile', label: 'Profile', icon: <User size={20} /> },
   ];

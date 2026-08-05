@@ -201,9 +201,20 @@ const ProfileSetup = () => {
         transition={{ duration: 0.3 }}
         className="flex-1 flex flex-col mt-6 max-w-2xl mx-auto"
       >
-        <div className="mb-6">
-          <h1 className="bharose-heading">Complete Your Profile</h1>
-          <p className="bharose-subheading mt-1">All information is required for legal contracts and verification</p>
+        <div className="mb-6 flex items-start justify-between">
+          <div>
+            <h1 className="bharose-heading">Complete Your Profile</h1>
+            <p className="bharose-subheading mt-1">All information is required for legal contracts and verification</p>
+          </div>
+          <div>
+            <Button
+              aria-label="Skip and go home"
+              onClick={() => { window.location.assign('/app'); }}
+              className="h-9 px-3 text-sm"
+            >
+              Skip
+            </Button>
+          </div>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">

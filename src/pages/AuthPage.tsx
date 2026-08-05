@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { Mail, Lock, User, Phone, Github, MapPin, FileText, Building2, ArrowLeft } from 'lucide-react';
+import { Mail, Lock, User, Phone, MapPin, FileText, Building2, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -201,7 +201,7 @@ const AuthPage = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-3 mt-6">
+            <div className="grid grid-cols-1 gap-3 mt-6">
               <Button
                 variant="outline"
                 onClick={() => handleOAuthSignIn('google')}
@@ -227,16 +227,6 @@ const AuthPage = () => {
                   />
                 </svg>
                 Google
-              </Button>
-
-              <Button
-                variant="outline"
-                onClick={() => handleOAuthSignIn('github')}
-                disabled={isLoading}
-                className="h-12 text-sm"
-              >
-                <Github className="mr-2 h-4 w-4" />
-                GitHub
               </Button>
             </div>
           </div>
