@@ -306,7 +306,9 @@ export const getFormSubmissionData = async (
       Object.entries(data).forEach(([key, value]) => {
         // Skip metadata columns
         if (!['id', 'created_at', 'updated_at', 'submitted_at', 'reviewed_at', 'form_status', 'completion_percentage', 'required_fields_completed', 'total_fields_filled'].includes(key)) {
-          if (value !== null && value !== '' && value !== {} && value !== []) {
+          const isNonEmptyObject = typeof value === 'object' && value !== null && !Array.isArray(value) && Object.keys(value).length === 0;
+          const isEmptyArray = Array.isArray(value) && value.length === 0;
+          if (value !== null && value !== '' && !isNonEmptyObject && !isEmptyArray) {
             formData[key] = value;
           }
         }

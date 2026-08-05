@@ -142,7 +142,7 @@ const AppRoutes = () => {
         {/* Fallback */}
         <Route path="*" element={<NotFound />} />
       </Routes>
-    </BrowserRouter>
+    </>
   );
 };
 
