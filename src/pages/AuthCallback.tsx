@@ -48,27 +48,31 @@ const AuthCallback: React.FC = () => {
         console.log('✅ Authentication successful');
         setStatus('success');
 
-        const hasLocalState = !!(sessionStorage.getItem('transactionSetupState') || localStorage.getItem('transactionSetupState'));
+        const hasSessionState = !!sessionStorage.getItem('transactionSetupState');
 
-        if (hasLocalState) {
-          console.log('📦 Found local transaction state — resuming setup');
+        if (hasSessionState) {
+          console.log('📦 Found active transaction state in session storage — resuming setup');
           toast.success('Resuming your in-progress transaction');
           if (!skippedRef.current) navigate('/app/transaction-setup');
           return;
         }
 
-        try {
-          const userId = result.user.id;
-          const submissions = await getUserFormSubmissions(userId);
-          const draft = submissions?.find(s => s.form_status === 'draft' || (s.completion_percentage || 0) < 100);
-          if (draft) {
-            console.log('📥 Found server-side draft:', draft.form_id);
-            toast.success('Found a saved draft — resuming your form');
-            if (!skippedRef.current) navigate('/app/transaction-setup', { state: { resumeFormId: draft.form_id } });
-            return;
+        // Only resume from server-side drafts when the user explicitly returns
+        // from a transaction setup flow in the same session.
+        if (false) {
+          try {
+            const userId = result.user.id;
+            const submissions = await getUserFormSubmissions(userId);
+            const draft = submissions?.find(s => s.form_status === 'draft' || (s.completion_percentage || 0) < 100);
+            if (draft) {
+              console.log('📥 Found server-side draft:', draft.form_id);
+              toast.success('Found a saved draft — resuming your form');
+              if (!skippedRef.current) navigate('/app/transaction-setup', { state: { resumeFormId: draft.form_id } });
+              return;
+            }
+          } catch (err) {
+            console.warn('Error checking drafts after login:', err);
           }
-        } catch (err) {
-          console.warn('Error checking drafts after login:', err);
         }
 
         if (!result.profile || !result.profile.phone) {
@@ -76,9 +80,9 @@ const AuthCallback: React.FC = () => {
           toast.success('Welcome! Please complete your profile setup.');
           if (!skippedRef.current) navigate('/app/profile-setup');
         } else {
-          console.log('🏠 Redirecting to dashboard...');
+          console.log('🏠 Redirecting to app home...');
           toast.success('Welcome back!');
-          if (!skippedRef.current) navigate('/app/dashboard');
+          if (!skippedRef.current) navigate('/app');
         }
       } catch (error: any) {
         console.error('❌ OAuth callback error:', error);

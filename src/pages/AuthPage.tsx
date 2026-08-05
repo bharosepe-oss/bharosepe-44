@@ -17,7 +17,7 @@ const AuthPage = () => {
 
   // Redirect if already authenticated
   if (user && !loading) {
-    return <Navigate to="/dashboard" replace />;
+    return <Navigate to="/app" replace />;
   }
 
   const handleSignUp = async (e: React.FormEvent) => {
