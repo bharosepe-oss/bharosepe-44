@@ -11,6 +11,7 @@ interface AuthStore {
   signUp: (email: string, password: string, userData?: any) => Promise<{ error: any }>;
   signIn: (email: string, password: string) => Promise<{ error: any }>;
   signInWithOAuth: (provider: 'google' | 'github' | 'twitter') => Promise<{ error: any }>;
+  resetPassword: (email: string) => Promise<{ error: any }>;
   signOut: () => Promise<void>;
   initialize: () => void;
   checkUserProfileStatus: () => Promise<boolean>;
@@ -145,6 +146,21 @@ export const useAuth = create<AuthStore>((set, get) => {
       toast.error(error.message);
     } else {
       toast.success('Welcome back!');
+    }
+
+    return { error };
+  },
+
+  resetPassword: async (email: string) => {
+    const redirectUrl = `${window.location.origin}/app/auth`;
+    const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: redirectUrl
+    });
+
+    if (error) {
+      toast.error(error.message);
+    } else {
+      toast.success('Password reset email sent. Check your inbox.');
     }
 
     return { error };

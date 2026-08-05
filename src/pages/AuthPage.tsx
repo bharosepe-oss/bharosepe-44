@@ -122,14 +122,7 @@ const AuthPage = () => {
                 <div className="flex justify-end">
                   <button
                     type="button"
-                    onClick={() => {
-                      const email = (document.querySelector('input[name="email"]') as HTMLInputElement)?.value;
-                      if (email) {
-                        alert(`Password reset link will be sent to ${email}\n\nCheck your email for the reset instructions.`);
-                      } else {
-                        alert('Please enter your email first.');
-                      }
-                    }}
+                    onClick={() => navigate('/auth/reset')}
                     className="text-xs text-blue-600 hover:text-blue-700 hover:underline"
                   >
                     Forgot Password?
