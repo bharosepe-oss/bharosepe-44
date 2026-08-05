@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { googleAuth } from '@/services/googleAuth';
+import { getUserFormSubmissions } from '@/services/formSubmissionService';
 import { toast } from 'sonner';
 import LoadingSpinner from '@/components/LoadingSpinner';
 
@@ -36,7 +37,32 @@ const AuthCallback: React.FC = () => {
           console.log('✅ Authentication successful');
           setStatus('success');
           
-          // Check if user needs to complete profile setup
+          // Check for in-progress drafts in local storage first
+          const hasLocalState = !!(sessionStorage.getItem('transactionSetupState') || localStorage.getItem('transactionSetupState'));
+
+          if (hasLocalState) {
+            console.log('📦 Found local transaction state — resuming setup');
+            toast.success('Resuming your in-progress transaction');
+            navigate('/transaction-setup');
+            return;
+          }
+
+          // If no local state, check server-side drafts for this user
+          try {
+            const userId = result.user.id;
+            const submissions = await getUserFormSubmissions(userId);
+            const draft = submissions?.find(s => s.form_status === 'draft' || (s.completion_percentage || 0) < 100);
+            if (draft) {
+              console.log('📥 Found server-side draft:', draft.form_id);
+              toast.success('Found a saved draft — resuming your form');
+              navigate('/transaction-setup', { state: { resumeFormId: draft.form_id } });
+              return;
+            }
+          } catch (err) {
+            console.warn('Error checking drafts after login:', err);
+          }
+
+          // Otherwise, check profile completeness and route accordingly
           if (!result.profile || !result.profile.phone) {
             console.log('📝 Redirecting to profile setup...');
             toast.success('Welcome! Please complete your profile setup.');
@@ -118,6 +144,15 @@ const AuthCallback: React.FC = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background px-4">
+      <div className="absolute top-4 right-4">
+        <button
+          onClick={() => navigate('/')}
+          className="text-sm text-muted-foreground hover:underline"
+          aria-label="Skip and go home"
+        >
+          Skip
+        </button>
+      </div>
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <h1 className="text-2xl font-bold text-bharose-primary mb-2">Bharose Pe</h1>
