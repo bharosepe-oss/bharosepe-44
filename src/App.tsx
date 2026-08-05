@@ -96,6 +96,7 @@ const AppRoutes = () => {
         <Route path="/app/auth" element={<AuthPage />} />
         <Route path="/app/dashboard" element={<Dashboard />} />
         <Route path="/app/profile" element={<Profile />} />
+        <Route path="/app/profile-setup" element={<ProfileSetup />} />
         <Route path="/app/setup-transaction" element={<TransactionSetup />} />
         <Route path="/app/transactions" element={<Transactions />} />
         <Route path="/app/transaction/:id" element={<TransactionStatus />} />
