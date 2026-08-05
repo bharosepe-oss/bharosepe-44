@@ -153,7 +153,9 @@ const AuthCallback: React.FC = () => {
         <button
           onClick={() => {
             setSkipped(true);
-            navigate('/app');
+            // Force a full page navigation to /app so the running callback
+            // handler cannot redirect back and override user's choice.
+            window.location.href = '/app';
           }}
           className="text-sm text-muted-foreground hover:underline"
           aria-label="Skip and go home"
