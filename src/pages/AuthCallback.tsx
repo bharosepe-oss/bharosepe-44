@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { googleAuth } from '@/services/googleAuth';
+import { getGoogleAuth } from '@/services/googleAuth';
 import { getUserFormSubmissions } from '@/services/formSubmissionService';
 import { toast } from 'sonner';
 import LoadingSpinner from '@/components/LoadingSpinner';
@@ -19,82 +19,73 @@ const AuthCallback: React.FC = () => {
         console.log('⏭️ Skip requested — aborting callback handler');
         return;
       }
+
       try {
         console.log('🔄 Processing OAuth callback...');
-        
-        // Check for error in URL params
+
         const error = searchParams.get('error');
         const errorDescription = searchParams.get('error_description');
-        
+
         if (error) {
           console.error('❌ OAuth error from URL:', error, errorDescription);
           setStatus('error');
           setErrorMessage(errorDescription || error);
           toast.error('Authentication failed: ' + (errorDescription || error));
-          
-          setTimeout(() => navigate('/auth'), 3000);
+          setTimeout(() => navigate('/app/auth'), 3000);
           return;
         }
 
-        // Handle successful OAuth callback
-        const result = await googleAuth.handleCallback();
-        if (skippedRef.current) {
-          console.log('⏭️ Skip pressed after auth — aborting further redirects');
-          return;
-        }
+        const result = await getGoogleAuth().handleCallback();
 
-        if (result?.user) {
-          console.log('✅ Authentication successful');
-          setStatus('success');
-          
-          // Check for in-progress drafts in local storage first
-          const hasLocalState = !!(sessionStorage.getItem('transactionSetupState') || localStorage.getItem('transactionSetupState'));
-
-          if (hasLocalState) {
-            console.log('📦 Found local transaction state — resuming setup');
-            toast.success('Resuming your in-progress transaction');
-            if (!skippedRef.current) navigate('/transaction-setup');
-            return;
-          }
-
-          // If no local state, check server-side drafts for this user
-          try {
-            const userId = result.user.id;
-            const submissions = await getUserFormSubmissions(userId);
-            const draft = submissions?.find(s => s.form_status === 'draft' || (s.completion_percentage || 0) < 100);
-            if (draft) {
-              console.log('📥 Found server-side draft:', draft.form_id);
-              toast.success('Found a saved draft — resuming your form');
-              if (!skippedRef.current) navigate('/transaction-setup', { state: { resumeFormId: draft.form_id } });
-              return;
-            }
-          } catch (err) {
-            console.warn('Error checking drafts after login:', err);
-          }
-
-          // Otherwise, check profile completeness and route accordingly
-          if (!result.profile || !result.profile.phone) {
-            console.log('📝 Redirecting to profile setup...');
-            toast.success('Welcome! Please complete your profile setup.');
-            if (!skippedRef.current) navigate('/profile-setup');
-          } else {
-            console.log('🏠 Redirecting to dashboard...');
-            toast.success('Welcome back!');
-            if (!skippedRef.current) navigate('/dashboard');
-          }
-        } else {
-          console.log('⚠️ No user session found');
+        if (!result?.user) {
+          console.log('⚠️ No user session found after callback');
           setStatus('error');
           setErrorMessage('No user session found');
-          setTimeout(() => navigate('/auth'), 3000);
+          setTimeout(() => navigate('/app/auth'), 3000);
+          return;
+        }
+
+        console.log('✅ Authentication successful');
+        setStatus('success');
+
+        const hasLocalState = !!(sessionStorage.getItem('transactionSetupState') || localStorage.getItem('transactionSetupState'));
+
+        if (hasLocalState) {
+          console.log('📦 Found local transaction state — resuming setup');
+          toast.success('Resuming your in-progress transaction');
+          if (!skippedRef.current) navigate('/app/transaction-setup');
+          return;
+        }
+
+        try {
+          const userId = result.user.id;
+          const submissions = await getUserFormSubmissions(userId);
+          const draft = submissions?.find(s => s.form_status === 'draft' || (s.completion_percentage || 0) < 100);
+          if (draft) {
+            console.log('📥 Found server-side draft:', draft.form_id);
+            toast.success('Found a saved draft — resuming your form');
+            if (!skippedRef.current) navigate('/app/transaction-setup', { state: { resumeFormId: draft.form_id } });
+            return;
+          }
+        } catch (err) {
+          console.warn('Error checking drafts after login:', err);
+        }
+
+        if (!result.profile || !result.profile.phone) {
+          console.log('📝 Redirecting to profile setup...');
+          toast.success('Welcome! Please complete your profile setup.');
+          if (!skippedRef.current) navigate('/app/profile-setup');
+        } else {
+          console.log('🏠 Redirecting to dashboard...');
+          toast.success('Welcome back!');
+          if (!skippedRef.current) navigate('/app/dashboard');
         }
       } catch (error: any) {
         console.error('❌ OAuth callback error:', error);
         setStatus('error');
         setErrorMessage(error.message || 'Authentication failed');
         toast.error('Authentication failed. Redirecting to login...');
-        
-        setTimeout(() => navigate('/auth'), 3000);
+        setTimeout(() => navigate('/app/auth'), 3000);
       }
     };
 

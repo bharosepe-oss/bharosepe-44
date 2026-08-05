@@ -109,7 +109,7 @@ export class GoogleAuthService {
         return null;
       }
 
-      const user = data.session.user;
+      const user = session.user;
       console.log('✅ Google authentication successful:', user.email);
 
       // Extract user information
@@ -162,7 +162,7 @@ export class GoogleAuthService {
       }
 
       toast.success(`Welcome back, ${userInfo.fullName || userInfo.email}!`);
-      return { user: data.session.user, profile };
+      return { user: session.user, profile };
 
     } catch (error: any) {
       console.error('❌ OAuth callback handling failed:', error);
