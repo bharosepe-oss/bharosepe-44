@@ -16,7 +16,7 @@ import { CTABanner } from "@/components/Landing/CTABanner";
 import FloatingParticles from "@/components/Landing/FloatingParticles";
 
 const benefits = [
-  { icon: Shield, title: "Safe", text: "Your money stays protected until both sides fulfill the deal." },
+  { icon: Shield, title: "Safe", text: "Payments are managed according to the agreed transaction terms and completed only after the agreed conditions have been fulfilled." },
   { icon: Zap, title: "Simple", text: "Digital escrow in 4 easy steps. No jargon, no confusion." },
   { icon: Scale, title: "Legal", text: "Compliant with Indian law and built for transparent transactions." },
   { icon: Clock, title: "Fast", text: "AI-assisted mediation and instant release on confirmation." },
@@ -32,6 +32,43 @@ export default function Home() {
 
       {/* ---------------- CINEMATIC HERO ---------------- */}
       <CinematicHero onEarlyAccessClick={() => setIsEarlyAccessOpen(true)} />
+
+      <section className="relative py-8 bg-background overflow-hidden">
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="max-w-3xl mx-auto text-center">
+            <p className="text-muted-foreground text-lg md:text-xl">
+              Designed for individuals, freelancers, businesses, agencies, brands, and marketplaces that want to complete secure transactions with greater confidence.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ---------------- WHAT IS BHAROSE PE ---------------- */}
+      <section className="relative py-24 bg-background overflow-hidden">
+        <div className="container mx-auto px-4 relative z-10">
+          <ScrollReveal direction="up">
+            <h2 className="text-4xl md:text-5xl font-outfit font-bold text-center mb-6">
+              What is Bharose Pe?
+            </h2>
+          </ScrollReveal>
+          <ScrollReveal direction="up" delay={0.1}>
+            <div className="max-w-3xl mx-auto text-center space-y-6 text-muted-foreground text-lg">
+              <p>
+                Bharose Pe is a digital trust platform that helps buyers and sellers complete transactions with greater confidence.
+              </p>
+              <p>
+                Whether you're purchasing a product, hiring a freelancer, working with a service provider, or doing business with a new partner, Bharose Pe helps both parties transact with greater clarity, transparency, and confidence.
+              </p>
+              <p>
+                Payments are managed according to the agreed transaction terms and completed only after the agreed conditions have been fulfilled.
+              </p>
+              <p>
+                By combining clear transaction terms, payment control, milestone tracking, and complete transaction records, Bharose Pe helps reduce uncertainty before, during, and after every transaction.
+              </p>
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
 
       {/* ---------------- ANIMATED TRANSACTION FLOW ---------------- */}
       <section className="relative py-24 bg-background overflow-hidden">

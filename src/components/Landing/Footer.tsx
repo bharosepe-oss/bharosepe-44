@@ -5,8 +5,8 @@ import logo from "@/assets/LOGO.png";
 const Footer = () => {
   const footerLinks = [
     { name: "How It Works", path: "/how-it-works" },
-    { name: "For Buyers", path: "/buyers" },
-    { name: "For Sellers", path: "/sellers" },
+    { name: "Privacy Policy", path: "/privacy-policy" },
+    { name: "Terms of Service", path: "/terms-of-service" },
     { name: "Contact Us", path: "/contact" },
   ];
 
@@ -21,14 +21,14 @@ const Footer = () => {
               <span className="text-xl font-bold text-primary">Bharose Pe</span>
             </Link>
             <p className="text-muted-foreground mb-6 max-w-sm">
-              Building trust between buyers and sellers with secure, transparent escrow payments.
+              Bharose Pe is India's digital trust platform that helps buyers and sellers complete secure transactions through digital agreements, milestone-based payments, transparent transaction management, and dispute support.
             </p>
 
             {/* Contact Info */}
             <div className="space-y-2 text-sm text-muted-foreground">
               <div className="flex items-center space-x-2">
                 <Mail className="h-4 w-4" />
-                <span>connect@bharosepe.co.in</span>
+                <span>connectwithus@bharosepe.co.in</span>
               </div>
               <div className="flex items-center space-x-2">
                 <Phone className="h-4 w-4" />

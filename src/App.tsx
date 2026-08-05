@@ -17,6 +17,8 @@ import HowItWorks from "./pages/Landing/HowItWorks";
 import Buyers from "./pages/Landing/Buyers";
 import Sellers from "./pages/Landing/Sellers";
 import Contact from "./pages/Landing/Contact";
+import PrivacyPolicy from "./pages/Landing/PrivacyPolicy";
+import TermsOfService from "./pages/Landing/TermsOfService";
 import NotFound from "./pages/Landing/NotFound";
 
 // Application Pages
@@ -66,6 +68,8 @@ const AppContent = () => {
           <Route path="/buyers" element={<Buyers />} />
           <Route path="/sellers" element={<Sellers />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms-of-service" element={<TermsOfService />} />
         </Route>
 
         {/* Application Routes (under /app prefix) */}
