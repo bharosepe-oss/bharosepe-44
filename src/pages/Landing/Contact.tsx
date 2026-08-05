@@ -25,12 +25,21 @@ const Contact = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    const body = [
+      `Name: ${formData.name}`,
+      `Email: ${formData.email}`,
+      `Phone: ${formData.phone}`,
+      "",
+      "Message:",
+      formData.message,
+    ].join("\n");
+
+    const whatsappLink = `https://wa.me/918374155974?text=${encodeURIComponent(body)}`;
+    window.open(whatsappLink, "_blank");
 
     toast({
-      title: "Message Sent!",
-      description: "We'll get back to you within 24 hours.",
+      title: "WhatsApp message ready",
+      description: "A new window will open so you can send your message via WhatsApp.",
     });
 
     setFormData({ name: "", email: "", phone: "", message: "" });
@@ -53,20 +62,20 @@ const Contact = () => {
     {
       icon: Phone,
       title: "Call Us",
-      value: "+91 98765 43210",
+      value: "+91 8374155974",
       description: "Mon-Fri, 9am-6pm IST",
     },
     {
       icon: MessageCircle,
       title: "WhatsApp",
-      value: "+91 98765 43210",
+      value: "+91 8374155974",
       description: "Quick support on WhatsApp",
     },
     {
       icon: MapPin,
       title: "Visit Us",
-      value: "Mumbai, Maharashtra",
-      description: "India - 400001",
+      value: "Hyderabad, Telangana",
+      description: "India",
     },
   ];
 
