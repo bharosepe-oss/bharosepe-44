@@ -17,10 +17,6 @@ export class GoogleAuthService {
       redirectUri: this.getRedirectUri(),
       scope: 'openid email profile'
     };
-
-    if (!this.config.clientId) {
-      console.error('❌ Google Client ID not found in environment variables');
-    }
   }
 
   static getInstance(): GoogleAuthService {
@@ -31,22 +27,10 @@ export class GoogleAuthService {
   }
 
   private getRedirectUri(): string {
-    // Force the correct production URL regardless of where we're running
-    const currentHost = window.location.hostname;
-    
-    let baseUrl: string;
-    
-    if (currentHost.includes('bharosepe-contract-manager.onrender.com') || import.meta.env.PROD) {
-      baseUrl = 'https://bharosepe-contract-manager.onrender.com';
-    } else if (currentHost.includes('localhost') || currentHost.includes('127.0.0.1')) {
-      baseUrl = window.location.origin;
-    } else {
-      // Default to Render URL for production
-      baseUrl = 'https://bharosepe-contract-manager.onrender.com';
-    }
-    
-    console.log('🔗 Redirect URI configured for:', `${baseUrl}/auth/callback`);
-    return `${baseUrl}/auth/callback`;
+    const origin = window.location.origin;
+    const callbackUrl = `${origin}/auth/callback`;
+    console.log('🔗 Redirect URI configured for:', callbackUrl);
+    return callbackUrl;
   }
 
   /**
@@ -57,7 +41,7 @@ export class GoogleAuthService {
       console.log('🔄 Initiating Google OAuth sign-in...');
       
       if (!this.config.clientId) {
-        throw new Error('Google Client ID not configured');
+        throw new Error('Google Client ID not configured. Set VITE_GOOGLE_CLIENT_ID.');
       }
 
       // Use Supabase Auth with Google provider
@@ -93,14 +77,34 @@ export class GoogleAuthService {
     try {
       console.log('🔄 Handling Google OAuth callback...');
       
-      const { data, error } = await supabase.auth.getSession();
-      
-      if (error) {
-        console.error('❌ Error getting session:', error);
-        throw error;
+      let session = null;
+      let urlData = null;
+      let urlError = null;
+
+      try {
+        const sessionFromUrl = await supabase.auth.getSessionFromUrl();
+        urlData = sessionFromUrl.data;
+        urlError = sessionFromUrl.error;
+      } catch (err) {
+        console.warn('⚠️ getSessionFromUrl failed:', err);
       }
 
-      if (!data.session) {
+      if (urlError) {
+        console.warn('⚠️ No OAuth session in URL params:', urlError.message || urlError);
+      }
+
+      session = urlData?.session ?? null;
+
+      if (!session) {
+        const { data, error } = await supabase.auth.getSession();
+        if (error) {
+          console.error('❌ Error getting session:', error);
+          throw error;
+        }
+        session = data.session;
+      }
+
+      if (!session) {
         console.log('⚠️ No session found in callback');
         return null;
       }

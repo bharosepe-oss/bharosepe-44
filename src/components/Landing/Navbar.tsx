@@ -99,7 +99,7 @@ const Navbar = () => {
               whileTap={{ scale: 0.97 }}
               transition={{ type: "spring", stiffness: 400, damping: 20 }}
             >
-              <Link to="/app">
+              <Link to="/auth">
                 <Button className="bg-primary text-white rounded-full shadow-soft hover:shadow-glow transition-smooth relative overflow-hidden group">
                   <motion.span
                     className="absolute inset-0 bg-white/10"
@@ -157,7 +157,7 @@ const Navbar = () => {
                     </Link>
                   </motion.div>
                 ))}
-                <Link to="/app" onClick={() => setIsOpen(false)}>
+                <Link to="/auth" onClick={() => setIsOpen(false)}>
                   <Button className="bg-primary text-white rounded-full shadow-soft w-full">
                     Try our Prototype
                   </Button>

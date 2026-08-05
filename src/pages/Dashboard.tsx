@@ -44,7 +44,7 @@ const Dashboard = () => {
 
   // Redirect unauthenticated users to login immediately
   if (!user) {
-    return <Navigate to="/app/auth" replace />;
+    return <Navigate to="/auth" replace />;
   }
   
   // Calculate effective escrow balance using contract amounts
