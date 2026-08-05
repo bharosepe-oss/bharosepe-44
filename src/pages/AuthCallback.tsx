@@ -81,9 +81,9 @@ const AuthCallback: React.FC = () => {
           }
         }
 
-        console.log('🏠 Redirecting to app home...');
+        console.log('🏠 Redirecting to dashboard...');
         toast.success('Welcome back!');
-        if (!skippedRef.current) navigate('/app');
+        if (!skippedRef.current) navigate('/app/dashboard');
       } catch (error: any) {
         console.error('❌ OAuth callback error:', error);
         setStatus('error');
@@ -153,9 +153,9 @@ const AuthCallback: React.FC = () => {
         <button
           onClick={() => {
             setSkipped(true);
-            // Force a full page navigation to /app so the running callback
+            // Force a full page navigation to /app/dashboard so the running callback
             // handler cannot redirect back and override user's choice.
-            window.location.href = '/app';
+            window.location.href = '/app/dashboard';
           }}
           className="text-sm text-muted-foreground hover:underline"
           aria-label="Skip and go home"
