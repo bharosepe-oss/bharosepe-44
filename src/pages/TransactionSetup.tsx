@@ -11,7 +11,8 @@ import { useAuth } from '@/hooks/use-auth';
 import { useUserModeContext } from '@/components/UserModeContext';
 import { useTransactions } from '@/hooks/use-transactions';
 import { useContracts } from '@/hooks/use-contracts';
-import { saveFormSubmission } from '@/services/formSubmissionService';
+import { saveFormSubmission, getFormSubmissionByFormId } from '@/services/formSubmissionService';
+import { useLocation } from 'react-router-dom';
 import { getAllFormCategories } from '@/services/formConfigurations';
 import { generateSimpleContractHTML } from '@/services/simpleContractService';
 import { supabase } from '@/integrations/supabase/client';
@@ -82,6 +83,7 @@ const TransactionSetup = () => {
     const random = Math.random().toString(36).substring(2, 10).toUpperCase();
     return `FORM-${timestamp}-${random}`;
   });
+  const location = useLocation();
   
   // Allow both sellers and buyers to create contracts/transactions
   const autoRole: TransactionRole = userMode === 'Seller' ? 'seller' : 'buyer';
@@ -102,6 +104,32 @@ const TransactionSetup = () => {
 
   // Restore transaction state from storage on mount
   useEffect(() => {
+    // If navigated with resumeFormId, fetch draft from server and restore
+    const resumeFormId = (location.state as any)?.resumeFormId;
+    if (resumeFormId) {
+      (async () => {
+        try {
+          console.log('📥 Restoring draft from server:', resumeFormId);
+          const draft = await getFormSubmissionByFormId(resumeFormId);
+          if (draft) {
+            setFormId(draft.form_id);
+            setSelectedIndustry(draft.industry_category || null);
+            setTransactionData(prev => ({
+              ...prev,
+              formSubmissionData: {
+                industryId: draft.industry_category || null,
+                formData: draft.form_data || {}
+              }
+            }));
+            setCurrentStep(2);
+            console.log('✅ Draft restored and applied');
+            return;
+          }
+        } catch (err) {
+          console.warn('Failed to restore draft:', err);
+        }
+      })();
+    }
     // Load all categories
     setCategories(getAllFormCategories());
     
