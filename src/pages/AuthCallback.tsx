@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { googleAuth } from '@/services/googleAuth';
 import { getUserFormSubmissions } from '@/services/formSubmissionService';
@@ -11,10 +11,11 @@ const AuthCallback: React.FC = () => {
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading');
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [skipped, setSkipped] = useState(false);
+  const skippedRef = useRef(false);
 
   useEffect(() => {
     const handleCallback = async () => {
-      if (skipped) {
+      if (skippedRef.current) {
         console.log('⏭️ Skip requested — aborting callback handler');
         return;
       }
@@ -37,7 +38,11 @@ const AuthCallback: React.FC = () => {
 
         // Handle successful OAuth callback
         const result = await googleAuth.handleCallback();
-        
+        if (skippedRef.current) {
+          console.log('⏭️ Skip pressed after auth — aborting further redirects');
+          return;
+        }
+
         if (result?.user) {
           console.log('✅ Authentication successful');
           setStatus('success');
@@ -48,7 +53,7 @@ const AuthCallback: React.FC = () => {
           if (hasLocalState) {
             console.log('📦 Found local transaction state — resuming setup');
             toast.success('Resuming your in-progress transaction');
-            navigate('/transaction-setup');
+            if (!skippedRef.current) navigate('/transaction-setup');
             return;
           }
 
@@ -60,7 +65,7 @@ const AuthCallback: React.FC = () => {
             if (draft) {
               console.log('📥 Found server-side draft:', draft.form_id);
               toast.success('Found a saved draft — resuming your form');
-              navigate('/transaction-setup', { state: { resumeFormId: draft.form_id } });
+              if (!skippedRef.current) navigate('/transaction-setup', { state: { resumeFormId: draft.form_id } });
               return;
             }
           } catch (err) {
@@ -71,11 +76,11 @@ const AuthCallback: React.FC = () => {
           if (!result.profile || !result.profile.phone) {
             console.log('📝 Redirecting to profile setup...');
             toast.success('Welcome! Please complete your profile setup.');
-            navigate('/profile-setup');
+            if (!skippedRef.current) navigate('/profile-setup');
           } else {
             console.log('🏠 Redirecting to dashboard...');
             toast.success('Welcome back!');
-            navigate('/dashboard');
+            if (!skippedRef.current) navigate('/dashboard');
           }
         } else {
           console.log('⚠️ No user session found');
