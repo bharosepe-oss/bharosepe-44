@@ -61,7 +61,30 @@ export const useAuth = create<AuthStore>((set, get) => {
 
   signUp: async (email: string, password: string, userData = {}) => {
     const redirectUrl = `${window.location.origin}/dashboard`;
-    
+
+    // Prevent duplicate signups: if a profile already exists with this email,
+    // instruct the user to sign in instead. (Client-side check against `profiles` table.)
+    try {
+      const { data: existingProfile, error: profileErr } = await supabase
+        .from('profiles')
+        .select('user_id')
+        .eq('email', email)
+        .maybeSingle();
+
+      if (profileErr) {
+        console.warn('Warning checking existing profile:', profileErr);
+      }
+
+      if (existingProfile) {
+        const err = { message: 'An account with this email already exists. Please sign in instead.' } as any;
+        toast.error(err.message);
+        return { error: err };
+      }
+    } catch (err) {
+      console.warn('Error checking existing profile before signup:', err);
+      // proceed — do not block signup on transient check failures
+    }
+
     // Create auth user ONLY - don't pass userData which may have invalid fields
     // The Supabase trigger will create a basic profile automatically
     const { data: authData, error: authError } = await supabase.auth.signUp({
