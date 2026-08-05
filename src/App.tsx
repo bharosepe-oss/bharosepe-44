@@ -23,6 +23,7 @@ import NotFound from "./pages/Landing/NotFound";
 import Dashboard from "./pages/Dashboard";
 import AuthPage from "./pages/AuthPage";
 import Profile from "./pages/Profile";
+import ProfileSetup from "./pages/ProfileSetup";
 import TransactionSetup from "./pages/TransactionSetup";
 import Transactions from "./pages/Transactions";
 import TransactionStatus from "./pages/TransactionStatus";
@@ -93,6 +94,7 @@ const AppContent = () => {
         {/* Application Routes (without /app prefix — used by internal navigation) */}
         <Route path="/auth" element={<AuthPage />} />
         <Route path="/auth/callback" element={<AuthCallback />} />
+        <Route path="/profile-setup" element={<ProfileSetup />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/transaction-setup" element={<TransactionSetup />} />
