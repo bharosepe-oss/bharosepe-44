@@ -4,7 +4,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { ThemeProvider } from "@/components/Landing/ThemeProvider";
 import ScrollToTop from "@/components/Landing/ScrollToTop";
 import { useAuth } from '@/hooks/use-auth';
@@ -46,8 +46,9 @@ import AuthCallback from "./pages/AuthCallback";
 
 const queryClient = new QueryClient();
 
-const AppContent = () => {
+const AppRoutes = () => {
   const { initialize } = useAuth();
+  const location = useLocation();
 
   useEffect(() => {
     const landingRoutes = new Set([
@@ -60,7 +61,7 @@ const AppContent = () => {
       '/terms-of-service',
     ]);
 
-    const currentPath = window.location.pathname.replace(/\/+$/, '') || '/';
+    const currentPath = location.pathname.replace(/\/+$/, '') || '/';
     const shouldInitialize = !landingRoutes.has(currentPath);
 
     if (!shouldInitialize) {
@@ -73,12 +74,12 @@ const AppContent = () => {
     supabase.functions.invoke('fix-contract-trigger').catch(() => {
       // ignore — edge function may not be deployed yet or may not be needed for landing pages
     });
-  }, [initialize]);
+  }, [initialize, location.pathname]);
 
   return (
-    <BrowserRouter>
-      <ScrollToTop />
-      <Routes>
+      <>
+        <ScrollToTop />
+        <Routes>
         {/* Landing Pages Routes */}
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
@@ -150,9 +151,11 @@ const App = () => (
     <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
       <UserModeProvider>
         <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <AppContent />
+          <BrowserRouter>
+            <Toaster />
+            <Sonner />
+            <AppRoutes />
+          </BrowserRouter>
         </TooltipProvider>
       </UserModeProvider>
     </ThemeProvider>
