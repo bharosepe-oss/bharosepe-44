@@ -54,14 +54,25 @@ export default function Home() {
           <ScrollReveal direction="up" delay={0.1}>
             <div className="max-w-3xl mx-auto text-center space-y-6 text-muted-foreground text-lg">
               <p>
-                Bharose Pe is a digital trust platform that helps buyers and sellers complete transactions with greater confidence.
+                Bharose Pe is a digital trust platform that helps buyers and sellers complete transactions safely by using digital agreements, escrow-style payment controls, milestone tracking, and dispute support.
               </p>
               <p>
-                Whether you're purchasing a product, hiring a freelancer, working with a service provider, or doing business with a new partner, Bharose Pe helps both parties transact with greater clarity, transparency, and confidence.
+                Whether you're hiring a freelancer, purchasing goods, or working with a service provider, Bharose Pe helps both parties agree on terms, lock payment until conditions are met, and finish the transaction transparently.
               </p>
-              <p>
-                Payments are managed according to the agreed transaction terms and completed only after the agreed conditions have been fulfilled.
-              </p>
+              <div className="grid gap-4 sm:grid-cols-2 text-left mx-auto max-w-xl">
+                <div className="rounded-3xl border border-border bg-card p-6">
+                  <h3 className="font-semibold text-foreground mb-2">Build Trust</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Create a shared digital agreement and clearly define payment milestones before work begins.
+                  </p>
+                </div>
+                <div className="rounded-3xl border border-border bg-card p-6">
+                  <h3 className="font-semibold text-foreground mb-2">Secure Payments</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Hold funds until agreed conditions are fulfilled, then release payment automatically.
+                  </p>
+                </div>
+              </div>
               <p>
                 By combining clear transaction terms, payment control, milestone tracking, and complete transaction records, Bharose Pe helps reduce uncertainty before, during, and after every transaction.
               </p>

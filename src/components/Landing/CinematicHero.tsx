@@ -91,7 +91,7 @@ const CinematicHero = ({ onEarlyAccessClick }: CinematicHeroProps) => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
             >
-              Bharose Pe is a web application that helps buyers and sellers securely complete transactions. Users can create digital agreements, define transaction terms, manage milestone-based payments, track transaction progress, and complete payments according to agreed conditions.
+              Bharose Pe is a digital trust platform for secure buyer-seller transactions. It helps users create clear digital agreements, hold funds in escrow, track milestone-based payments, and resolve disputes fairly.
             </motion.p>
 
             <motion.p
@@ -101,7 +101,7 @@ const CinematicHero = ({ onEarlyAccessClick }: CinematicHeroProps) => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
             >
-              Designed for buyers, sellers, freelancers, businesses, and service providers who want to transact with greater confidence.
+              The platform is built for buyers, sellers, freelancers, businesses, and service providers who want to complete transactions with clarity, confidence, and legal accountability.
             </motion.p>
           </div>
 
