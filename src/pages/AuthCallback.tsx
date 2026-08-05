@@ -146,7 +146,7 @@ const AuthCallback: React.FC = () => {
     <div className="min-h-screen flex items-center justify-center bg-background px-4">
       <div className="absolute top-4 right-4">
         <button
-          onClick={() => navigate('/')}
+          onClick={() => navigate('/app')}
           className="text-sm text-muted-foreground hover:underline"
           aria-label="Skip and go home"
         >
