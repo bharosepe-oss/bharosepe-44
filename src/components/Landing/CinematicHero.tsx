@@ -71,20 +71,19 @@ const CinematicHero = ({ onEarlyAccessClick }: CinematicHeroProps) => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1] }}
             >
-              India's Trust & Escrow Infrastructure for{" "}
-              <motion.span
-                className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent"
-                animate={{
-                  backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
-                }}
-                transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
-                style={{ backgroundSize: "200% 200%" }}
-              >
-                Secure Transactions
-              </motion.span>
+              Bharose Pe
             </motion.h1>
 
-            {/* Subtext */}
+            <motion.h2
+              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight"
+              style={{ fontFamily: "'Outfit', sans-serif" }}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
+            >
+              Secure Buyer–Seller Transaction Platform
+            </motion.h2>
+
             <motion.p
               className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed"
               style={{ fontFamily: "'Inter', sans-serif" }}
@@ -92,7 +91,17 @@ const CinematicHero = ({ onEarlyAccessClick }: CinematicHeroProps) => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
             >
-              Bharose Pe helps buyers and sellers complete transactions with confidence through digital agreements, milestone-based payments, and transparent transaction management. Payments are processed according to the agreed transaction terms and completed only after the agreed conditions have been fulfilled.
+              Bharose Pe is a web application that helps buyers and sellers securely complete transactions. Users can create digital agreements, define transaction terms, manage milestone-based payments, track transaction progress, and complete payments according to agreed conditions.
+            </motion.p>
+
+            <motion.p
+              className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed"
+              style={{ fontFamily: "'Inter', sans-serif" }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+            >
+              Designed for buyers, sellers, freelancers, businesses, and service providers who want to transact with greater confidence.
             </motion.p>
           </div>
 
