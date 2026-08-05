@@ -23,7 +23,7 @@ const SplashScreen = () => {
         className="flex flex-col items-center"
       >
         <motion.img 
-          src="/assets/favicon.png"
+          src="/assets/favicon.svg"
           alt="Bharose Pe Logo"
           className="w-64 h-auto mb-6"
           initial={{ y: 20, opacity: 0 }}

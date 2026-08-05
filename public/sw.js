@@ -4,7 +4,7 @@ const CACHE_ASSETS = [
   '/',
   '/assets/index-CuAUctTt.css',
   '/assets/index-BEEI2MMv.js',
-  '/assets/favicon-192.png'
+  '/assets/favicon-192.svg'
 ];
 
 // Install event - cache assets
