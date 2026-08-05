@@ -95,8 +95,9 @@ const ProfileSetup = () => {
       toast.error('Valid 6-digit pincode is required');
       return false;
     }
-    if (!formData.panNumber?.trim() || formData.panNumber.length !== 10) {
-      toast.error('Valid 10-character PAN number is required');
+    // PAN is optional; if provided, it must be exactly 10 characters
+    if (formData.panNumber?.trim() && formData.panNumber.replace(/\s+/g, '').length !== 10) {
+      toast.error('PAN must be exactly 10 characters if provided');
       return false;
     }
     // GST is now optional - only validate if provided
@@ -360,7 +361,7 @@ const ProfileSetup = () => {
             <div className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="panNumber" className="text-sm font-semibold">
-                  PAN Number (10 chars) <span className="text-red-500">*</span>
+                  PAN Number (10 chars)
                 </Label>
                 <div className="relative">
                   <FileText className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-amber-600" />
@@ -369,11 +370,9 @@ const ProfileSetup = () => {
                     name="panNumber"
                     value={formData.panNumber}
                     onChange={handleChange}
-                    placeholder="ABCDE1234F"
+                    placeholder="ABCDE1234F (optional)"
                     className="pl-10 h-10 uppercase"
                     maxLength={10}
-                    minLength={10}
-                    required
                   />
                 </div>
                 <p className="text-xs text-gray-600 dark:text-gray-400">Format: 5 letters + 4 digits + 1 letter</p>
