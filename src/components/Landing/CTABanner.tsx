@@ -43,7 +43,7 @@ export const CTABanner = () => {
               We're building India's escrow infrastructure. Join our early access list and be the first to know when we launch.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="text-lg px-10 py-6 h-auto group" onClick={() => navigate('/auth')}>
+              <Button size="lg" className="text-lg px-10 py-6 h-auto group" onClick={() => navigate('/app/auth')}>
                 <Play className="mr-2 w-5 h-5" />
                 Try the App
                 <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />

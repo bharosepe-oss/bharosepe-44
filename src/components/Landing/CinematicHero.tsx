@@ -120,7 +120,7 @@ const CinematicHero = ({ onEarlyAccessClick }: CinematicHeroProps) => {
               <AnimatedButton
                 variant="primary"
                 size="lg"
-                onClick={() => navigate('/auth')}
+                onClick={() => navigate('/app/auth')}
                 className="relative group overflow-hidden bg-primary text-primary-foreground shadow-soft"
                 style={{ boxShadow: "0 8px 32px hsl(var(--primary) / 0.3)" }}
               >
