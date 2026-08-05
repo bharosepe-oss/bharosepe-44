@@ -92,8 +92,7 @@ const CinematicHero = ({ onEarlyAccessClick }: CinematicHeroProps) => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
             >
-              Bharose Pe acts as a neutral third-party trust layer between buyers and sellers.
-              Funds are released only when agreed conditions are fulfilled.
+              Bharose Pe helps buyers and sellers complete transactions with confidence through digital agreements, milestone-based payments, and transparent transaction management. Payments are processed according to the agreed transaction terms and completed only after the agreed conditions have been fulfilled.
             </motion.p>
           </div>
 

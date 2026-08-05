@@ -5,23 +5,23 @@ import ScrollReveal from "./ScrollReveal";
 const features = [
   {
     icon: Shield,
-    title: "Your Money is Protected",
-    description: "Funds are held safely until both buyer and seller are satisfied with the deal.",
+    title: "Digital Agreements",
+    description: "Every transaction starts with a structured agreement so both parties agree on clear terms and milestones.",
   },
   {
     icon: Eye,
-    title: "Fully Transparent",
-    description: "Both parties can see the deal status at every step. No surprises, no hidden fees.",
+    title: "Secure Transaction Management",
+    description: "Track progress, milestones, and approval steps with transparency throughout the deal.",
   },
   {
     icon: Handshake,
-    title: "Fair for Everyone",
-    description: "Buyer gets what they paid for. Seller gets paid on time. Simple as that.",
+    title: "Milestone-Based Payments",
+    description: "Payments are completed only after agreed milestones are fulfilled and both parties confirm delivery.",
   },
   {
     icon: Ban,
-    title: "No More Scams",
-    description: "Stop worrying about fraud on Instagram, OLX, or freelancing deals. We've got you covered.",
+    title: "Structured Dispute Support",
+    description: "If needed, Bharose Pe helps resolve issues using the agreed transaction terms and records.",
   },
 ];
 
@@ -34,7 +34,7 @@ export const WhyBharosePe = () => {
             Why <span className="text-primary">Bharose Pe</span>?
           </h2>
           <p className="text-muted-foreground text-center mb-16 text-lg max-w-2xl mx-auto">
-            Secure payments, zero complexity, complete peace of mind
+            Digital agreements, secure transaction management, milestone-based payments, identity verification, complete transaction records, and structured dispute support.
           </p>
         </ScrollReveal>
 

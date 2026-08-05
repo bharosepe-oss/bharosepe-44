@@ -5,29 +5,29 @@ import { Lock, Package, CheckCircle2, Banknote, ArrowDown } from "lucide-react";
 const steps = [
   {
     number: 1,
-    title: "Funds Secured",
-    description: "Buyer deposits funds into Bharose Pe's secure escrow vault",
+    title: "Buyer and Seller agree",
+    description: "Buyer and seller set clear terms, milestones, and acceptance conditions in a structured agreement.",
     icon: Lock,
     accent: "primary",
   },
   {
     number: 2,
-    title: "Delivery Made",
-    description: "Seller delivers the product or service to buyer",
+    title: "Create a Digital Agreement",
+    description: "The parties formalize the deal with a digital agreement that defines payment triggers and deliverables.",
     icon: Package,
     accent: "secondary",
   },
   {
     number: 3,
-    title: "Confirmation",
-    description: "Buyer confirms satisfaction or raises concerns",
+    title: "Buyer completes payment",
+    description: "Payment is captured and the transaction remains protected while agreed work is completed.",
     icon: CheckCircle2,
     accent: "accent",
   },
   {
     number: 4,
-    title: "Payment Released",
-    description: "Bharose Pe instantly releases funds to seller",
+    title: "Review outcome & complete payment",
+    description: "Buyer reviews the outcome and payment is completed according to the agreed terms; dispute support is available if needed.",
     icon: Banknote,
     accent: "primary",
   },
@@ -57,7 +57,7 @@ const HowItWorksSection = () => {
             The Bharose Pe Solution
           </h2>
           <p className="font-inter text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
-            Secure, Simple, and Fair — protecting both buyers and sellers through digital escrow
+            Buyer and Seller agree, create a digital agreement, buyer completes payment, the transaction remains protected while agreed work is completed, buyer reviews the outcome, payment is completed according to the agreed terms, and Bharose Pe provides structured dispute support if required.
           </p>
         </motion.div>
 

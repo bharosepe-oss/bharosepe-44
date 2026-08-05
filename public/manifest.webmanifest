@@ -1,0 +1,20 @@
+{
+  "name": "Bharose Pe",
+  "short_name": "Bharose Pe",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1d4ed8",
+  "icons": [
+    {
+      "src": "/lovable-uploads/b8ebf85b-234b-486e-8e92-de8e40c69483.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/lovable-uploads/b8ebf85b-234b-486e-8e92-de8e40c69483.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

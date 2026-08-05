@@ -47,7 +47,7 @@ const Contact = () => {
     {
       icon: Mail,
       title: "Email Us",
-      value: "support@bharosepe.com",
+      value: "connectwithus@bharosepe.co.in",
       description: "For general inquiries and support",
     },
     {
