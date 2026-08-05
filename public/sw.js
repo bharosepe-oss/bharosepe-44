@@ -1,10 +1,10 @@
 // Service Worker for caching static assets
-const CACHE_NAME = 'bharose-pe-v1';
+const CACHE_NAME = 'bharose-pe-v2';
 const CACHE_ASSETS = [
   '/',
-  '/assets/index-CuAUctTt.css',
-  '/assets/index-BEEI2MMv.js',
-  '/assets/favicon-192.svg'
+  '/favicon.ico',
+  '/logo-favicon.png',
+  '/assets/favicon.svg'
 ];
 
 // Install event - cache assets
