@@ -48,8 +48,14 @@ const AuthCallback: React.FC = () => {
         console.log('✅ Authentication successful');
         setStatus('success');
 
-        const hasSessionState = !!sessionStorage.getItem('transactionSetupState');
+        if (!result.profile || !result.profile.phone) {
+          console.log('📝 Redirecting to profile setup...');
+          toast.success('Welcome! Please complete your profile setup.');
+          if (!skippedRef.current) navigate('/app/profile-setup');
+          return;
+        }
 
+        const hasSessionState = !!sessionStorage.getItem('transactionSetupState');
         if (hasSessionState) {
           console.log('📦 Found active transaction state in session storage — resuming setup');
           toast.success('Resuming your in-progress transaction');
@@ -75,15 +81,9 @@ const AuthCallback: React.FC = () => {
           }
         }
 
-        if (!result.profile || !result.profile.phone) {
-          console.log('📝 Redirecting to profile setup...');
-          toast.success('Welcome! Please complete your profile setup.');
-          if (!skippedRef.current) navigate('/app/profile-setup');
-        } else {
-          console.log('🏠 Redirecting to app home...');
-          toast.success('Welcome back!');
-          if (!skippedRef.current) navigate('/app');
-        }
+        console.log('🏠 Redirecting to app home...');
+        toast.success('Welcome back!');
+        if (!skippedRef.current) navigate('/app');
       } catch (error: any) {
         console.error('❌ OAuth callback error:', error);
         setStatus('error');
