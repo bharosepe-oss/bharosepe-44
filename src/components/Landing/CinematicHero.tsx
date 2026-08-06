@@ -60,7 +60,7 @@ const CinematicHero = ({ onEarlyAccessClick }: CinematicHeroProps) => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
           style={{ y: titleY, opacity }}
-          className="max-w-3xl mx-auto text-center space-y-8"
+          className="max-w-5xl mx-auto text-center space-y-8"
         >
           {/* Headline */}
           <div className="space-y-6">
@@ -71,18 +71,14 @@ const CinematicHero = ({ onEarlyAccessClick }: CinematicHeroProps) => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1] }}
             >
-              Bharose Pe
+              <span>India's Trust & Escrow</span>
+              <br />
+              <span>Infrastructure for</span>
+              <br />
+              <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                Secure Transactions
+              </span>
             </motion.h1>
-
-            <motion.h2
-              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight"
-              style={{ fontFamily: "'Outfit', sans-serif" }}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
-            >
-              Secure Buyer–Seller Transaction Platform
-            </motion.h2>
 
             <motion.p
               className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed"
@@ -91,17 +87,7 @@ const CinematicHero = ({ onEarlyAccessClick }: CinematicHeroProps) => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
             >
-              Bharose Pe is a digital trust platform for secure buyer-seller transactions. It helps users create clear digital agreements, hold funds in escrow, track milestone-based payments, and resolve disputes fairly.
-            </motion.p>
-
-            <motion.p
-              className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed"
-              style={{ fontFamily: "'Inter', sans-serif" }}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
-            >
-              The platform is built for buyers, sellers, freelancers, businesses, and service providers who want to complete transactions with clarity, confidence, and legal accountability.
+              Bharose Pe is India's trust and escrow infrastructure that enables buyers and sellers to transact with confidence. Every transaction is backed by a structured agreement, transparent transaction flow, and conditional payment release based on agreed terms.
             </motion.p>
           </div>
 

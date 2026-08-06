@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import JoinEarlyAccessDialog from "@/components/Landing/JoinEarlyAccessDialog";
+import SiteFooter from "@/components/Landing/SiteFooter";
 import { Ban, IndianRupee, Frown, CheckCircle2, ArrowRight, TrendingUp } from "lucide-react";
 
 const Sellers = () => {
@@ -243,6 +244,7 @@ const Sellers = () => {
           </Button>
         </div>
       </section>
+      <SiteFooter />
     </div>
   );
 };

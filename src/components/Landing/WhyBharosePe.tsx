@@ -1,27 +1,27 @@
 import { motion } from "framer-motion";
-import { Shield, Eye, Handshake, Ban } from "lucide-react";
+import { FileText, UserCheck, CalendarCheck, Scale } from "lucide-react";
 import ScrollReveal from "./ScrollReveal";
 
 const features = [
   {
-    icon: Shield,
-    title: "Digital Agreements",
-    description: "Every transaction starts with a structured agreement so both parties agree on clear terms and milestones.",
+    icon: FileText,
+    title: "Create the Agreement",
+    description: "Every transaction begins with a structured digital agreement that clearly defines deliverables, timelines, payment terms, milestones, and responsibilities before work starts.",
   },
   {
-    icon: Eye,
-    title: "Secure Transaction Management",
-    description: "Track progress, milestones, and approval steps with transparency throughout the deal.",
+    icon: UserCheck,
+    title: "Verify & Agree",
+    description: "Both parties review the agreement, verify their identity, and accept the transaction terms before the transaction proceeds.",
   },
   {
-    icon: Handshake,
-    title: "Milestone-Based Payments",
-    description: "Payments are completed only after agreed milestones are fulfilled and both parties confirm delivery.",
+    icon: CalendarCheck,
+    title: "Track the Transaction",
+    description: "Monitor milestones, approvals, deliverables, and transaction progress with complete transparency from start to finish.",
   },
   {
-    icon: Ban,
-    title: "Structured Dispute Support",
-    description: "If needed, Bharose Pe helps resolve issues using the agreed transaction terms and records.",
+    icon: Scale,
+    title: "Resolve with Evidence",
+    description: "If a disagreement occurs, Bharose Pe evaluates the agreed terms and transaction records to support a fair and structured resolution process.",
   },
 ];
 
@@ -31,10 +31,10 @@ export const WhyBharosePe = () => {
       <div className="relative z-10 container mx-auto max-w-7xl">
         <ScrollReveal>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-outfit font-bold text-center mb-4">
-            Why <span className="text-primary">Bharose Pe</span>?
+            Why Bharose Pe
           </h2>
-          <p className="text-muted-foreground text-center mb-16 text-lg max-w-2xl mx-auto">
-            Digital agreements, secure transaction management, milestone-based payments, identity verification, complete transaction records, and structured dispute support.
+          <p className="text-muted-foreground text-center mb-16 text-lg max-w-3xl mx-auto">
+            Trust shouldn’t depend on assumptions. Bharose Pe brings structure to every transaction by helping both parties define clear terms, verify participants, track progress, manage payments according to agreed conditions, and maintain complete transaction records from start to finish.
           </p>
         </ScrollReveal>
 

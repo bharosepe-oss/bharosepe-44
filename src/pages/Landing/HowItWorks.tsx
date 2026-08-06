@@ -6,6 +6,7 @@ import AnimatedButton from "@/components/Landing/ui/animated-button";
 import AnimatedBackground from "@/components/Landing/AnimatedBackground";
 import ScrollReveal from "@/components/Landing/ScrollReveal";
 import JoinEarlyAccessDialog from "@/components/Landing/JoinEarlyAccessDialog";
+import SiteFooter from "@/components/Landing/SiteFooter";
 import { FileText, CreditCard, Package, CheckCircle, ArrowRight } from "lucide-react";
 
 const steps = [
@@ -229,6 +230,7 @@ const HowItWorks = () => {
           </ScrollReveal>
         </div>
       </section>
+      <SiteFooter />
     </div>
   );
 };

@@ -5,6 +5,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import SiteFooter from "@/components/Landing/SiteFooter";
 import { Lock, FileCheck, Scale, Bot, Shield, CheckCircle2 } from "lucide-react";
 
 const Legal = () => {
@@ -217,6 +218,7 @@ const Legal = () => {
           </div>
         </div>
       </section>
+      <SiteFooter />
     </div>
   );
 };

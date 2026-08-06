@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import AnimatedBackground from "@/components/Landing/AnimatedBackground";
 import ScrollReveal from "@/components/Landing/ScrollReveal";
+import SiteFooter from "@/components/Landing/SiteFooter";
 import { Mail, Phone, MapPin, MessageCircle, Send, Check } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -378,6 +379,7 @@ const Contact = () => {
           </div>
         </div>
       </section>
+      <SiteFooter />
     </div>
   );
 };

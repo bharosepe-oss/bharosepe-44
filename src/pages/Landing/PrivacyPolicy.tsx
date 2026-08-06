@@ -1,5 +1,6 @@
 import { Card } from "@/components/ui/card";
 import ScrollReveal from "@/components/Landing/ScrollReveal";
+import SiteFooter from "@/components/Landing/SiteFooter";
 
 const PrivacyPolicy = () => {
   return (
@@ -59,6 +60,7 @@ const PrivacyPolicy = () => {
           </ScrollReveal>
         </div>
       </section>
+      <SiteFooter />
     </div>
   );
 };

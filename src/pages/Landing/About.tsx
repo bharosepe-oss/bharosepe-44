@@ -1,4 +1,5 @@
 import { Card } from "@/components/ui/card";
+import SiteFooter from "@/components/Landing/SiteFooter";
 import { Target, Eye } from "lucide-react";
 
 const About = () => {
@@ -168,7 +169,7 @@ const About = () => {
           </div>
         </div>
       </section>
-
+      <SiteFooter />
     </div>
   );
 };

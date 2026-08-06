@@ -69,9 +69,9 @@ const AnimatedTransactionFlow = () => {
   }
 
   return (
-    <div ref={containerRef} className="relative w-full min-h-[700px] py-20 flex items-center justify-center bg-background">
+    <div ref={containerRef} className="relative w-full min-h-[620px] py-14 md:py-16 flex items-center justify-center bg-background">
       <div className="relative w-full max-w-6xl mx-auto px-4 md:px-8">
-        <div className="grid grid-cols-3 gap-4 items-start justify-items-center relative mb-32 max-w-5xl mx-auto">
+        <div className="grid grid-cols-3 gap-4 items-start justify-items-center relative mb-24 max-w-5xl mx-auto">
           <motion.div
             className="flex flex-col items-center z-10"
             animate={{ scale: isBuyerActive ? 1.08 : 1 }}
@@ -320,11 +320,11 @@ const AnimatedTransactionFlow = () => {
         </AnimatePresence>
 
         <motion.div
-          className="absolute -bottom-20 inset-x-0 flex justify-center px-4"
+          className="absolute -bottom-12 inset-x-0 flex justify-center px-4"
           key={currentStep}
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -30 }}
+          exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
         >
           <div className="bg-card border border-border px-8 py-5 rounded-2xl shadow-xl max-w-2xl w-full text-center">

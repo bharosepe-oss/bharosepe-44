@@ -37,19 +37,19 @@ export const CTABanner = () => {
         <ScrollReveal>
           <div className="text-center">
             <h2 className="text-4xl md:text-6xl font-bold mb-6">
-              Be the First to Experience Trust
+              Ready to Transact with Confidence?
             </h2>
             <p className="text-xl text-muted-foreground mb-10 max-w-2xl mx-auto">
-              We're building India's escrow infrastructure. Join our early access list and be the first to know when we launch.
+              Join the early access list and experience a better way to manage high-trust transactions with Bharose Pe.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" className="text-lg px-10 py-6 h-auto group" onClick={() => navigate('/app/auth')}>
                 <Play className="mr-2 w-5 h-5" />
-                Try the App
+                Try the Prototype
                 <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
               <Button size="lg" variant="outline" className="text-lg px-10 py-6 h-auto" onClick={() => navigate('/how-it-works')}>
-                See How It Works
+                Join the Waitlist
               </Button>
             </div>
           </div>

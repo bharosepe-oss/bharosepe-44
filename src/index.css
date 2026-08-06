@@ -150,6 +150,43 @@ All colors MUST be HSL.
     background: hsl(var(--accent));
   }
 
+  .container-page {
+    width: 100%;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .bg-surface {
+    background-color: hsl(var(--muted));
+  }
+
+  .bg-surface-2 {
+    background-color: hsl(var(--muted) / 0.65);
+  }
+
+  .bg-primary-deep {
+    background-color: hsl(var(--primary-dark));
+  }
+
+  .text-on-accent {
+    color: hsl(var(--primary-foreground));
+  }
+
+  .shadow-panel {
+    box-shadow: var(--shadow-depth);
+  }
+
+  .font-outfit {
+    font-family: 'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  .font-inter {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
   /* Shadows */
   .shadow-soft {
     box-shadow: var(--shadow-soft);
