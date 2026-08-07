@@ -59,37 +59,37 @@ const MobileTransactionFlow = () => {
   }, []);
 
   return (
-    <div ref={containerRef} className="relative w-full bg-background py-10 px-4">
-      <div className="mx-auto max-w-md space-y-6">
-        <div className="relative mx-auto mb-8 flex h-[720px] max-w-md flex-col items-center px-4 pt-4">
+    <div ref={containerRef} className="relative w-full bg-background py-6 px-3">
+      <div className="mx-auto max-w-md">
+        <div className="relative mx-auto mb-3 flex h-[560px] max-w-md flex-col items-center px-3 pt-2">
           <div className="flex flex-col items-center">
             <div
-              className="flex h-24 w-24 items-center justify-center rounded-full bg-white/80 shadow-lg"
+              className="flex h-20 w-20 items-center justify-center rounded-full bg-white/80 shadow-lg"
               style={{
                 ...glowStyle(isActive(stage, "buyer")),
                 opacity: isActive(stage, "buyer") ? 1 : 0.6,
               }}
             >
-              <User size={48} color={BRAND} strokeWidth={2} />
+              <User size={34} color={BRAND} strokeWidth={2} />
             </div>
-            <span className="mt-4 text-lg font-medium" style={{ color: BRAND }}>
+            <span className="mt-3 text-base font-medium" style={{ color: BRAND }}>
               Buyer
             </span>
             <div className="mt-2 flex flex-col items-center text-sm text-[#727272]">
               <div className="flex items-center">
-                <IndianRupee size={18} className="mr-2" style={{ color: BRAND }} />
+                <IndianRupee size={16} className="mr-2" style={{ color: BRAND }} />
                 <span>Pay securely</span>
               </div>
-              <div className="mt-2 flex items-center">
-                <ShieldCheck size={18} className="mr-2" style={{ color: BRAND }} />
+              <div className="mt-1.5 flex items-center">
+                <ShieldCheck size={16} className="mr-2" style={{ color: BRAND }} />
                 <span>Risk-free purchase</span>
               </div>
             </div>
           </div>
 
-          <div className="relative z-10 mt-10">
+          <div className="relative z-10 mt-6">
             <div
-              className="flex h-32 w-32 items-center justify-center overflow-hidden rounded-full bg-white shadow-lg"
+              className="flex h-28 w-28 items-center justify-center overflow-hidden rounded-full bg-white shadow-lg"
               style={{
                 ...glowStyle(isActive(stage, "vault")),
                 opacity: isActive(stage, "vault") ? 1 : 0.8,
@@ -101,7 +101,7 @@ const MobileTransactionFlow = () => {
 
           <div
             key={stage}
-            className="pointer-events-none mt-6 min-h-[48px] px-4 text-center text-base font-medium"
+            className="pointer-events-none mt-3 min-h-[44px] px-3 text-center text-sm font-medium"
             style={{ color: BRAND, animation: "tp-fade-in 500ms ease-out" }}
           >
             {STAGE_TEXT[stage]}
@@ -122,26 +122,26 @@ const MobileTransactionFlow = () => {
             ))}
           </div>
 
-          <div className="mt-8 flex flex-col items-center">
+          <div className="mt-5 flex flex-col items-center">
             <div
-              className="flex h-24 w-24 items-center justify-center rounded-full bg-white/80 shadow-lg"
+              className="flex h-20 w-20 items-center justify-center rounded-full bg-white/80 shadow-lg"
               style={{
                 ...glowStyle(isActive(stage, "seller")),
                 opacity: isActive(stage, "seller") ? 1 : 0.6,
               }}
             >
-              <User size={48} color={BRAND} strokeWidth={2} />
+              <User size={34} color={BRAND} strokeWidth={2} />
             </div>
-            <span className="mt-4 text-lg font-medium" style={{ color: BRAND }}>
+            <span className="mt-3 text-base font-medium" style={{ color: BRAND }}>
               Seller
             </span>
             <div className="mt-2 flex flex-col items-center text-sm text-[#727272]">
               <div className="flex items-center">
-                <CheckCircle2 size={18} className="mr-2" style={{ color: BRAND }} />
+                <CheckCircle2 size={16} className="mr-2" style={{ color: BRAND }} />
                 <span>Assured payment</span>
               </div>
-              <div className="mt-2 flex items-center">
-                <Package size={18} className="mr-2" style={{ color: BRAND }} />
+              <div className="mt-1.5 flex items-center">
+                <Package size={16} className="mr-2" style={{ color: BRAND }} />
                 <span>No more ghosting</span>
               </div>
             </div>

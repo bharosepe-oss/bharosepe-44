@@ -69,16 +69,16 @@ const AnimatedTransactionFlow = () => {
   }
 
   return (
-    <div ref={containerRef} className="relative w-full min-h-[620px] py-14 md:py-16 flex items-center justify-center bg-background">
+    <div ref={containerRef} className="relative w-full min-h-[500px] py-8 md:py-12 flex items-center justify-center bg-background">
       <div className="relative w-full max-w-6xl mx-auto px-4 md:px-8">
-        <div className="grid grid-cols-3 gap-4 items-start justify-items-center relative mb-24 max-w-5xl mx-auto">
+        <div className="grid grid-cols-3 gap-3 md:gap-4 items-start justify-items-center relative mb-14 md:mb-16 max-w-5xl mx-auto">
           <motion.div
             className="flex flex-col items-center z-10"
             animate={{ scale: isBuyerActive ? 1.08 : 1 }}
             transition={{ duration: 0.4, ease: "easeInOut" }}
           >
             <motion.div
-              className="relative w-28 h-28 md:w-36 md:h-36 rounded-full bg-card border-2 border-accent flex items-center justify-center shadow-lg"
+              className="relative w-24 h-24 md:w-28 md:h-28 rounded-full bg-card border-2 border-accent flex items-center justify-center shadow-lg"
               animate={{
                 boxShadow: isBuyerActive
                   ? "0 0 50px 12px hsl(var(--accent) / 0.5), 0 0 100px 20px hsl(var(--accent) / 0.2)"
@@ -87,7 +87,7 @@ const AnimatedTransactionFlow = () => {
               }}
               transition={{ duration: 0.6, ease: "easeInOut" }}
             >
-              <User className="w-12 h-12 md:w-16 md:h-16 text-accent" strokeWidth={2.5} />
+              <User className="w-10 h-10 md:w-12 md:h-12 text-accent" strokeWidth={2.5} />
               {isBuyerActive && (
                 <motion.div
                   className="absolute inset-0 rounded-full border-2 border-accent"
@@ -97,8 +97,8 @@ const AnimatedTransactionFlow = () => {
                 />
               )}
             </motion.div>
-            <span className="mt-4 font-semibold text-lg text-accent">Buyer</span>
-            <div className="mt-2 text-sm text-muted-foreground text-center max-w-[140px]">
+            <span className="mt-3 font-semibold text-base md:text-lg text-accent">Buyer</span>
+            <div className="mt-1.5 text-sm text-muted-foreground text-center max-w-[140px]">
               <div className="flex items-center gap-1 mb-1">
                 <Banknote className="w-3 h-3 text-accent" />
                 <span>Pays securely</span>
@@ -116,7 +116,7 @@ const AnimatedTransactionFlow = () => {
             transition={{ duration: 0.5, ease: "easeInOut" }}
           >
             <motion.div
-              className="relative w-44 h-44 md:w-52 md:h-52 rounded-full overflow-hidden bg-white shadow-2xl border-2 border-primary/15"
+              className="relative w-36 h-36 md:w-40 md:h-40 rounded-full overflow-hidden bg-white shadow-2xl border-2 border-primary/15"
               animate={{
                 boxShadow: isVaultActive
                   ? "0 0 60px 15px hsl(var(--primary) / 0.6), 0 0 120px 30px hsl(var(--primary) / 0.3)"
@@ -139,8 +139,8 @@ const AnimatedTransactionFlow = () => {
                 />
               )}
             </motion.div>
-            <div className="mt-6 text-center w-full flex flex-col items-center">
-              <span className="font-bold text-xl text-primary">Bharose Pe</span>
+            <div className="mt-4 text-center w-full flex flex-col items-center">
+              <span className="font-bold text-lg md:text-xl text-primary">Bharose Pe</span>
               <span className="text-sm text-muted-foreground mt-1">Escrow Vault</span>
             </div>
           </motion.div>
@@ -151,7 +151,7 @@ const AnimatedTransactionFlow = () => {
             transition={{ duration: 0.4, ease: "easeInOut" }}
           >
             <motion.div
-              className="relative w-28 h-28 md:w-36 md:h-36 rounded-full bg-card border-2 border-secondary flex items-center justify-center shadow-lg"
+              className="relative w-24 h-24 md:w-28 md:h-28 rounded-full bg-card border-2 border-secondary flex items-center justify-center shadow-lg"
               animate={{
                 boxShadow: isSellerActive
                   ? "0 0 50px 12px hsl(var(--secondary) / 0.5), 0 0 100px 20px hsl(var(--secondary) / 0.2)"
@@ -160,7 +160,7 @@ const AnimatedTransactionFlow = () => {
               }}
               transition={{ duration: 0.6, ease: "easeInOut" }}
             >
-              <User className="w-12 h-12 md:w-16 md:h-16 text-secondary" strokeWidth={2.5} />
+              <User className="w-10 h-10 md:w-12 md:h-12 text-secondary" strokeWidth={2.5} />
               {isSellerActive && (
                 <motion.div
                   className="absolute inset-0 rounded-full border-2 border-secondary"
@@ -170,8 +170,8 @@ const AnimatedTransactionFlow = () => {
                 />
               )}
             </motion.div>
-            <span className="mt-4 font-semibold text-lg text-secondary">Seller</span>
-            <div className="mt-2 text-sm text-muted-foreground text-center max-w-[140px]">
+            <span className="mt-3 font-semibold text-base md:text-lg text-secondary">Seller</span>
+            <div className="mt-1.5 text-sm text-muted-foreground text-center max-w-[140px]">
               <div className="flex items-center gap-1 mb-1">
                 <CheckCircle className="w-3 h-3 text-secondary" />
                 <span>Guaranteed pay</span>
@@ -320,19 +320,19 @@ const AnimatedTransactionFlow = () => {
         </AnimatePresence>
 
         <motion.div
-          className="absolute -bottom-12 inset-x-0 flex justify-center px-4"
+          className="absolute -bottom-4 inset-x-0 flex justify-center px-4"
           key={currentStep}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
         >
-          <div className="bg-card border border-border px-8 py-5 rounded-2xl shadow-xl max-w-2xl w-full text-center">
-            <div className="text-sm uppercase tracking-[0.18em] text-muted-foreground mb-3">
+          <div className="bg-card border border-border px-6 py-4 rounded-2xl shadow-xl max-w-2xl w-full text-center">
+            <div className="text-xs uppercase tracking-[0.18em] text-muted-foreground mb-2">
               Step {currentStep} of 5
             </div>
-            <span className="font-semibold text-lg text-foreground">{STAGE_TEXT[currentStep]}</span>
-            <div className="mt-5 flex justify-center gap-2">
+            <span className="font-semibold text-base text-foreground">{STAGE_TEXT[currentStep]}</span>
+            <div className="mt-3 flex justify-center gap-2">
               {[1, 2, 3, 4, 5].map((step) => (
                 <span
                   key={step}
