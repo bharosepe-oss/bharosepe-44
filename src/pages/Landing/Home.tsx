@@ -35,7 +35,7 @@ export default function Home() {
       <CinematicHero onEarlyAccessClick={() => setIsEarlyAccessOpen(true)} />
 
       {/* ---------------- ANIMATED TRANSACTION FLOW ---------------- */}
-      <section className="relative py-16 md:py-20 bg-background overflow-hidden">
+      <section id="see-action" className="relative py-16 md:py-20 bg-background overflow-hidden">
         <FloatingParticles count={10} />
         <div className="container mx-auto px-4 relative z-10">
           <ScrollReveal direction="up">

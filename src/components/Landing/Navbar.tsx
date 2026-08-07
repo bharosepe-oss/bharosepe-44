@@ -54,7 +54,7 @@ const Navbar = () => {
                 className="h-full w-full object-contain"
               />
             </motion.div>
-            <span className="text-xl md:text-2xl font-bold text-primary">
+            <span className="text-2xl md:text-3xl font-bold text-primary">
               Bharose Pe
             </span>
           </Link>
@@ -70,7 +70,7 @@ const Navbar = () => {
               >
                 <Link
                   to={link.path}
-                  className={`relative px-4 py-2 rounded-lg text-sm font-medium transition-smooth group ${
+                  className={`relative px-5 py-3 rounded-lg text-base font-medium transition-smooth group ${
                     isActive(link.path)
                       ? "text-primary"
                       : "text-muted-foreground hover:text-foreground"
@@ -147,7 +147,7 @@ const Navbar = () => {
                     <Link
                       to={link.path}
                       onClick={() => setIsOpen(false)}
-                      className={`block px-4 py-3 rounded-lg text-sm font-medium transition-smooth ${
+                      className={`block px-5 py-4 rounded-lg text-base font-medium transition-smooth ${
                         isActive(link.path)
                           ? "bg-primary/10 text-primary"
                           : "text-muted-foreground hover:text-foreground hover:bg-muted"
