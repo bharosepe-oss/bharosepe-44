@@ -1,8 +1,15 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import AnimatedBackground from "@/components/Landing/AnimatedBackground";
 import JoinEarlyAccessDialog from "@/components/Landing/JoinEarlyAccessDialog";
+import ScrollReveal from "@/components/Landing/ScrollReveal";
 import SiteFooter from "@/components/Landing/SiteFooter";
+import { SellerHero } from "@/components/site/SellerHero";
+import { SellerRecognize } from "@/components/site/SellerRecognize";
+import { SellerMechanism } from "@/components/site/SellerMechanism";
+import { SellerStory } from "@/components/site/SellerStory";
+import { Comparison } from "@/components/site/Comparison";
 import { Ban, IndianRupee, Frown, CheckCircle2, ArrowRight, TrendingUp } from "lucide-react";
 
 const Sellers = () => {
@@ -45,36 +52,17 @@ const Sellers = () => {
   ];
 
   return (
-    <div className="min-h-screen">
-      {/* Hero Section */}
+    <main className="min-h-screen bg-background font-inter">
       <JoinEarlyAccessDialog
         isOpen={isEarlyAccessOpen}
         onClose={() => setIsEarlyAccessOpen(false)}
         defaultInterestedAs="seller"
       />
-      <section className="bg-muted/20 py-20 md:py-32">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl mx-auto text-center animate-fade-in">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-              Sell with{" "}
-              <span className="text-primary">
-                Confidence
-              </span>
-            </h1>
-            <p className="text-lg md:text-xl text-muted-foreground mb-8">
-              Get guaranteed payments and serious buyers who are committed to the transaction
-            </p>
-            <Button
-              size="lg"
-              className="bg-primary text-primary-foreground rounded-full shadow-soft hover:shadow-glow transition-smooth px-8"
-              onClick={() => setIsEarlyAccessOpen(true)}
-            >
-              Join Early Access
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-          </div>
-        </div>
-      </section>
+      <SellerHero onJoinEarlyAccess={() => setIsEarlyAccessOpen(true)} />
+      <SellerRecognize />
+      <SellerMechanism />
+      <SellerStory />
+      <Comparison />
 
       {/* Pain Points Section */}
       <section className="py-16 md:py-24">
@@ -226,26 +214,39 @@ const Sellers = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 md:py-24 bg-muted/20">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            Start Getting Guaranteed Payments
-          </h2>
-          <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Never chase payments or deal with non-serious buyers again
-          </p>
-          <Button
-            size="lg"
-            className="bg-primary text-primary-foreground rounded-full shadow-soft hover:shadow-glow transition-smooth px-8"
-            onClick={() => setIsEarlyAccessOpen(true)}
-          >
-            Join Early Access
-            <ArrowRight className="ml-2 h-5 w-5" />
-          </Button>
+      <section id="early-access" className="relative overflow-hidden px-4 py-24 md:py-28">
+        <AnimatedBackground />
+        <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <ScrollReveal direction="up">
+            <h2 className="mb-6 text-3xl font-bold text-foreground md:text-4xl lg:text-5xl">
+              Be the First to Experience Safe Transactions
+            </h2>
+            <p className="mx-auto mb-8 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
+              We're building India's escrow infrastructure. Join our early access list.
+            </p>
+            <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+              <Button
+                size="lg"
+                className="h-auto w-full bg-primary px-10 py-6 text-lg text-primary-foreground shadow-soft hover:bg-primary/90 sm:w-auto"
+                onClick={() => setIsEarlyAccessOpen(true)}
+              >
+                Join Early Access
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+              <Button
+                size="lg"
+                variant="outline"
+                className="h-auto w-full border-primary px-10 py-6 text-lg text-primary hover:bg-primary/10 sm:w-auto"
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              >
+                See How It Works
+              </Button>
+            </div>
+          </ScrollReveal>
         </div>
       </section>
       <SiteFooter />
-    </div>
+    </main>
   );
 };
 

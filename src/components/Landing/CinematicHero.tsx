@@ -1,5 +1,5 @@
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowRight, ChevronDown, Play } from "lucide-react";
+import { ArrowRight, Play } from "lucide-react";
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import AnimatedButton from "./ui/animated-button";
@@ -19,10 +19,6 @@ const CinematicHero = ({ onEarlyAccessClick }: CinematicHeroProps) => {
 
   const titleY = useTransform(scrollYProgress, [0, 1], [0, -30]);
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0.7]);
-
-  const scrollToAction = () => {
-    document.getElementById("see-action")?.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
 
   return (
     <section
@@ -97,12 +93,12 @@ const CinematicHero = ({ onEarlyAccessClick }: CinematicHeroProps) => {
 
           {/* CTA Buttons */}
           <motion.div
-            className="flex flex-col items-center justify-center gap-4"
+            className="flex flex-col sm:flex-row items-center justify-center gap-4"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 1.2, ease: [0.25, 0.1, 0.25, 1] }}
           >
-            {/* Primary: See how it works */}
+            {/* Primary: Try the App */}
             <motion.div
               animate={{ y: [0, -3, 0] }}
               transition={{ duration: 4, repeat: Infinity, ease: [0.25, 0.1, 0.25, 1] }}
@@ -110,8 +106,8 @@ const CinematicHero = ({ onEarlyAccessClick }: CinematicHeroProps) => {
               <AnimatedButton
                 variant="primary"
                 size="lg"
-                onClick={scrollToAction}
-                className="relative group overflow-hidden bg-primary text-primary-foreground shadow-soft px-8 py-4 text-lg min-w-[260px] sm:min-w-[320px]"
+                onClick={() => navigate('/app/auth')}
+                className="relative group overflow-hidden bg-primary text-primary-foreground shadow-soft"
                 style={{ boxShadow: "0 8px 32px hsl(var(--primary) / 0.3)" }}
               >
                 <motion.span
@@ -119,41 +115,23 @@ const CinematicHero = ({ onEarlyAccessClick }: CinematicHeroProps) => {
                   animate={{ scale: [1, 1.05, 1], opacity: [0.3, 0.1, 0.3] }}
                   transition={{ duration: 2.5, repeat: Infinity, ease: [0.25, 0.1, 0.25, 1] }}
                 />
-                <span className="relative z-10 flex items-center justify-center gap-2 font-semibold">
-                  See how it works
-                  <motion.span
-                    animate={{ y: [0, -3, 0] }}
-                    transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-                  >
-                    <ChevronDown className="w-5 h-5" />
-                  </motion.span>
+                <span className="relative z-10 flex items-center gap-2 font-semibold">
+                  <Play className="w-4 h-4" />
+                  Try the App
+                  <ArrowRight className="w-5 h-5" />
                 </span>
               </AnimatedButton>
             </motion.div>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-              {/* Secondary: Try the App */}
-              <AnimatedButton
-                variant="outline"
-                size="lg"
-                onClick={() => navigate('/app/auth')}
-                className="border-primary/30 bg-background/70 text-primary hover:bg-primary/10 shadow-sm"
-              >
-                <Play className="w-4 h-4" />
-                Try the App
-                <ArrowRight className="w-5 h-5" />
-              </AnimatedButton>
-
-              {/* Secondary: Join Waitlist */}
-              <Button
-                variant="outline"
-                size="lg"
-                onClick={onEarlyAccessClick}
-                className="font-semibold border-border hover:bg-muted"
-              >
-                Join Waitlist
-              </Button>
-            </div>
+            {/* Secondary: Join Waitlist */}
+            <Button
+              variant="outline"
+              size="lg"
+              onClick={onEarlyAccessClick}
+              className="font-semibold border-border hover:bg-muted"
+            >
+              Join Waitlist
+            </Button>
           </motion.div>
 
           {/* Coming Soon Badge */}
@@ -161,7 +139,7 @@ const CinematicHero = ({ onEarlyAccessClick }: CinematicHeroProps) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 1.6, ease: [0.25, 0.1, 0.25, 1] }}
-            className="flex flex-col items-center"
+            className="flex justify-center"
           >
             <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full border border-border bg-card backdrop-blur-sm">
               <motion.div
@@ -173,14 +151,6 @@ const CinematicHero = ({ onEarlyAccessClick }: CinematicHeroProps) => {
                 Launching Soon — Join the Waitlist
               </span>
             </div>
-
-            <motion.div
-              className="mt-4"
-              animate={{ y: [0, 6, 0] }}
-              transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-            >
-              <ChevronDown className="w-6 h-6 text-muted-foreground" />
-            </motion.div>
           </motion.div>
         </motion.div>
       </div>
