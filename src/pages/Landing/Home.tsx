@@ -48,7 +48,9 @@ export default function Home() {
               Watch how every transaction flows through our secure escrow vault
             </p>
           </ScrollReveal>
-          <AnimatedTransactionFlow />
+          <div className="mt-8 md:mt-12 lg:mt-16">
+            <AnimatedTransactionFlow />
+          </div>
         </div>
       </section>
 
