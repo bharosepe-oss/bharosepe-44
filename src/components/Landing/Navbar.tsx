@@ -54,7 +54,7 @@ const Navbar = () => {
                 className="h-full w-full object-contain"
               />
             </motion.div>
-            <span className="text-2xl md:text-3xl font-bold text-primary">
+            <span className="font-outfit text-[2rem] font-bold tracking-[-0.06em] text-primary md:text-[2.5rem]">
               Bharose Pe
             </span>
           </Link>

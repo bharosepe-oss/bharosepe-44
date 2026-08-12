@@ -69,20 +69,27 @@ export function SellerRecognize() {
   const current = scenarios.find((s) => s.id === active) ?? scenarios[0]!;
 
   return (
-    <section className="bg-background py-20 md:py-28">
-      <div className="container-page">
-        <Reveal className="mx-auto max-w-3xl text-center">
-          <h2 className="font-outfit text-3xl font-bold md:text-4xl lg:text-5xl text-foreground">
-            Recognize the moment
-          </h2>
-          <p className="mt-4 text-base leading-relaxed text-muted-foreground md:text-lg">
-            However the buyer found you, the risk shows up at the same point — the moment you start
-            working before the money is real.
-          </p>
+    <section className="relative overflow-hidden bg-background py-16 md:py-20">
+      <div
+        className="absolute inset-0 opacity-[0.03] pointer-events-none"
+        style={{
+          backgroundImage: `linear-gradient(hsl(230 60% 25%) 1px, transparent 1px), linear-gradient(90deg, hsl(230 60% 25%) 1px, transparent 1px)`,
+          backgroundSize: '50px 50px',
+        }}
+        aria-hidden="true"
+      />
+      <div className="container relative mx-auto px-4">
+        <Reveal>
+          <div className="mx-auto max-w-2xl text-center">
+            <h2 className="font-outfit text-3xl font-bold md:text-4xl lg:text-5xl">Recognize the moment</h2>
+            <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
+              Wherever the deal started, the risk shows up at the same point — the moment money moves before trust exists.
+            </p>
+          </div>
         </Reveal>
 
         <Reveal className="mt-12">
-          <ul className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+          <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
             {scenarios.map((s) => (
               <li key={s.id} className="min-w-0">
                 <button
@@ -90,10 +97,10 @@ export function SellerRecognize() {
                   onClick={() => setActive(s.id)}
                   aria-pressed={active === s.id}
                   className={cn(
-                    "flex h-20 w-full items-center justify-center rounded-xl border px-4 text-center text-base font-medium leading-tight tracking-[-0.02em] transition-colors md:text-lg",
+                    "flex h-16 w-full items-center justify-center rounded-xl border px-3 text-center text-xs font-medium leading-tight transition-colors sm:text-sm",
                     active === s.id
-                      ? "border-primary bg-primary text-primary-foreground shadow-soft"
-                      : "bg-card text-muted-foreground hover:bg-surface-2",
+                      ? "border-primary bg-primary text-primary-foreground"
+                      : "bg-card text-muted-foreground hover:bg-muted",
                   )}
                 >
                   <span className="min-w-0">{s.label}</span>
@@ -104,13 +111,9 @@ export function SellerRecognize() {
 
           <div className="mx-auto mt-4 h-8 w-px bg-gradient-to-b from-border to-primary/60" aria-hidden />
 
-          <div className="mx-auto flex min-h-[220px] max-w-4xl flex-col justify-center rounded-[2rem] border border-primary/10 bg-[#edf3fb] p-8 text-center shadow-[0_10px_30px_rgba(109,84,170,0.06)] md:min-h-[210px] md:p-12">
-            <p className="font-outfit text-[clamp(1.8rem,2.8vw,3.4rem)] font-semibold leading-[1.15] tracking-[-0.05em] text-[#2f2c36]">
-              {current.text}
-            </p>
-            <p className="mt-4 font-outfit text-[clamp(1.2rem,1.8vw,2.1rem)] italic leading-snug text-[#4d6bbd]">
-              “{current.fear}”
-            </p>
+          <div className="mx-auto flex min-h-[168px] max-w-2xl flex-col justify-center rounded-2xl border border-accent/20 bg-accent/10 p-6 text-center md:min-h-[152px]">
+            <p className="text-base font-medium md:text-lg text-foreground">{current.text}</p>
+            <p className="mt-3 text-sm italic text-accent">“{current.fear}”</p>
           </div>
         </Reveal>
 

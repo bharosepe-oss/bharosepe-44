@@ -43,10 +43,10 @@ export function SellerStory() {
             </div>
 
             <div className="flex h-full flex-col">
-              <p className="mb-3 text-center text-xs font-semibold uppercase tracking-widest text-accent-foreground">
+              <p className="mb-3 text-center text-xs font-semibold uppercase tracking-widest text-accent">
                 With Bharose Pe
               </p>
-              <MockFrame className="min-h-[420px] border-primary/25 shadow-soft">
+              <MockFrame accent className="min-h-[420px] shadow-soft">
                 <Bubble>Need a logo for ₹8,000.</Bubble>
                 <Bubble side="right">Sure.</Bubble>
                 <StatusLine>Agreement Created — ₹8,000 deposited into Escrow</StatusLine>
@@ -87,10 +87,10 @@ export function SellerStory() {
             </div>
 
             <div className="flex h-full flex-col">
-              <p className="mb-3 text-center text-xs font-semibold uppercase tracking-widest text-accent-foreground">
-                Meena's story · same advance, held in escrow
+              <p className="mb-3 text-center text-xs font-semibold uppercase tracking-widest text-accent">
+                Meera's story · with Bharose Pe
               </p>
-              <MockFrame className="min-h-[420px] border-primary/25 shadow-soft">
+              <MockFrame accent className="min-h-[420px] shadow-soft">
                 <Bubble>Need ₹85,000 of fittings for a new site. Can you supply?</Bubble>
                 <Bubble side="right">
                   Yes — 50% advance, but you deposit it into Bharose Pe's escrow, not my account.

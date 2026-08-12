@@ -69,9 +69,9 @@ const AnimatedTransactionFlow = () => {
   }
 
   return (
-    <div ref={containerRef} className="relative w-full min-h-[500px] py-8 md:py-12 flex items-center justify-center bg-background">
+    <div ref={containerRef} className="relative w-full py-8 md:py-12 flex items-center justify-center bg-background">
       <div className="relative w-full max-w-6xl mx-auto px-4 md:px-8">
-        <div className="grid grid-cols-3 gap-3 md:gap-4 items-start justify-items-center relative mb-14 md:mb-16 max-w-5xl mx-auto">
+        <div className="grid grid-cols-3 gap-3 md:gap-4 items-start justify-items-center relative max-w-5xl mx-auto">
           <motion.div
             className="flex flex-col items-center z-10"
             animate={{ scale: isBuyerActive ? 1.08 : 1 }}
@@ -319,31 +319,33 @@ const AnimatedTransactionFlow = () => {
           )}
         </AnimatePresence>
 
-        <motion.div
-          className="absolute -bottom-4 inset-x-0 flex justify-center px-4"
-          key={currentStep}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-        >
-          <div className="bg-card border border-border px-6 py-4 rounded-2xl shadow-xl max-w-2xl w-full text-center">
-            <div className="text-xs uppercase tracking-[0.18em] text-muted-foreground mb-2">
-              Step {currentStep} of 5
+        <div className="mt-12 md:mt-16 flex justify-center px-4">
+          <motion.div
+            className="w-full max-w-2xl"
+            key={currentStep}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+          >
+            <div className="bg-card border border-border px-6 py-4 rounded-2xl shadow-xl text-center">
+              <div className="text-xs uppercase tracking-[0.18em] text-muted-foreground mb-2">
+                Step {currentStep} of 5
+              </div>
+              <span className="font-semibold text-base text-foreground">{STAGE_TEXT[currentStep]}</span>
+              <div className="mt-3 flex justify-center gap-2">
+                {[1, 2, 3, 4, 5].map((step) => (
+                  <span
+                    key={step}
+                    className={`rounded-full transition-all duration-300 ${
+                      step === currentStep ? "bg-primary h-2.5 w-8" : "bg-muted-foreground/40 h-2.5 w-2.5"
+                    }`}
+                  />
+                ))}
+              </div>
             </div>
-            <span className="font-semibold text-base text-foreground">{STAGE_TEXT[currentStep]}</span>
-            <div className="mt-3 flex justify-center gap-2">
-              {[1, 2, 3, 4, 5].map((step) => (
-                <span
-                  key={step}
-                  className={`rounded-full transition-all duration-300 ${
-                    step === currentStep ? "bg-primary h-2.5 w-8" : "bg-muted-foreground/40 h-2.5 w-2.5"
-                  }`}
-                />
-              ))}
-            </div>
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
       </div>
     </div>
   );

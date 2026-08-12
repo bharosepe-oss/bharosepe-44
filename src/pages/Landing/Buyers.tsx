@@ -1,11 +1,12 @@
 ﻿import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Check, X, FileSignature, Lock, CheckCircle2, Split, ShieldCheck, AlertTriangle } from "lucide-react";
+import { Check, X, FileSignature, Lock, CheckCircle2, Split, ShieldCheck, AlertTriangle, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import JoinEarlyAccessDialog from "@/components/Landing/JoinEarlyAccessDialog";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import ScrollReveal from "@/components/Landing/ScrollReveal";
 import SiteFooter from "@/components/Landing/SiteFooter";
+import AnimatedBackground from "@/components/Landing/AnimatedBackground";
 import { cn } from "@/lib/utils";
 
 const channels = ["IndiaMART", "Justdial", "Instagram", "WhatsApp", "LinkedIn", "Referral", "Email"];
@@ -288,28 +289,29 @@ function ReleaseThumb() {
 
 function Hero({ onJoinEarlyAccess }: { onJoinEarlyAccess: () => void }) {
   return (
-    <section id="top" className="bg-background pb-16 pt-28 md:pb-20 md:pt-32">
-      <div className="container mx-auto px-4">
-        <div className="mx-auto max-w-3xl text-center">
-          <h1 className="font-outfit text-4xl font-bold leading-[1.08] md:text-6xl lg:text-7xl">Trust, made structural.</h1>
-          <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
+    <section id="top" className="relative overflow-hidden bg-[#f5f2f8] pb-20 pt-32 md:pb-28 md:pt-40">
+      <AnimatedBackground />
+      <div className="container-page relative z-10">
+        <div className="mx-auto max-w-4xl animate-fade-in text-center">
+          <h1 className="font-outfit text-4xl font-bold md:text-5xl lg:text-6xl">Trust, made structural.</h1>
+          <p className="mx-auto mt-6 max-w-3xl text-lg text-muted-foreground md:text-xl">
             India's Trust &amp; Escrow Infrastructure — for a new IndiaMART supplier, a freelancer from LinkedIn, or a vendor your business hasn't worked with before. Wherever you found each other, Bharose Pe turns the agreement into something structured, the payment into something conditional, and the outcome into something provable.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <Button size="lg" onClick={onJoinEarlyAccess}>Join Early Access →</Button>
-            <Button size="lg" variant="outline" onClick={() => scrollToId("mechanism")}>See how it works</Button>
+            <Button size="lg" className="h-auto px-8 py-5 text-base font-semibold md:text-lg" onClick={onJoinEarlyAccess}>Join Early Access →</Button>
+            <Button size="lg" variant="outline" className="h-auto px-8 py-5 text-base font-semibold md:text-lg" onClick={() => scrollToId("mechanism")}>See how it works</Button>
           </div>
           <ul className="mt-10 flex flex-wrap items-center justify-center gap-2">
             {channels.map((c, i) => (
-              <li key={c} className="flex h-9 items-center rounded-full border bg-card px-4 text-xs font-medium text-muted-foreground transition-all duration-300" style={{ animationDelay: `${150 + i * 70}ms` }}>
+              <li key={c} className="animate-slide-up flex h-9 items-center rounded-full border bg-card px-4 text-xs font-medium text-muted-foreground" style={{ animationDelay: `${150 + i * 70}ms` }}>
                 {c}
               </li>
             ))}
           </ul>
         </div>
 
-        <div className="mx-auto mt-14 max-w-5xl overflow-hidden rounded-2xl border bg-card shadow-soft">
-            <div className="grid grid-cols-1 md:grid-cols-2">
+        <div className="mx-auto mt-14 max-w-5xl overflow-hidden rounded-2xl border bg-card shadow-panel">
+          <div className="grid grid-cols-1 md:grid-cols-2">
             <div className="flex flex-col gap-3 border-b p-5 grayscale md:border-b-0 md:border-r md:p-7">
               <p className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">Without a trust layer</p>
               <Bubble>Nice jacket, ₹3,500. Pay UPI and I'll ship today.</Bubble>
@@ -317,7 +319,7 @@ function Hero({ onJoinEarlyAccess }: { onJoinEarlyAccess: () => void }) {
               <Bubble side="right">Hi? Any tracking ID?</Bubble>
               <p className="mt-auto text-[11px] text-muted-foreground">Seller offline · last seen 4 days ago</p>
             </div>
-            <div className="flex flex-col gap-3 bg-accent/5 p-5 md:p-7">
+            <div className="flex flex-col gap-3 bg-surface p-5 md:p-7">
               <p className="inline-flex rounded-full bg-accent/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-widest text-accent">With Bharose Pe</p>
               <SystemNote>Escrow set up with Bharose Pe. Payment will release after delivery confirmation.</SystemNote>
               <AgreementCard accent />
@@ -335,8 +337,16 @@ function Recognize() {
   const current = scenarios.find((s) => s.id === active) ?? scenarios[0]!;
 
   return (
-        <section className="bg-background py-16 md:py-20">
-      <div className="container mx-auto px-4">
+        <section className="relative overflow-hidden bg-background py-16 md:py-20">
+          <div
+            className="absolute inset-0 opacity-[0.03] pointer-events-none"
+            style={{
+              backgroundImage: `linear-gradient(hsl(230 60% 25%) 1px, transparent 1px), linear-gradient(90deg, hsl(230 60% 25%) 1px, transparent 1px)`,
+              backgroundSize: '50px 50px',
+            }}
+            aria-hidden="true"
+          />
+      <div className="container relative mx-auto px-4">
         <Reveal>
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="font-outfit text-3xl font-bold md:text-4xl lg:text-5xl">Recognize the moment</h2>
@@ -400,7 +410,7 @@ function Mechanism() {
           <ol className="mt-14 grid grid-cols-1 items-stretch gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {steps.map((s, i) => (
               <li key={s.title} className="flex h-full">
-                <div className="flex h-full w-full flex-col rounded-2xl border bg-card p-6 shadow-soft">
+                <div className="flex h-full w-full flex-col rounded-2xl border bg-card p-6 shadow-soft animate-slide-up" style={{ animationDelay: `${i * 120}ms` }}>
                   <div className="flex items-center gap-3">
                     <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-accent">
                       <s.icon className="h-5 w-5 text-accent-foreground" />
@@ -436,7 +446,7 @@ function Story() {
           <div className="mx-auto mt-12 grid max-w-4xl grid-cols-1 items-stretch gap-8 md:grid-cols-2">
             <div className="flex h-full flex-col">
               <p className="mb-3 text-center text-xs font-semibold uppercase tracking-widest text-muted-foreground">Raj's story · no protection</p>
-              <MockFrame muted className="min-h-[420px]">
+              <MockFrame muted className="min-h-[420px] animate-slide-up">
                 <Bubble>Nice jacket, ₹3,500, pay UPI and I'll ship today.</Bubble>
                 <Bubble side="right">Done, sent ₹3,500</Bubble>
                 <Bubble side="right">Hi? Any tracking ID?</Bubble>
@@ -447,7 +457,7 @@ function Story() {
 
             <div className="flex h-full flex-col">
               <p className="mb-3 text-center text-xs font-semibold uppercase tracking-widest text-accent">Meera's story · with Bharose Pe</p>
-              <MockFrame accent className="min-h-[420px] border-accent/20 shadow-soft">
+              <MockFrame accent className="min-h-[420px] border-accent/20 shadow-soft animate-slide-up">
                 <Bubble variant="accent">Nice jacket, ₹3,500, pay UPI and I'll ship today.</Bubble>
                 <SystemNote>Escrow set up with Bharose Pe. Payment will release after delivery confirmation.</SystemNote>
                 <AgreementCard compact accent />
@@ -559,14 +569,28 @@ function EarlyAccess({ onJoinEarlyAccess }: { onJoinEarlyAccess: () => void }) {
 
 function FinalCta({ onJoinEarlyAccess }: { onJoinEarlyAccess: () => void }) {
   return (
-    <section className="bg-primary py-20 text-primary-foreground md:py-24">
-      <div className="container mx-auto px-4">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="font-outfit text-3xl font-bold leading-tight md:text-4xl lg:text-5xl">Your next payment doesn't have to be a gamble.</h2>
-          <div className="mt-8 flex items-center justify-center">
-            <button type="button" className="inline-flex h-12 items-center justify-center rounded-xl bg-background px-6 text-sm font-semibold text-primary transition-opacity hover:opacity-90" onClick={onJoinEarlyAccess}>Join Early Access →</button>
+    <section className="relative overflow-hidden px-4 py-24 md:py-28">
+      <AnimatedBackground />
+      <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
+        <Reveal direction="up">
+          <div className="mx-auto max-w-3xl text-center">
+            <h2 className="mb-6 text-3xl font-bold text-foreground md:text-4xl lg:text-5xl">
+              Be the First to Experience Safe Transactions
+            </h2>
+            <p className="mx-auto mb-8 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
+              We're building India's escrow infrastructure. Join our early access list.
+            </p>
+            <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+              <Button size="lg" className="h-auto w-full bg-primary px-10 py-6 text-lg text-primary-foreground shadow-soft hover:bg-primary/90 sm:w-auto" onClick={onJoinEarlyAccess}>
+                Join Early Access
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+              <Button size="lg" variant="outline" className="h-auto w-full border-primary px-10 py-6 text-lg text-primary hover:bg-primary/10 sm:w-auto" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+                See How It Works
+              </Button>
+            </div>
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

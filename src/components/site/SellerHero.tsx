@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { scrollToId } from "@/components/site/Reveal";
+import AnimatedBackground from "@/components/Landing/AnimatedBackground";
 import {
   AgreementCard,
   Bubble,
@@ -23,8 +24,9 @@ export function SellerHero({ onJoinEarlyAccess }: SellerHeroProps) {
   };
 
   return (
-    <section id="top" className="bg-surface pb-20 pt-32 md:pb-28 md:pt-40">
-      <div className="container-page">
+    <section id="top" className="relative overflow-hidden bg-[#f5f2f8] pb-20 pt-32 md:pb-28 md:pt-40">
+      <AnimatedBackground />
+      <div className="container-page relative z-10">
         <div className="mx-auto max-w-4xl animate-fade-in text-center">
           <h1 className="font-outfit text-4xl font-bold md:text-5xl lg:text-6xl">
             Get paid. Every time.
@@ -68,7 +70,7 @@ export function SellerHero({ onJoinEarlyAccess }: SellerHeroProps) {
               <p className="mt-auto text-[11px] text-muted-foreground">Buyer offline · last seen 9 days ago</p>
             </div>
             <div className="flex flex-col gap-3 bg-surface p-5 md:p-7">
-              <p className="text-[11px] font-semibold uppercase tracking-widest text-accent-foreground">
+              <p className="inline-flex rounded-full bg-accent/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-widest text-accent">
                 With Bharose Pe
               </p>
               <SystemNote>
