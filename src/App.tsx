@@ -42,6 +42,7 @@ import Index from "./pages/Index";
 import Payment from "./pages/Payment";
 import Listings from "./pages/Listings";
 import Dispute from "./pages/Dispute";
+import Demo from "./pages/Demo";
 import AuthCallback from "./pages/AuthCallback";
 import ResetPassword from "./pages/ResetPassword";
 
@@ -90,6 +91,7 @@ const AppRoutes = () => {
           <Route path="/contact" element={<Contact />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
+        <Route path="/demo" element={<Demo />} />
         </Route>
 
         {/* Application Routes (under /app prefix) */}
@@ -141,6 +143,7 @@ const AppRoutes = () => {
         <Route path="/help" element={<Help />} />
         <Route path="/payment" element={<Payment />} />
         <Route path="/listings" element={<Listings />} />
+        <Route path="/demo" element={<Demo />} />
 
         {/* Fallback */}
         <Route path="*" element={<NotFound />} />
